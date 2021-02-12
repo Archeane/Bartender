@@ -24,7 +24,7 @@ class _CocktailDetailScreenState extends State<CocktailDetailScreen> {
     final textThemes = Theme.of(context).textTheme;
 
     final cocktail = widget.cocktailData;
-    
+
     return Scaffold(
       appBar: AppBar(title: Text("Cocktail Detail")),
       body: 
