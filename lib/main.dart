@@ -5,7 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'package:bartender/screens/cocktail_detail_screen.dart';
 import 'package:bartender/screens/collections_screen.dart';
-import 'package:bartender/screens/gridview_screen.dart';
+import 'package:bartender/screens/discover_screen.dart';
 
 import 'screens/cocktail_detail_screen.dart';
 
@@ -89,7 +89,7 @@ class BartenderApp extends StatelessWidget {
         accentColor: Colors.deepPurple,
         accentColorBrightness: Brightness.dark,
       ),
-      home: CollectionsScreen(),
+      home: DiscoverScreen(),
       // FutureBuilder<DocumentSnapshot>(
       //   future: cocktails.doc("1CBFexv7aMXxuTh79Joa").get(),
       //   builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) { 

@@ -34,15 +34,20 @@ class _CocktailDetailScreenState extends State<CocktailDetailScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               CocktailDetailHeader(cocktail),
-              CupertinoButton(
-                child: const Text("Customize Receipe"),
-                onPressed: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_){
-                        return CustomizeCocktailScreen(cocktail);
-                    }
-                  ),
-                  ),
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 15),
+                child: CupertinoButton(
+                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                  color: Colors.pink,
+                  child: const Text("Customize Receipe"),
+                  onPressed: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_){
+                          return CustomizeCocktailScreen(cocktail);
+                      }
+                    ),
+                    ),
+                ),
               ),
               Container(
                 height: 100,

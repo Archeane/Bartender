@@ -20,44 +20,48 @@ class CustomizeCocktailScreen extends StatelessWidget {
     List<Widget> ingredientInputs = <Widget>[];
     for (var key in cocktail.ingredients.keys) {
       ingredientInputs.add(
-        Row(mainAxisSize: MainAxisSize.min, children: [
-          Expanded(
-              flex: 2,
-              child: DropdownSearch<String>(
-                showSelectedItem: true,
-                items: [
-                  'Canada',
-                  'us',
-                  'china',
-                  'uk',
-                  'brazil',
-                  'japan',
-                  'korea',
-                  'russia',
-                  'africa',
-                  'prussia',
-                  'Canada',
-                  'us',
-                  'china',
-                  'uk',
-                  'brazil',
-                  'japan',
-                  'korea',
-                  'russia',
-                  'africa',
-                  'prussia'
-                ],
-                onChanged: print,
-                selectedItem: ingredients[key]['name'],
-              )),
-          SizedBox(width: 20),
-          Expanded(
-              flex: 1,
-              child: TextFormField(
-                keyboardType: TextInputType.number,
-                initialValue: ingredients[key]['amount'],
-              )),
-        ]),
+        Container(
+          height: 45,
+          margin: const EdgeInsets.symmetric(vertical: 4),
+          child: Row(mainAxisSize: MainAxisSize.min, children: [
+            Expanded(
+                flex: 2,
+                child: DropdownSearch<String>(
+                  showSelectedItem: true,
+                  items: [
+                    'Canada',
+                    'us',
+                    'china',
+                    'uk',
+                    'brazil',
+                    'japan',
+                    'korea',
+                    'russia',
+                    'africa',
+                    'prussia',
+                    'Canada',
+                    'us',
+                    'china',
+                    'uk',
+                    'brazil',
+                    'japan',
+                    'korea',
+                    'russia',
+                    'africa',
+                    'prussia'
+                  ],
+                  onChanged: print,
+                  selectedItem: ingredients[key]['name'],
+                )),
+            SizedBox(width: 20),
+            Expanded(
+                flex: 1,
+                child: TextFormField(
+                  keyboardType: TextInputType.number,
+                  initialValue: ingredients[key]['amount'],
+                )),
+          ]),
+        ),
       );
     }
     return ingredientInputs;

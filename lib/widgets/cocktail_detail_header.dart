@@ -12,7 +12,7 @@ class CocktailDetailHeader extends StatelessWidget {
     final textThemes = Theme.of(context).textTheme;
 
     return Container(
-      height: 300,
+      // height: 300,
       padding: const EdgeInsets.all(5),
       child: Column(
         children: [

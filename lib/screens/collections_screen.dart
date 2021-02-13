@@ -1,10 +1,11 @@
-import 'package:bartender/screens/gridview_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cupertino_icons/cupertino_icons.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+
+import 'package:bartender/screens/collection_grid_screen.dart';
 
 class CollectionsScreen extends StatelessWidget {
   @override
@@ -29,7 +30,7 @@ class CollectionsScreen extends StatelessWidget {
                 onTap: () => Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (_){
-                      return GridViewScreen(collection);
+                      return CollectionGridScreen(collection);
                     }
                   )
                 ),

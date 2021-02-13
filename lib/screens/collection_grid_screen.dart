@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:bartender/model/cocktail.dart';
+import 'package:bartender/widgets/cocktail_gridview.dart';
 
-import 'package:bartender/screens/cocktail_detail_screen.dart';
-
-class GridViewScreen extends StatelessWidget {
+class CollectionGridScreen extends StatelessWidget {
   final collection;
 
-  GridViewScreen(this.collection);
+  CollectionGridScreen(this.collection);
 
   Future<List<Cocktail>> _fetchCollectionItems(CollectionReference collectionRef) async {
     List<Cocktail> _cocktailList = new List();  
@@ -34,11 +35,9 @@ class GridViewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final collectionRef = FirebaseFirestore.instance.collection('cocktails');
-    print(collection);
-    // print(collectionRef.doc(collection.items[0]).get());
     return Scaffold(
-      appBar: AppBar(title: Text("Grid View")),
-      body: FutureBuilder(    // get collection.items
+      appBar: AppBar(title: Text("Collection GridView")),
+      body: FutureBuilder(
         future: _fetchCollectionItems(collectionRef),
         builder: (context, snapshot) {
           if(snapshot.connectionState != ConnectionState.done) {
@@ -49,31 +48,9 @@ class GridViewScreen extends StatelessWidget {
             return Center(child: Text("An error has occured in the server, please try again later!"));
           }
           List<Cocktail> cocktailsList = snapshot.data;
-          return GridView.builder(
-            padding: const EdgeInsets.all(10.0),
-            itemCount: cocktailsList.length,
-            itemBuilder: (ctx, i) => GridTile(
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_){
-                        return CocktailDetailScreen(cocktailsList[i]);
-                      }
-                    ),
-                  );
-                },
-                child:Image.network(cocktailsList[i].imageUrl, fit: BoxFit.cover),
-              ),
-            ),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 4 / 3,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-            ),
-          );
-        })
+          return CocktailGridView(cocktailsList);
+        }
+      ), 
     );
   }
 }
