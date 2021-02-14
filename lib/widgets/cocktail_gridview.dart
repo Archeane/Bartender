@@ -1,4 +1,5 @@
 import 'package:bartender/widgets/searchbar.dart';
+
 import 'package:flutter/material.dart';
 
 import 'package:bartender/model/cocktail.dart';
@@ -43,6 +44,12 @@ class _CocktailGridViewState extends State<CocktailGridView> {
     return results;
   }
 
+  void _sortCocktails(){
+    _filteredList.sort((a,b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+    setState(() => _filteredList = _filteredList);
+  }
+
+  
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -50,6 +57,7 @@ class _CocktailGridViewState extends State<CocktailGridView> {
         SearchBar(
           onSearch: _searchCocktails,
           onReset: _resetSearch,
+          onSort: _sortCocktails,
           minimumChars: 2,
         ),
         loading

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:bartender/widgets/filter_form.dart';
 
 class SearchBarStyle {
   final Color backgroundColor;
@@ -15,12 +16,14 @@ class SearchBarStyle {
 
 class SearchBar extends StatefulWidget {
   final int minimumChars;
-  final Future<dynamic> Function(String text) onSearch; 
-  final void Function() onReset; 
+  final Future<dynamic> Function(String text) onSearch;
+  final void Function() onReset;
+  final void Function() onSort;
 
   SearchBar({
     this.onSearch,
     this.onReset,
+    this.onSort,
     this.minimumChars = 3,
   });
 
@@ -50,8 +53,8 @@ class _SearchBarState extends State<SearchBar> {
     widget.onReset();
   }
 
-   _onTextChanged(String newText) async {
-     if (_debounce?.isActive ?? false) {
+  _onTextChanged(String newText) async {
+    if (_debounce?.isActive ?? false) {
       _debounce.cancel();
     }
     _debounce = Timer(const Duration(milliseconds: 100), () async {
@@ -67,6 +70,27 @@ class _SearchBarState extends State<SearchBar> {
     });
   }
 
+  void _showFilter(BuildContext ctx) {
+    showModalBottomSheet(
+      context: ctx,
+      builder: (_) {
+        return GestureDetector(
+          onTap: () {},
+          behavior: HitTestBehavior.opaque,
+          child: FilterForm(widget.onSort),
+        );
+      },
+    );
+  }
+
+  Widget _searchButton(String text){
+    return Container(
+      child: Center(
+        child: Text(text) 
+      )
+    );
+  } 
+
   @override
   Widget build(BuildContext context) {
     final widthMax = MediaQuery.of(context).size.width;
@@ -78,7 +102,7 @@ class _SearchBarState extends State<SearchBar> {
           Flexible(
             child: AnimatedContainer(
               duration: Duration(milliseconds: 200),
-              width: _animate ? widthMax * .8 : widthMax,
+              // width: _animate ? widthMax * .8 : widthMax,
               decoration: BoxDecoration(
                 borderRadius: searchBarStyle.borderRadius,
                 color: searchBarStyle.backgroundColor,
@@ -87,6 +111,7 @@ class _SearchBarState extends State<SearchBar> {
                 padding: searchBarStyle.padding,
                 child: Theme(
                   child: TextField(
+                    autofocus: true,
                     controller: _searchQueryController,
                     onChanged: _onTextChanged,
                     style: const TextStyle(color: Colors.black),
@@ -105,24 +130,33 @@ class _SearchBarState extends State<SearchBar> {
               ),
             ),
           ),
+          
           GestureDetector(
             onTap: _cancel,
             child: AnimatedOpacity(
-              opacity: _animate ? 1.0 : 0,
+              opacity: _animate ? 1 : 0,
+              duration: Duration(milliseconds: 300),
               curve: Curves.easeIn,
-              duration: Duration(milliseconds: _animate ? 500 : 0),
               child: AnimatedContainer(
-                duration: Duration(milliseconds: 100),
-                width: _animate ? MediaQuery.of(context).size.width * .2 : 0,
-                child: Container(
-                  color: Colors.transparent,
-                  child: Center(
-                    child: const Text("Cancel"),
-                  ),
-                ),
-              ),
+                duration: Duration(milliseconds: 200),
+                width: _animate ? MediaQuery.of(context).size.width * 0.2 : 0,
+                child: _searchButton("cancel")
+              )
             ),
           ),
+          GestureDetector(
+            onTap: () => _showFilter(context),
+            child: AnimatedOpacity(
+              opacity: _animate ? 0 : 1,
+              duration: Duration(milliseconds: 300),
+              curve: Curves.easeIn,
+              child: AnimatedContainer(
+                duration: Duration(milliseconds: 200),
+                width: _animate ? 0: MediaQuery.of(context).size.width * 0.2,
+                child: _searchButton("filter")
+              )
+            ),
+          )
         ],
       ),
     );

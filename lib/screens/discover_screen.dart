@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -5,7 +6,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:bartender/model/cocktail.dart';
 import 'package:bartender/widgets/cocktail_gridview.dart';
-import 'package:bartender/widgets/searchbar.dart';
 
 class DiscoverScreen extends StatefulWidget {
   DiscoverScreen({Key key}) : super(key: key);
@@ -36,7 +36,9 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Discover Screen"),),
+      appBar: AppBar(
+        title: Text("Discover Screen"),
+      ),
       body: FutureBuilder(
         future: _fetchCollection(),
         builder: (context, snapshot) {
