@@ -1,4 +1,5 @@
 import 'package:bartender/screens/auth_screen.dart';
+import 'package:bartender/screens/mybar_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -107,6 +108,10 @@ class BartenderApp extends StatelessWidget {
               icon: Icon(CupertinoIcons.person),
               label: "Account",
             ),
+            BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.add),
+              label: "My Bar",
+            ),
           ],
         ),
         tabBuilder: (BuildContext context, int index) {
@@ -120,6 +125,8 @@ class BartenderApp extends StatelessWidget {
                 return CommunityCocktailScreen();
               case 3:
                 return AuthScreen();
+              case 4: 
+                return MyBarScreen();
               default:
                 return DiscoverScreen();
             }

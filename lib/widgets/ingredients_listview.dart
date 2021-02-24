@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:bartender/firebase_util.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bartender/widgets/searchbar.dart';
 import 'package:bartender/model/ingredient.dart';
@@ -16,6 +20,8 @@ class _IngredientsListViewState extends State<IngredientsListView> {
   List<Ingredient> _filteredList;
 
   bool loading = false;
+  bool _cocktailsLoading = false;
+  int _numberCocktails = 10;
 
   @override
   void initState() {
@@ -45,6 +51,27 @@ class _IngredientsListViewState extends State<IngredientsListView> {
     setState(() => _filteredList = _filteredList);
   }
 
+  void addIngredient(String id, int index) async {
+    //change state
+    setState((){
+       _filteredList[index].inMyBar = true;
+       _cocktailsLoading = true;
+    });
+    // addIngredientToMyBar(id);
+    List<String> cocktailIds = ["1CBFexv7aMXxuTh79Joa", "7V2rGzoqQlaX1HU2noKY", "AEpPcl32Hp4m1yEnEB5a", "vyTwCSGtppp4Q4es9JCV"];
+    
+    await Future.delayed(Duration(seconds: 1), () => print('done'));
+    setState((){
+      _cocktailsLoading = false;
+      _numberCocktails = cocktailIds.length;
+    });
+
+  }
+
+  void removeIngredient(String id, int index){
+    setState(() => _filteredList[index].inMyBar = false);
+    // removeIngredientFromMyBar(id);
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -58,20 +85,44 @@ class _IngredientsListViewState extends State<IngredientsListView> {
         ),
         loading
             ? Center(child: CircularProgressIndicator())
-            : Expanded(
+            : Container(
+              height: 480,
                 child: ListView.builder(
                   padding: const EdgeInsets.all(10.0),
                   itemCount: _filteredList.length,
                   itemBuilder: (ctx, i) => GestureDetector(child: 
                     ListTile(
-                      leading: Image.network(
-                        _filteredList[i].imageUrl, fit: BoxFit.cover, filterQuality: FilterQuality.none),
-                      title: Text(_filteredList[i].name)
+                      leading: _filteredList[i].imageUrl == null 
+                        ? null
+                        : Image.network(_filteredList[i].imageUrl, fit: BoxFit.cover, filterQuality: FilterQuality.none),
+                      title: Text(_filteredList[i].name),
+                      trailing: _filteredList[i].inMyBar
+                        ? GestureDetector(
+                          child: Icon(Icons.check, color: Colors.greenAccent),
+                          onTap: () => removeIngredient(_filteredList[i].id, i),
+                        )
+                        : GestureDetector(
+                          child: Icon(CupertinoIcons.add),
+                          onTap: () => addIngredient(_filteredList[i].id, i),
+                        ),
                     ),
                     onTap: () {},
                   ),
                 ),
               ),
+          RaisedButton(
+            child: Container(
+              width: 200,
+              child: Row(children:[
+                const Text("You can make "), 
+                _cocktailsLoading
+                  ? Container(child: CircularProgressIndicator(), height: 20, width: 20)
+                  : Text(_numberCocktails.toString()),
+                const Text(" Cocktails")
+              ]),
+            ),
+            onPressed: (){},
+          ),
       ],
     );
   }

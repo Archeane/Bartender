@@ -7,6 +7,7 @@ class Ingredient {
   String amount;
   String type;  // base spirit, bitter, etc
   String imageUrl;
+  bool _inMybar = false;
   
   Ingredient({
     @required this.id,
@@ -27,6 +28,12 @@ class Ingredient {
     amount = "0";
   }
 
+  Ingredient.fromFirebaseSnapshot(String id, var snapshot){
+    this.id = id;
+    this.name = snapshot['name'];
+    // this.imageUrl = snapshot['imageUrl'];
+  }
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = id;
@@ -37,4 +44,13 @@ class Ingredient {
     data['imageUrl'] = imageUrl;
     return data;
   }
+
+  get inMyBar => _inMybar;
+  set inMyBar(bool val) => _inMybar = val;
+
+  @override
+    String toString() {
+      String data = this.id + this.name;
+      return data;
+    }
 }
