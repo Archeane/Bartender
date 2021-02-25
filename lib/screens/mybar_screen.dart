@@ -38,7 +38,7 @@ class _MyBarScreenState extends State<MyBarScreen> {
             return Center(child: Text("An error has occured, please try again later!"));
           }
           final data = snapshot.data;
-          return IngredientsListView(data);
+          return IngredientsListView(data, addIngredientToMyBar, removeIngredientFromMyBar);
         }
       ),
     );

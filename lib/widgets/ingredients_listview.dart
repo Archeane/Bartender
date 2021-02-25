@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bartender/firebase_util.dart';
+import 'package:bartender/screens/mybar_cocktails_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bartender/widgets/searchbar.dart';
@@ -8,8 +9,10 @@ import 'package:bartender/model/ingredient.dart';
 
 class IngredientsListView extends StatefulWidget {
   final List<Ingredient> ingredientList;
+  final Future<void> Function(String) addIngredientFunc;
+  final Future<void> Function(String) removeIngredientFunc;
 
-  IngredientsListView(this.ingredientList);
+  IngredientsListView(this.ingredientList, this.addIngredientFunc, this.removeIngredientFunc);
 
   @override
   _IngredientsListViewState createState() => _IngredientsListViewState();
@@ -57,10 +60,13 @@ class _IngredientsListViewState extends State<IngredientsListView> {
        _filteredList[index].inMyBar = true;
        _cocktailsLoading = true;
     });
-    // addIngredientToMyBar(id);
+
+    widget.addIngredientFunc(id);
+
+    // call calculate cocktails
+    await Future.delayed(Duration(seconds: 1), () => print('done'));
     List<String> cocktailIds = ["1CBFexv7aMXxuTh79Joa", "7V2rGzoqQlaX1HU2noKY", "AEpPcl32Hp4m1yEnEB5a", "vyTwCSGtppp4Q4es9JCV"];
     
-    await Future.delayed(Duration(seconds: 1), () => print('done'));
     setState((){
       _cocktailsLoading = false;
       _numberCocktails = cocktailIds.length;
@@ -70,7 +76,7 @@ class _IngredientsListViewState extends State<IngredientsListView> {
 
   void removeIngredient(String id, int index){
     setState(() => _filteredList[index].inMyBar = false);
-    // removeIngredientFromMyBar(id);
+    widget.removeIngredientFunc(id);
   }
   
   @override
@@ -121,7 +127,11 @@ class _IngredientsListViewState extends State<IngredientsListView> {
                 const Text(" Cocktails")
               ]),
             ),
-            onPressed: (){},
+            onPressed: (){
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => MyBarCocktailScreen(this._filteredList))
+              );
+            },
           ),
       ],
     );

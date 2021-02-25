@@ -33,6 +33,7 @@ dependencies:
   firebase_auth: ^0.20.1
   firebase_storage: ^7.0.0
   fluttertoast: ^7.1.8
+  carousel_slider: ^3.0.0
   
 dev_dependencies:
   flutter_test:
