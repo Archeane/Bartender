@@ -7,18 +7,18 @@ import 'package:flutter/material.dart';
 import 'package:bartender/widgets/searchbar.dart';
 import 'package:bartender/model/ingredient.dart';
 
-class IngredientsListView extends StatefulWidget {
+class MyBarIngredientsListView extends StatefulWidget {
   final List<Ingredient> ingredientList;
   final Future<void> Function(String) addIngredientFunc;
   final Future<void> Function(String) removeIngredientFunc;
 
-  IngredientsListView(this.ingredientList, this.addIngredientFunc, this.removeIngredientFunc);
+  MyBarIngredientsListView(this.ingredientList, this.addIngredientFunc, this.removeIngredientFunc);
 
   @override
-  _IngredientsListViewState createState() => _IngredientsListViewState();
+  _MyBarIngredientsListViewState createState() => _MyBarIngredientsListViewState();
 }
 
-class _IngredientsListViewState extends State<IngredientsListView> {
+class _MyBarIngredientsListViewState extends State<MyBarIngredientsListView> {
   List<Ingredient> _cocktailsList;
   List<Ingredient> _filteredList;
 

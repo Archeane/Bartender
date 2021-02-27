@@ -1,7 +1,10 @@
-import 'package:bartender/widgets/ingredients_listview.dart';
+import 'package:bartender/providers/auth.dart';
+import 'package:bartender/widgets/mybar_ingredients_listview.dart';
 import 'package:flutter/material.dart';
 import 'package:bartender/firebase_util.dart';
+
 import 'package:bartender/model/ingredient.dart';
+import 'package:provider/provider.dart';
 
 class MyBarScreen extends StatefulWidget {
   @override
@@ -13,8 +16,10 @@ class _MyBarScreenState extends State<MyBarScreen> {
   // List<Ingredient> _mybarIngredients;
 
   Future<List<Ingredient>> _fetchIngredients() async {
+    // Provider.of<Ingredients>(context).fetchAndSetIngredients();
+    // final List<Ingredient> allIngredients = Provider.of<Ingredients>(context).ingredients;
     List<Ingredient> allIngredients = await fetchAllIngredients();
-    List<dynamic> mybarIngredients = await getMyBarIngredients();
+    List<String> mybarIngredients = Provider.of<Auth>(context).mybarIngredients;
     for(var ingredientId in mybarIngredients){ 
       int index = allIngredients.indexWhere((item) => item.id == ingredientId);
       allIngredients[index].inMyBar = true;
@@ -24,6 +29,7 @@ class _MyBarScreenState extends State<MyBarScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<Auth>(context, listen: false);
     return Scaffold(
       appBar: AppBar(),
       body: FutureBuilder(
@@ -38,7 +44,7 @@ class _MyBarScreenState extends State<MyBarScreen> {
             return Center(child: Text("An error has occured, please try again later!"));
           }
           final data = snapshot.data;
-          return IngredientsListView(data, addIngredientToMyBar, removeIngredientFromMyBar);
+          return MyBarIngredientsListView(data, authProvider.addIngredientToMyBar, authProvider.removeIngredientFromMyBar);
         }
       ),
     );

@@ -1,6 +1,7 @@
+import 'package:bartender/providers/auth.dart';
 import 'package:bartender/screens/auth_screen.dart';
 import 'package:bartender/screens/mybar_screen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -8,6 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:bartender/screens/collections_screen.dart';
 import 'package:bartender/screens/discover_screen.dart';
 import 'package:bartender/screens/community_cocktail_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -79,73 +81,64 @@ class BartenderApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // CollectionReference cocktails = FirebaseFirestore.instance.collection('cocktails');
-
-    return MaterialApp(
-      title: 'Bartender',
-      theme: ThemeData(
-        primarySwatch: Colors.pink,
-        textTheme: materialTextThemes,
-        backgroundColor: Colors.pink,
-        accentColor: Colors.deepPurple,
-        accentColorBrightness: Brightness.dark,
-      ),
-      home: CupertinoTabScaffold(
-        tabBar: CupertinoTabBar(
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: "Discover",
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: Auth()),
+      ],
+      child: MaterialApp(
+          title: 'Bartender',
+          theme: ThemeData(
+            primarySwatch: Colors.pink,
+            textTheme: materialTextThemes,
+            backgroundColor: Colors.pink,
+            accentColor: Colors.deepPurple,
+            accentColorBrightness: Brightness.dark,
+          ),
+          home: CupertinoTabScaffold(
+            tabBar: CupertinoTabBar(
+              items: [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: "Discover",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(CupertinoIcons.list_bullet),
+                  label: "Collections",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(CupertinoIcons.person_3_fill),
+                  label: "Community",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(CupertinoIcons.person),
+                  label: "Account",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(CupertinoIcons.add),
+                  label: "My Bar",
+                ),
+              ],
             ),
-            BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.list_bullet),
-              label: "Collections",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.person_3_fill),
-              label: "Community",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.person),
-              label: "Account",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.add),
-              label: "My Bar",
-            ),
-          ],
-        ),
-        tabBuilder: (BuildContext context, int index) {
-          return CupertinoTabView(builder: (context){
-            switch(index){
-              case 0:
-                return DiscoverScreen();
-              case 1:
-                return CollectionsScreen();
-              case 2:
-                return CommunityCocktailScreen();
-              case 3:
-                return AuthScreen();
-              case 4: 
-                return MyBarScreen();
-              default:
-                return DiscoverScreen();
+            tabBuilder: (BuildContext context, int index) {
+              return CupertinoTabView(builder: (context){
+                switch(index){
+                  case 0:
+                    return DiscoverScreen();
+                  case 1:
+                    return CollectionsScreen();
+                  case 2:
+                    return CommunityCocktailScreen();
+                  case 3:
+                    return AuthScreen();
+                  case 4: 
+                    return MyBarScreen();
+                  default:
+                    return DiscoverScreen();
+                }
+              },);
             }
-          },);
-        }
-      ),
-      // FutureBuilder<DocumentSnapshot>(
-      //   future: cocktails.doc("1CBFexv7aMXxuTh79Joa").get(),
-      //   builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) { 
-      //     if (snapshot.connectionState == ConnectionState.done) {
-      //       Map<String, dynamic> data = snapshot.data.data();
-            
-      //       // return CocktailDetailScreen(data);
-      //       // return CupertinoHomeScreen();
-      //     }
-      //     return Center(child: CircularProgressIndicator(),);
-      //   }
-      // )
-      
+          ),
+        )
     );
   }
 }
