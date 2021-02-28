@@ -68,6 +68,17 @@ class Cocktail {
     }
   }
 
+  Cocktail.fromFirebaseSnapshot(String id, var snapshot){
+    this.id = id;
+    this.name = snapshot['name'];
+    this.imageUrl = snapshot['imageUrl'];
+    // this.about = snapshot.containsKey("ingredients") ? snapshot['about'] : null;
+    // this.prepSteps = snapshot.containsKey("prepSteps") ? snapshot['prepSteps'] : null;
+    // this.flavor = snapshot.containsKey("flavor") ? snapshot['flavor'] : null;
+    // this.alcoholContent = snapshot.containsKey("alcoholContent") ? snapshot['alcoholContent'] : null;
+    // this.ingredients = snapshot.containsKey("ingredients") ? snapshot['ingredients'] : null;
+  }
+
 }
 
 class CommunityCocktail extends Cocktail{

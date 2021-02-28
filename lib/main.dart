@@ -88,6 +88,10 @@ class BartenderApp extends StatelessWidget {
       child: FutureBuilder(
         future: init(),
         builder: (ctx, snapshot) {
+          if(snapshot.connectionState == ConnectionState.waiting){
+            return Center(child: CircularProgressIndicator());
+          }
+          
           return MaterialApp(
           title: 'Bartender',
           theme: ThemeData(

@@ -1,9 +1,11 @@
 
+import 'package:bartender/model/cocktail.dart';
 import 'package:bartender/providers/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import './model/ingredient.dart';
-import 'package:bartender/user_firebase_util.dart';
+
 
 class InvalidArgumentException implements Exception {
   String error;
@@ -12,16 +14,23 @@ class InvalidArgumentException implements Exception {
 
 bool isInit = false;
 CollectionReference ingredientsCollection = FirebaseFirestore.instance.collection('ingredients');
+CollectionReference cocktailsCollection = FirebaseFirestore.instance.collection('cocktails');
 List<Ingredient> allIngredients;
+List<Cocktail> allCocktails;
 
 Future<void> init() async {
   if(!isInit){
     allIngredients = await fetchAllIngredients();
+    allCocktails = await fetchAllCocktails();
     
-    print("loaded allingredients in init()");
+    print("loaded allingredients and all cocktails in init()");
     print(allIngredients);
+    print(allCocktails);
     isInit = true;
+    return;
   }
+  print("is init if false");
+  return;
 }
 
 // Future<List<Ingredient>> fetchUserShoppingList() async {
@@ -62,10 +71,11 @@ Future<Ingredient> fetchIngredientById(String id) async {
 //     }
 //   }
 //   return ingredients;
-// }
+//  }
 
 // Future<List<dynamic>> getMyBarIngredients() async {
-//   DocumentSnapshot userSnapshot = await usersCollection.doc(user.uid).get();
+//   CollectionReference usersCollection = FirebaseFirestore.instance.collection('users');
+//   DocumentSnapshot userSnapshot = await usersCollection.doc(FirebaseAuth.instance.currentUser.uid).get();
 //   if(userSnapshot.exists){
 //     return userSnapshot.data()['bar']['ingredients'];
 //   }
@@ -79,6 +89,15 @@ Future<List<Ingredient>> fetchAllIngredients() async {
       ingredients.add(Ingredient.fromFirebaseSnapshot(doc.id, doc));
   }
   return ingredients;
+}
+
+Future<List<Cocktail>> fetchAllCocktails() async {
+  List<Cocktail> cocktails = new List<Cocktail>();
+  QuerySnapshot snapshot = await cocktailsCollection.get();
+  for(var doc in snapshot.docs){
+    cocktails.add(Cocktail.fromFirebaseSnapshot(doc.id, doc));
+  }
+  return cocktails;
 }
 
 // // =============== User related actions =====================

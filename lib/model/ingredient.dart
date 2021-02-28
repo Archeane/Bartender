@@ -8,7 +8,8 @@ class Ingredient {
   String type;  // base spirit, bitter, etc
   String imageUrl;
   bool _inMybar = false;
-  
+  bool _inMyShoppingList = false; 
+
   Ingredient({
     @required this.id,
     @required this.name,
@@ -47,6 +48,8 @@ class Ingredient {
 
   get inMyBar => _inMybar;
   set inMyBar(bool val) => _inMybar = val;
+  get inMyShoppingList => _inMyShoppingList;
+  set inMyShoppingList(bool val) => _inMyShoppingList = val;
 
   @override
     String toString() {

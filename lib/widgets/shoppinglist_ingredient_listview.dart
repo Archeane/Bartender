@@ -1,29 +1,25 @@
 import 'dart:async';
-
-import 'package:bartender/screens/mybar_cocktails_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bartender/widgets/searchbar.dart';
 import 'package:bartender/model/ingredient.dart';
 
-class MyBarIngredientsListView extends StatefulWidget {
+class ShoppingListIngredientListView extends StatefulWidget {
   final List<Ingredient> ingredientList;
   final void Function(String) addIngredientFunc;
   final void Function(String) removeIngredientFunc;
 
-  MyBarIngredientsListView(this.ingredientList, this.addIngredientFunc, this.removeIngredientFunc);
+  ShoppingListIngredientListView(this.ingredientList, this.addIngredientFunc, this.removeIngredientFunc);
 
   @override
-  _MyBarIngredientsListViewState createState() => _MyBarIngredientsListViewState();
+  _ShoppingListIngredientListViewState createState() => _ShoppingListIngredientListViewState();
 }
 
-class _MyBarIngredientsListViewState extends State<MyBarIngredientsListView> {
+class _ShoppingListIngredientListViewState extends State<ShoppingListIngredientListView> {
   List<Ingredient> _cocktailsList;
   List<Ingredient> _filteredList;
 
   bool loading = false;
-  bool _cocktailsLoading = false;
-  int _numberCocktails = 10;
 
   @override
   void initState() {
@@ -54,27 +50,14 @@ class _MyBarIngredientsListViewState extends State<MyBarIngredientsListView> {
   }
 
   void addIngredient(String id, int index) async {
-    //change state
     setState((){
-       _filteredList[index].inMyBar = true;
-       _cocktailsLoading = true;
+       _filteredList[index].inMyShoppingList = true;
     });
-
     widget.addIngredientFunc(id);
-
-    // call calculate cocktails
-    await Future.delayed(Duration(seconds: 1), () => print('done'));
-    List<String> cocktailIds = ["1CBFexv7aMXxuTh79Joa", "7V2rGzoqQlaX1HU2noKY", "AEpPcl32Hp4m1yEnEB5a", "vyTwCSGtppp4Q4es9JCV"];
-    
-    setState((){
-      _cocktailsLoading = false;
-      _numberCocktails = cocktailIds.length;
-    });
-
   }
 
   void removeIngredient(String id, int index){
-    setState(() => _filteredList[index].inMyBar = false);
+    setState(() => _filteredList[index].inMyShoppingList = false);
     widget.removeIngredientFunc(id);
   }
   
@@ -91,7 +74,7 @@ class _MyBarIngredientsListViewState extends State<MyBarIngredientsListView> {
         loading
             ? Center(child: CircularProgressIndicator())
             : Container(
-              height: 480,
+              height: 520,
                 child: ListView.builder(
                   padding: const EdgeInsets.all(10.0),
                   itemCount: _filteredList.length,
@@ -101,7 +84,7 @@ class _MyBarIngredientsListViewState extends State<MyBarIngredientsListView> {
                         ? null
                         : Image.network(_filteredList[i].imageUrl, fit: BoxFit.cover, filterQuality: FilterQuality.none),
                       title: Text(_filteredList[i].name),
-                      trailing: _filteredList[i].inMyBar
+                      trailing: _filteredList[i].inMyShoppingList
                         ? GestureDetector(
                           child: Icon(Icons.check, color: Colors.greenAccent),
                           onTap: () => removeIngredient(_filteredList[i].id, i),
@@ -114,24 +97,7 @@ class _MyBarIngredientsListViewState extends State<MyBarIngredientsListView> {
                     onTap: () {},
                   ),
                 ),
-              ),
-          RaisedButton(
-            child: Container(
-              width: 200,
-              child: Row(children:[
-                const Text("You can make "), 
-                _cocktailsLoading
-                  ? Container(child: CircularProgressIndicator(), height: 20, width: 20)
-                  : Text(_numberCocktails.toString()),
-                const Text(" Cocktails")
-              ]),
-            ),
-            onPressed: (){
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => MyBarCocktailScreen(this._filteredList))
-              );
-            },
-          ),
+              )
       ],
     );
   }

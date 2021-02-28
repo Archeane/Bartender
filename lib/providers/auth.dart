@@ -12,8 +12,7 @@ class Auth with ChangeNotifier{
   User currentUser = FirebaseAuth.instance.currentUser;
   CollectionReference collection = FirebaseFirestore.instance.collection('users');
   List<dynamic> _collections;
-  List<dynamic> _shoppingList;
-  List<dynamic> _mybarIngredients;
+  List<String> _shoppingList;
 
   get isLoggedIn {
     return currentUser != null && _collections != null && _shoppingList != null;
@@ -26,8 +25,8 @@ class Auth with ChangeNotifier{
         final userData = userDoc.data();
         id = currentUser.uid;
         _collections = userData['collections'];
-        _shoppingList = userData['shopping'];
-        _mybarIngredients = userData['bar']['ingredients'];
+        _shoppingList = userData['shopping'].cast<String>();
+        
         print("resetted userDoc in authInit");
         notifyListeners();
       }
@@ -68,8 +67,8 @@ class Auth with ChangeNotifier{
     if(userDoc.exists){
       final userData = userDoc.data();
       _collections = userData['collections'];
-      _shoppingList = userData['shopping'];
-      _mybarIngredients = userData['bar']['ingredients'];
+      _shoppingList = userData['shopping'].cast<String>();
+      
     }
     notifyListeners();
   }
@@ -101,7 +100,6 @@ class Auth with ChangeNotifier{
       },
     ];
     _shoppingList = [];
-    _mybarIngredients = [];
     await userDoc.set({
       'username': username,
       'email': email,
@@ -111,19 +109,26 @@ class Auth with ChangeNotifier{
       'favorites': [],
       'custom': [],
       'bar': {
-        'ingredients': _mybarIngredients,
+        'ingredients': [],
         'cocktails': [],
       }
     });
     return userDoc;
   }
 
-  List<dynamic> get shoppingList {
+  List<String> get shoppingList {
     return [..._shoppingList];
   }
 
-  List<dynamic> get mybarIngredients {
-    return [..._mybarIngredients];
+  Future<List<String>> get mybarIngredients async {
+    if (currentUser != null){
+      DocumentSnapshot userDoc = await collection.doc(currentUser.uid).get();
+      if(userDoc.exists){
+        final userData = userDoc.data();
+        return userData['bar']['ingredients'].cast<String>();
+      }
+    }
+    return null;
   }
 
   List<dynamic> get collections {
@@ -142,14 +147,17 @@ class Auth with ChangeNotifier{
     notifyListeners();
   }
 
-  void addIngredientToMyBar(String id){
-    _mybarIngredients.add(id);
+  void updateShoppingList(List<String> newList){
+    _shoppingList = newList;
+    print(_shoppingList);
     notifyListeners();
   }
+
+  void addIngredientToMyBar(String id){
+    // add to firebase
+  }
   void removeIngredientFromMyBar(String id){
-    int index = _mybarIngredients.indexOf(id);
-    _mybarIngredients.removeAt(index);
-    notifyListeners();
+    // remove from firebase
   }
 
 }
