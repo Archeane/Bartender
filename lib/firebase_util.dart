@@ -1,5 +1,7 @@
 
+import 'package:bartender/providers/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 import './model/ingredient.dart';
 import 'package:bartender/user_firebase_util.dart';
 
@@ -8,8 +10,19 @@ class InvalidArgumentException implements Exception {
   InvalidArgumentException(this.error);
 }
 
-
+bool isInit = false;
 CollectionReference ingredientsCollection = FirebaseFirestore.instance.collection('ingredients');
+List<Ingredient> allIngredients;
+
+Future<void> init() async {
+  if(!isInit){
+    allIngredients = await fetchAllIngredients();
+    
+    print("loaded allingredients in init()");
+    print(allIngredients);
+    isInit = true;
+  }
+}
 
 // Future<List<Ingredient>> fetchUserShoppingList() async {
 //   List<Ingredient> ingredients = new List<Ingredient>();

@@ -1,3 +1,4 @@
+import 'package:bartender/firebase_util.dart';
 import 'package:bartender/providers/auth.dart';
 import 'package:bartender/screens/auth_screen.dart';
 import 'package:bartender/screens/mybar_screen.dart';
@@ -80,12 +81,14 @@ class BartenderApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // CollectionReference cocktails = FirebaseFirestore.instance.collection('cocktails');
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: Auth()),
       ],
-      child: MaterialApp(
+      child: FutureBuilder(
+        future: init(),
+        builder: (ctx, snapshot) {
+          return MaterialApp(
           title: 'Bartender',
           theme: ThemeData(
             primarySwatch: Colors.pink,
@@ -138,7 +141,7 @@ class BartenderApp extends StatelessWidget {
               },);
             }
           ),
-        )
-    );
+        );}
+    ));
   }
 }

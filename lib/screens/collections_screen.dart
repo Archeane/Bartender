@@ -79,7 +79,14 @@ class CollectionsScreen extends StatelessWidget {
             },
           )
         )
-      : AuthForm(_submitAuthForm, false)
+      : FutureBuilder(
+          future: provider.authInit(),
+          builder: (ctx, snapshot) {
+            print(provider.isLoggedIn);
+            // print(provider.collections);
+            return AuthForm(_submitAuthForm, false);
+          }
+        )
     ));
   }
 }

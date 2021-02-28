@@ -16,7 +16,22 @@ class Auth with ChangeNotifier{
   List<dynamic> _mybarIngredients;
 
   get isLoggedIn {
-    return currentUser != null;
+    return currentUser != null && _collections != null && _shoppingList != null;
+  }
+
+  Future<void> authInit() async {
+    if (currentUser != null && _collections == null){
+      DocumentSnapshot userDoc = await collection.doc(currentUser.uid).get();
+      if(userDoc.exists){
+        final userData = userDoc.data();
+        id = currentUser.uid;
+        _collections = userData['collections'];
+        _shoppingList = userData['shopping'];
+        _mybarIngredients = userData['bar']['ingredients'];
+        print("resetted userDoc in authInit");
+        notifyListeners();
+      }
+    }
   }
 
   Future<void> signup(String username, String email, String password, File image ) async {
@@ -116,6 +131,7 @@ class Auth with ChangeNotifier{
   }
 
   void addShoppingListItem(String ing){
+    // add to firebase
     _shoppingList.add(ing);
     notifyListeners();
   }
