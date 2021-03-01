@@ -1,3 +1,4 @@
+import 'package:bartender/providers/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -6,6 +7,7 @@ import 'package:bartender/widgets/ingredient_list.dart';
 import 'package:bartender/widgets/cocktail_detail/cocktail_detail_header.dart';
 import 'package:bartender/widgets/cocktail_detail/cocktail_detail_prep_steps.dart';
 import 'package:bartender/screens/customize_cocktail_screen.dart';
+import 'package:provider/provider.dart';
 
 class CocktailDetailScreen extends StatelessWidget {
   final Cocktail cocktailData;
@@ -16,9 +18,48 @@ class CocktailDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     final textThemes = Theme.of(context).textTheme;
+    final provider = Provider.of<Auth>(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text("Cocktail Detail")),
+      appBar: AppBar(
+        title: Text("Cocktail Detail"),
+        actions: [
+          provider.isLoggedIn 
+          ? IconButton(
+            icon: Icon(
+              provider.favorites.contains(cocktailData.id)
+              ? Icons.star
+              : Icons.star_border_outlined
+            ),
+            onPressed: () {
+              if(provider.favorites.contains(cocktailData.id)){
+                provider.removeFavorites(cocktailData.id);
+              } else {
+                provider.addFavorites(cocktailData.id);
+              }
+            })
+          : IconButton(
+              icon: Icon(Icons.star_border_outlined),
+              onPressed: () async {
+                await showDialog(
+                  context: context,
+                  builder: (ctx) => AlertDialog(
+                    title: const Text('Cannot Add to Favorites'),
+                    content: const Text('Please login to add to favorites'),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: const Text('OK'),
+                        onPressed: () {
+                          Navigator.of(context, rootNavigator: true).pop();
+                        },
+                      )
+                    ],
+                  ),
+                );
+              },
+            )
+        ],
+      ),
       body: 
       SingleChildScrollView( // make center take up as much height as needed by children
         // child: Center(

@@ -10,8 +10,17 @@ class AuthScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<Auth>(context); 
     return Scaffold(
+      appBar: AppBar(title: const Text("account")),
       body: provider.isLoggedIn
-        ? Center(child: Text(provider.id))
+        ? Center(child: 
+            Column(children: [
+              Text(provider.id),
+              FlatButton(
+                child: const Text("Logout", style: TextStyle(color: Colors.red)),
+                onPressed: () => provider.logout(),
+              )
+            ])
+        )
         : AuthFormWrapper()
     );
   }

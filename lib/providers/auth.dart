@@ -13,6 +13,7 @@ class Auth with ChangeNotifier{
   CollectionReference collection = FirebaseFirestore.instance.collection('users');
   List<dynamic> _collections;
   List<String> _shoppingList;
+  List<String> _favorites;
 
   get isLoggedIn {
     return currentUser != null && _collections != null && _shoppingList != null;
@@ -26,6 +27,7 @@ class Auth with ChangeNotifier{
         id = currentUser.uid;
         _collections = userData['collections'];
         _shoppingList = userData['shopping'].cast<String>();
+        _favorites = userData['favorites'].cast<String>();
         
         print("resetted userDoc in authInit");
         notifyListeners();
@@ -68,16 +70,21 @@ class Auth with ChangeNotifier{
       final userData = userDoc.data();
       _collections = userData['collections'];
       _shoppingList = userData['shopping'].cast<String>();
+      _favorites = userData['favorites'].cast<String>();
       
     }
     notifyListeners();
   }
 
   Future<void> logout() async {
+    print(isLoggedIn);
     if(isLoggedIn){
       await FirebaseAuth.instance.signOut();
       currentUser = null;
       id = null;
+      _collections = [];
+      _shoppingList = [];
+      _favorites = [];
       notifyListeners();
     }
   }
@@ -99,13 +106,12 @@ class Auth with ChangeNotifier{
         "icon": 62607
       },
     ];
-    _shoppingList = [];
     await userDoc.set({
       'username': username,
       'email': email,
       'imageUrl': url == null ? "" : url,
       'collections': _collections,
-      'shopping': _shoppingList,
+      'shopping': [],
       'favorites': [],
       'custom': [],
       'bar': {
@@ -118,6 +124,9 @@ class Auth with ChangeNotifier{
 
   List<String> get shoppingList {
     return [..._shoppingList];
+  }
+  List<String> get favorites {
+    return [..._favorites];
   }
 
   Future<List<String>> get mybarIngredients async {
@@ -136,21 +145,40 @@ class Auth with ChangeNotifier{
   }
 
   void addShoppingListItem(String ing){
-    // add to firebase
-    _shoppingList.add(ing);
-    notifyListeners();
+    if(!_shoppingList.contains(ing)){
+      // add to firebase
+      _shoppingList.add(ing);
+      notifyListeners();
+    }
   }
 
   void removeShoppingListItem(String ing){
-    int index = _shoppingList.indexOf(ing);
-    _shoppingList.removeAt(index);
-    notifyListeners();
+    if(_shoppingList.contains(ing)){
+      int index = _shoppingList.indexOf(ing);
+      _shoppingList.removeAt(index);
+      notifyListeners();
+    }
   }
 
   void updateShoppingList(List<String> newList){
     _shoppingList = newList;
     print(_shoppingList);
     notifyListeners();
+  }
+
+  void addFavorites(String cocktailId){
+    if(!_favorites.contains(cocktailId)){
+      _favorites.add(cocktailId);
+      notifyListeners();
+    }
+  }
+
+  void removeFavorites(String cocktailId){
+    if(_favorites.contains(cocktailId)){
+      int index = _favorites.indexOf(cocktailId);
+      _favorites.removeAt(index);
+      notifyListeners();
+    }
   }
 
   void addIngredientToMyBar(String id){

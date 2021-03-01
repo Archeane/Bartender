@@ -4,10 +4,25 @@ import 'package:bartender/firebase_util.dart';
 import 'package:bartender/providers/auth.dart';
 import 'package:bartender/screens/shopping_list_screen.dart';
 import 'package:bartender/widgets/auth/auth_form.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:bartender/widgets/cocktail_gridview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
+
+
+class FavoritesScreen extends StatelessWidget {
+
+  const FavoritesScreen();
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<Auth>(
+      builder: (ctx, auth, _) => Scaffold(
+        appBar: AppBar(title: const Text("Favorites")),
+        body: CocktailGridView(findCocktailsByIds(auth.favorites))
+    ));
+  }
+}
 
 
 class CollectionsScreen extends StatelessWidget {
@@ -55,14 +70,7 @@ class CollectionsScreen extends StatelessWidget {
     final provider = Provider.of<Auth>(context);
     return Consumer<Auth>(
         builder: (ctx, auth, _) => Scaffold(
-      appBar: AppBar(title: Text("Collections"), 
-        actions: [
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: () => provider.logout(),
-          )
-        ]
-      ),
+      appBar: AppBar(title: Text("Collections")),
       body: provider.isLoggedIn ? 
         ListView.separated(
           itemCount: provider.collections.length,
@@ -74,7 +82,9 @@ class CollectionsScreen extends StatelessWidget {
             onTap: (){
               switch(provider.collections[idx]['name']){
                 case "shopping":
-                  Navigator.of(context).push(MaterialPageRoute(builder: (_) => ShoppingListScreen()));
+                  return Navigator.of(context).push(MaterialPageRoute(builder: (_) => ShoppingListScreen()));
+                case "favorites":
+                  return Navigator.of(context).push(MaterialPageRoute(builder: (_) => FavoritesScreen()));
               }
             },
           )

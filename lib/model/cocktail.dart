@@ -21,7 +21,7 @@ class Cocktail {
   String about;
   int alcoholContent;
   String flavor;
-  List<Ingredient> ingredients;
+  List<Ingredient> ingredients = new List<Ingredient>();
   List<String> prepSteps;
   // String baseSpirit;
   // List<dynamic> packs;
@@ -72,11 +72,22 @@ class Cocktail {
     this.id = id;
     this.name = snapshot['name'];
     this.imageUrl = snapshot['imageUrl'];
-    // this.about = snapshot.containsKey("ingredients") ? snapshot['about'] : null;
-    // this.prepSteps = snapshot.containsKey("prepSteps") ? snapshot['prepSteps'] : null;
-    // this.flavor = snapshot.containsKey("flavor") ? snapshot['flavor'] : null;
-    // this.alcoholContent = snapshot.containsKey("alcoholContent") ? snapshot['alcoholContent'] : null;
-    // this.ingredients = snapshot.containsKey("ingredients") ? snapshot['ingredients'] : null;
+    this.about = snapshot.containsKey("about") ? snapshot['about'] : null;
+    this.prepSteps = snapshot.containsKey("prepSteps") ? snapshot['prepSteps'].cast<String>() : null;
+    this.flavor = snapshot.containsKey("flavor") ? snapshot['flavor'] : null;
+    this.alcoholContent = snapshot.containsKey("alcoholContent") ? snapshot['alcoholContent'] : null;
+    final snapshotIngredients = snapshot.containsKey("ingredients") ? snapshot['ingredients'] : null;
+    if(snapshotIngredients != null){
+      snapshotIngredients.forEach((id, ing) {
+        print(ing);
+        this.ingredients.add(new Ingredient(
+          id: id,
+          name: ing['name'],
+          amount: ing['amount'],
+          unit: ing['unit'],
+        ));
+      });
+    }
   }
 
 }

@@ -94,10 +94,19 @@ Future<List<Ingredient>> fetchAllIngredients() async {
 Future<List<Cocktail>> fetchAllCocktails() async {
   List<Cocktail> cocktails = new List<Cocktail>();
   QuerySnapshot snapshot = await cocktailsCollection.get();
-  for(var doc in snapshot.docs){
-    cocktails.add(Cocktail.fromFirebaseSnapshot(doc.id, doc));
+  for(QueryDocumentSnapshot doc in snapshot.docs){
+    cocktails.add(Cocktail.fromFirebaseSnapshot(doc.id, doc.data()));
   }
   return cocktails;
+}
+
+List<Cocktail> findCocktailsByIds(List<String> ids) {
+  List<Cocktail> data = new List<Cocktail>();
+  for (String id in ids){
+    int index = allCocktails.indexWhere((doc) => doc.id == id);
+    data.add(allCocktails[index]);
+  }
+  return data;
 }
 
 // // =============== User related actions =====================
