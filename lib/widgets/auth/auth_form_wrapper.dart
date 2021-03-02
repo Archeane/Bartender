@@ -21,6 +21,7 @@ class _AuthFormWrapperState extends State<AuthFormWrapper> {
     String email,
     String password,
     String username,
+    String location,
     File image,
     bool isLogin,
     BuildContext ctx,
@@ -32,7 +33,8 @@ class _AuthFormWrapperState extends State<AuthFormWrapper> {
         // handle login success & failure
         
       } else {
-        await provider.signup(username, email, password, image);
+        await provider.signup(username, email, password, location, image);
+        
       }      
     } on PlatformException catch (err) {
       var message = 'An error occurred, please check your credentials!';

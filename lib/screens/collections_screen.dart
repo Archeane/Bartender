@@ -4,6 +4,7 @@ import 'package:bartender/firebase_util.dart';
 import 'package:bartender/providers/auth.dart';
 import 'package:bartender/screens/shopping_list_screen.dart';
 import 'package:bartender/widgets/auth/auth_form.dart';
+import 'package:bartender/widgets/auth/auth_form_wrapper.dart';
 import 'package:bartender/widgets/cocktail_gridview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,44 +27,6 @@ class FavoritesScreen extends StatelessWidget {
 
 
 class CollectionsScreen extends StatelessWidget {
-  /**
-   * TODO:
-   *  1. when user is not logged in, show authForm instead of collections
-   
-
-  // var _isInit = false;
-  // Future<dynamic> getUserInfo(currentUser, provider) async {
-  //     final user = await getUserById(currentUser.uid);
-  //     provider.setUser(
-  //         id: currentUser.uid,
-  //         name: user['username'],
-  //         email: user['email'],
-  //         collections: user['collections'],
-  //         shopping: user['shopping']
-  //     );
-  //     return provider.collections;
-  // }
-  // @override
-  // void didChangeDependencies() {
-  //   if (_isInit) {
-  //     Provider.of<User>(context);
-  //   }
-  //   _isInit = false;
-  //   super.didChangeDependencies();
-  // }
-*/
-  
-  void _submitAuthForm(
-    String email,
-    String password,
-    String username,
-    File image,
-    bool isLogin,
-    BuildContext ctx,
-  ) {
-    print("auth form submitted ============");
-    print(email);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,14 +52,7 @@ class CollectionsScreen extends StatelessWidget {
             },
           )
         )
-      : FutureBuilder(
-          future: provider.authInit(),
-          builder: (ctx, snapshot) {
-            print(provider.isLoggedIn);
-            // print(provider.collections);
-            return AuthForm(_submitAuthForm, false);
-          }
-        )
+      : AuthFormWrapper()
     ));
   }
 }

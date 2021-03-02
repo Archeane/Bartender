@@ -1,14 +1,16 @@
 import 'dart:io';
-import 'package:bartender/model/ingredient.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 
 class Auth with ChangeNotifier{
-  // String name;
-  // String email;
   String id;
+  String username;
+  String email;
+  String location;
+  String imageUrl;
   User currentUser = FirebaseAuth.instance.currentUser;
   CollectionReference collection = FirebaseFirestore.instance.collection('users');
   List<dynamic> _collections;
@@ -25,55 +27,86 @@ class Auth with ChangeNotifier{
       if(userDoc.exists){
         final userData = userDoc.data();
         id = currentUser.uid;
+        username = userData['username'];
+        email = userData['email'];
+        location = userData['location'] == '' ? null : userData['location'];
+        imageUrl = userData['imageUrl'] == '' ? null : userData['imageUrl'];
         _collections = userData['collections'];
         _shoppingList = userData['shopping'].cast<String>();
         _favorites = userData['favorites'].cast<String>();
-        
         print("resetted userDoc in authInit");
         notifyListeners();
       }
     }
   }
 
-  Future<void> signup(String username, String email, String password, File image ) async {
-    UserCredential authResult = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-    currentUser = authResult.user;
-    id = authResult.user.uid;
-    if (image != null){
-      final ref = FirebaseStorage.instance
-              .ref()
-              .child('user_image')
-              .child(authResult.user.uid + '.jpg');
+  Future<void> signup(String username, String email, String password, String location, File image ) async {
+    try {
+      UserCredential authResult = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      currentUser = authResult.user;
+      id = authResult.user.uid;
+      if (image != null){
+        final ref = FirebaseStorage.instance
+                .ref()
+                .child('user_image')
+                .child(authResult.user.uid + '.jpg');
 
-      await ref.putFile(image);
-      final url = await ref.getDownloadURL();
-      await setEmptyUser(id, email, username, url);
-    } else {
-      await setEmptyUser(id, email, username, null);
+        await ref.putFile(image);
+        final url = await ref.getDownloadURL();
+        await setEmptyUser(id, email, username, location, url);
+      } else {
+        await setEmptyUser(id, email, username, location, null);
+      }
+
+      notifyListeners();
+    } on PlatformException catch (err) {
+      var message = 'An error occurred, pelase check your credentials!';
+
+      if (err.message != null) {
+        message = err.message;
+      }
+      throw(message);
+    } catch (err) {
+      print(err);
+      throw("An error occured in the server, please try again later!");
     }
-
-    notifyListeners();
   }
 
   Future<void> login(String email, String password) async {
-    UserCredential authResult = await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-    currentUser = authResult.user;
-    id = authResult.user.uid;
-    DocumentSnapshot userDoc = await collection.doc(id).get();
-    if(userDoc.exists){
-      final userData = userDoc.data();
-      _collections = userData['collections'];
-      _shoppingList = userData['shopping'].cast<String>();
-      _favorites = userData['favorites'].cast<String>();
-      
+    try {
+      UserCredential authResult = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      currentUser = authResult.user;
+      id = authResult.user.uid;
+      DocumentSnapshot userDoc = await collection.doc(id).get();
+      if(userDoc.exists){
+        final userData = userDoc.data();
+        username = userData['username'];
+        email = userData['email'];
+        location = userData['location'] == '' ? null : userData['location'];
+        imageUrl = userData['imageUrl'] == '' ? null : userData['imageUrl'];
+        _collections = userData['collections'];
+        _shoppingList = userData['shopping'].cast<String>();
+        _favorites = userData['favorites'].cast<String>();
+        
+      }
+      notifyListeners();
+    } on PlatformException catch (err) {
+      var message = 'An error occurred, pelase check your credentials!';
+
+      if (err.message != null) {
+        message = err.message;
+      }
+      throw(message);
+    } catch (err) {
+      print(err);
+      throw("An error occured in the server, please try again later!");
     }
-    notifyListeners();
   }
 
   Future<void> logout() async {
@@ -89,7 +122,7 @@ class Auth with ChangeNotifier{
     }
   }
 
-  Future<DocumentReference> setEmptyUser(String id, String email, String username, String url) async {
+  Future<DocumentReference> setEmptyUser(String id, String email, String username, String location, String url) async {
     DocumentReference userDoc = collection.doc(id);
     
     _collections = [
@@ -110,6 +143,7 @@ class Auth with ChangeNotifier{
       'username': username,
       'email': email,
       'imageUrl': url == null ? "" : url,
+      'location': location,
       'collections': _collections,
       'shopping': [],
       'favorites': [],

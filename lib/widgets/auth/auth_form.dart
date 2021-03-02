@@ -15,6 +15,7 @@ class AuthForm extends StatefulWidget {
     String email,
     String password,
     String userName,
+    String location,
     File image,
     bool isLogin,
     BuildContext ctx,
@@ -30,6 +31,7 @@ class _AuthFormState extends State<AuthForm> {
   var _userEmail = '';
   var _userName = '';
   var _userPassword = '';
+  var _userLocation = '';
   File _userImageFile;
   final _passwordController = TextEditingController();
 
@@ -57,6 +59,7 @@ class _AuthFormState extends State<AuthForm> {
         _userEmail.trim(),
         _userPassword.trim(),
         _userName.trim(),
+        _userLocation.trim(),
         _userImageFile,
         _isLogin,
         context,
@@ -69,7 +72,7 @@ class _AuthFormState extends State<AuthForm> {
     return Center(
       child: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.only(left: 16, right: 16),
           child: Form(
             key: _formKey,
             child: Column(
@@ -142,6 +145,15 @@ class _AuthFormState extends State<AuthForm> {
                     onSaved: (value) {
                       _userPassword = value;
                     },
+                  ),
+                if(!_isLogin)
+                  TextFormField(
+                    autocorrect: true,
+                    key: ValueKey('location'),
+                    decoration: InputDecoration(labelText: 'Your location'),
+                    onSaved: (value) {
+                      _userLocation = value;
+                    }
                   ),
                 SizedBox(height: 12),
                 if (widget.isLoading) CircularProgressIndicator(),
