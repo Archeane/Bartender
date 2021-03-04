@@ -19,7 +19,7 @@ List<Ingredient> allIngredients;
 List<Cocktail> allCocktails;
 
 Future<void> init() async {
-  if(!isInit){
+  // if(!isInit){
     allIngredients = await fetchAllIngredients();
     allCocktails = await fetchAllCocktails();
     
@@ -28,9 +28,9 @@ Future<void> init() async {
     print(allCocktails);
     isInit = true;
     return;
-  }
-  print("is init if false");
-  return;
+  // }
+  // print("is init if false");
+  // return;
 }
 
 // Future<List<Ingredient>> fetchUserShoppingList() async {
@@ -45,6 +45,16 @@ Future<void> init() async {
 //   }
 //   return ingredients;
 // }
+
+Ingredient getIngredientById(String id) {
+  if(allIngredients != null){
+    int idx = allIngredients.indexWhere((ing) => ing.id == id);
+    if(idx != -1){
+      return allIngredients[idx];
+    }
+  }
+  return null;
+}
 
 Future<Ingredient> fetchIngredientById(String id) async {
   DocumentSnapshot snapshot = await ingredientsCollection.doc(id).get();

@@ -91,7 +91,7 @@ class BartenderApp extends StatelessWidget {
           if(snapshot.connectionState == ConnectionState.waiting){
             return Center(child: CircularProgressIndicator());
           }
-          
+
           return MaterialApp(
           title: 'Bartender',
           theme: ThemeData(

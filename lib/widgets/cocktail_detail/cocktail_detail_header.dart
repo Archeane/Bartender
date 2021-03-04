@@ -16,7 +16,8 @@ class CocktailDetailHeader extends StatelessWidget {
       padding: const EdgeInsets.all(5),
       child: Column(
         children: [
-          Image.network(cocktailData.imageUrl,
+          if(cocktailData.imageUrl != null)
+            Image.network(cocktailData.imageUrl,
               width: 150, height: 200, fit: BoxFit.cover),
           SizedBox(height: 10),
           Text(cocktailData.name, style: textThemes.headline3),

@@ -84,7 +84,7 @@ class IngredientsInputList extends StatelessWidget {
                             return null;
                           },
                           onSaved: (value) {
-                            _ingredientsList[index].amount = value.toString();
+                            _ingredientsList[index].amount = int.parse(value);
                           },
                         ),
                       )),

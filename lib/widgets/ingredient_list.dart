@@ -15,7 +15,7 @@ class _IngredientListState extends State<IngredientList> {
 
   @override
   Widget build(BuildContext context) {
-    final ingreidentsList = widget.ingredients;    
+    final ingreidentsList = widget.ingredients;  
     return Container(
       padding: const EdgeInsets.all(10),
       child: ListView.builder(

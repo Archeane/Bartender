@@ -90,20 +90,23 @@ class CocktailDetailScreen extends StatelessWidget {
                 ),
                 child: IngredientList(cocktailData.ingredients)
               ),
-              Container(
-                padding: const EdgeInsets.all(5), 
-                child: Text("Prepreation", style: textThemes.headline4)
-              ), 
-              CocktailDetailPrepSteps(cocktailData.prepSteps),
+              if(cocktailData.prepSteps != null)
+                Container(
+                  padding: const EdgeInsets.all(5), 
+                  child: Text("Prepreation", style: textThemes.headline4)
+                ), 
+              if(cocktailData.prepSteps != null)
+                CocktailDetailPrepSteps(cocktailData.prepSteps),
               Container(
                 padding: const EdgeInsets.only(top: 10),
                 child: Text("Origin", style: textThemes.headline4),
               ), 
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                // padding: const EdgeInsets.all(5), 
-                child: Text(cocktailData.about)
-              ), 
+              if(cocktailData.about != null)
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  // padding: const EdgeInsets.all(5), 
+                  child: Text(cocktailData.about)
+                ), 
             ],
           ),
         ),

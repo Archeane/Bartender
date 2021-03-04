@@ -80,7 +80,9 @@ class _CocktailGridViewState extends State<CocktailGridView> {
                           }),
                         );
                       },
-                      child: Image.network(_filteredList[i].imageUrl,
+                      child: _filteredList[i].imageUrl == null 
+                          ? Image(image: AssetImage('images/default_cocktail.png'))
+                          : Image.network(_filteredList[i].imageUrl,
                           fit: BoxFit.cover, filterQuality: FilterQuality.none),
                     ),
                   ),

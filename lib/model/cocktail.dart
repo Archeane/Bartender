@@ -1,6 +1,5 @@
-import 'dart:convert';
-
 import 'package:bartender/model/ingredient.dart';
+import 'package:bartender/firebase_util.dart';
 
 enum Flavor {
   Sweet,
@@ -59,33 +58,38 @@ class Cocktail {
     }
   }
   String get strength {
-    if (this.alcoholContent < 10){
-      return Strength.Light.toString().split('.').last;
-    } else if (this.alcoholContent > 10 && this.alcoholContent < 20){
-      return Strength.Medium.toString().split('.').last;
-    } else {
-      return Strength.Strong.toString().split('.').last;
+    if(this.alcoholContent != null){
+      if (this.alcoholContent < 10){
+        return Strength.Light.toString().split('.').last;
+      } else if (this.alcoholContent > 10 && this.alcoholContent < 20){
+        return Strength.Medium.toString().split('.').last;
+      } else {
+        return Strength.Strong.toString().split('.').last;
+      }
     }
+    return null;
   }
 
   Cocktail.fromFirebaseSnapshot(String id, var snapshot){
     this.id = id;
     this.name = snapshot['name'];
-    this.imageUrl = snapshot['imageUrl'];
+    this.imageUrl = snapshot.containsKey('imageUrl') ? snapshot['imageUrl'] : null;
     this.about = snapshot.containsKey("about") ? snapshot['about'] : null;
     this.prepSteps = snapshot.containsKey("prepSteps") ? snapshot['prepSteps'].cast<String>() : null;
     this.flavor = snapshot.containsKey("flavor") ? snapshot['flavor'] : null;
     this.alcoholContent = snapshot.containsKey("alcoholContent") ? snapshot['alcoholContent'] : null;
     final snapshotIngredients = snapshot.containsKey("ingredients") ? snapshot['ingredients'] : null;
     if(snapshotIngredients != null){
-      snapshotIngredients.forEach((id, ing) {
-        print(ing);
-        this.ingredients.add(new Ingredient(
-          id: id,
-          name: ing['name'],
-          amount: ing['amount'],
-          unit: ing['unit'],
-        ));
+      snapshotIngredients.forEach((id, amount) {
+        final ingredient = getIngredientById(id);
+        if(ingredient != null){
+          this.ingredients.add(new Ingredient(
+            id: id,
+            name: ingredient.name,
+            amount: amount,
+            unit: "oz",
+          ));
+        }
       });
     }
   }

@@ -4,7 +4,7 @@ class Ingredient {
   String id;
   String name;
   String unit;
-  String amount;
+  num amount;
   String type;  // base spirit, bitter, etc
   String imageUrl;
   bool _inMybar = false;
@@ -26,7 +26,7 @@ class Ingredient {
     id = "";
     name = "select ingredient..";
     unit = "oz";
-    amount = "0";
+    amount = 0;
   }
 
   Ingredient.fromFirebaseSnapshot(String id, var snapshot){
