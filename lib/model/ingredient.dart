@@ -5,14 +5,22 @@ class Ingredient {
   String name;
   String unit;
   num amount;
+  num alcoholContent;
   String type;  // base spirit, bitter, etc
   String imageUrl;
+  String about;
+  String origin;
   bool _inMybar = false;
   bool _inMyShoppingList = false; 
 
   Ingredient({
     @required this.id,
     @required this.name,
+    this.type,
+    this.imageUrl,
+    this.about,
+    this.origin,
+    this.alcoholContent,
     this.unit,
     this.amount
   });
@@ -32,7 +40,11 @@ class Ingredient {
   Ingredient.fromFirebaseSnapshot(String id, var snapshot){
     this.id = id;
     this.name = snapshot['name'];
-    // this.imageUrl = snapshot['imageUrl'];
+    this.type = snapshot.containsKey('type') ? snapshot['type'] : null;
+    this.alcoholContent = snapshot.containsKey('alcoholContent') ? snapshot['alcoholContent'] : null;
+    this.origin = snapshot.containsKey('origin') ? snapshot['origin'] : null;
+    this.about = snapshot.containsKey('about') ? snapshot['about'] : null;
+    this.imageUrl = snapshot.containsKey('imageUrl') ? snapshot['imageUrl'] : null;
   }
 
   Map<String, dynamic> toJson() {

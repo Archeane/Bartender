@@ -82,12 +82,13 @@ class Cocktail {
     if(snapshotIngredients != null){
       snapshotIngredients.forEach((id, amount) {
         final ingredient = getIngredientById(id);
+        final parts = amount.toString().split(' ');
         if(ingredient != null){
           this.ingredients.add(new Ingredient(
             id: id,
             name: ingredient.name,
-            amount: amount,
-            unit: "oz",
+            amount: double.tryParse(parts[0].trim()),
+            unit: parts[1].trim(),
           ));
         }
       });
