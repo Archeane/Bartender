@@ -1,5 +1,10 @@
 import 'package:flutter/foundation.dart';
 
+enum IngredientType {
+  Spirit,
+  Liqueur,
+}
+
 class Ingredient {
   String id;
   String name;

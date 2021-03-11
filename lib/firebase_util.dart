@@ -18,19 +18,24 @@ CollectionReference cocktailsCollection = FirebaseFirestore.instance.collection(
 List<Ingredient> allIngredients;
 List<Cocktail> allCocktails;
 
+// Map<String, List<Ingredient>> allIngredientsByType = new Map<String, List<Ingredient>>();
+
 Future<void> init() async {
-  // if(!isInit){
+  if(!isInit){
     allIngredients = await fetchAllIngredients();
     allCocktails = await fetchAllCocktails();
+
+    // allIngredientsByType['spirit'] = allIngredients.where((ing) => ing.type != null && ing.type.toLowerCase() == "spirit");
+    // allIngredientsByType['liqueur'] = allIngredients.where((ing) => ing.type != null && ing.type.toLowerCase() == "liqueur");
     
     print("loaded allingredients and all cocktails in init()");
     print(allIngredients);
     print(allCocktails);
     isInit = true;
     return;
-  // }
-  // print("is init if false");
-  // return;
+  }
+  print("is init if false in firebase_util");
+  return;
 }
 
 // Future<List<Ingredient>> fetchUserShoppingList() async {

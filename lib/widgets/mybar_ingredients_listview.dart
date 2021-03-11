@@ -85,7 +85,6 @@ class _MyBarIngredientsListViewState extends State<MyBarIngredientsListView> {
         SearchBar(
           onSearch: _searchCocktails,
           onReset: _resetSearch,
-          onSort: _sortCocktails,
           minimumChars: 2,
         ),
         loading

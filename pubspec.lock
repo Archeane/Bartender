@@ -212,6 +212,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "7.1.8"
+  fraction:
+    dependency: "direct main"
+    description:
+      name: fraction
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.1"
+  grouped_buttons:
+    dependency: "direct main"
+    description:
+      name: grouped_buttons
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.4"
   http:
     dependency: transitive
     description:

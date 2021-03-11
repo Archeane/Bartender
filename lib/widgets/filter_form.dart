@@ -1,10 +1,14 @@
+import 'package:bartender/model/cocktail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:grouped_buttons/grouped_buttons.dart';
+
 
 class FilterForm extends StatefulWidget {
-  final void Function() sort;
+  final void Function(bool strength, bool name) sort;
+  final void Function(List<String> strengths) filter;
 
-  FilterForm(this.sort);
+  FilterForm(this.sort, this.filter);
 
   @override
   _FilterFormState createState() => _FilterFormState();
@@ -21,27 +25,26 @@ enum FilterMethod { // multi selects
 }
 
 class _FilterFormState extends State<FilterForm> {
-  final _titleController = TextEditingController();
-  final _amountController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+  var _sortStrength = false;
+  var _sortName = false;
+  List<String> _checkedStrength = [];
   
-
   void _trySubmit() {
-    final isValid = _formKey.currentState.validate();
     FocusScope.of(context).unfocus();
-
-    if (isValid) {
-      _formKey.currentState.save();
-      widget.sort();
+    widget.sort(_sortStrength, _sortName);
+    if(_checkedStrength.length > 0){
+      widget.filter(_checkedStrength);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    // final textThemes = Theme.of(context).textTheme;
+    // final allSpiritIngredients = allIngredients.where((ing) => ing.type != null && ing.type.toLowerCase() == "spirit");
+    // print(allSpiritIngredients.length);
     return SingleChildScrollView(
-      child: Card(
-        elevation: 5,
-        child: Container(
+      child: Container(
+          height: 350,
           padding: EdgeInsets.only(
             top: 10,
             left: 10,
@@ -49,30 +52,56 @@ class _FilterFormState extends State<FilterForm> {
             bottom: MediaQuery.of(context).viewInsets.bottom + 10,
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              TextField(
-                decoration: InputDecoration(labelText: 'Title'),
-                controller: _titleController,
-    
+              // sorts: strength, name
+              Text("Sort by"),
+              CheckboxListTile(
+                title: const Text("Strength"),
+                value: _sortStrength,
+                onChanged: (bool val) => setState(() => _sortStrength = val),
+                controlAffinity: ListTileControlAffinity.platform,  //  <-- leading Checkbox
               ),
-              TextField(
-                decoration: InputDecoration(labelText: 'Amount'),
-                controller: _amountController,
-                keyboardType: TextInputType.number,
-                
+              CheckboxListTile(
+                title: Text("Name"),
+                value: _sortName,
+                onChanged: (bool val) => setState(() => _sortName = val),
+                controlAffinity: ListTileControlAffinity.platform,  //  <-- leading Checkbox
               ),
-              
+              // filter: strength, spirit, liqueur
+              Text("Strength"),
+              CheckboxGroup(
+                orientation: GroupedButtonsOrientation.HORIZONTAL,
+                labels: Strength.values.map((Strength strength) => strength.toString().split(".").last).toList(),
+                onSelected: (List selected) => setState((){_checkedStrength = selected;}),
+                checked: _checkedStrength,
+                itemBuilder: (Checkbox cb, Text txt, int i){
+                  return Row(
+                    children: [cb,txt],
+                  );
+                },
+              ),
+              // Text("Ingredient"),
+              // Column(children:[CheckboxGroup(
+              //   orientation: GroupedButtonsOrientation.HORIZONTAL,
+              //   labels: allSpiritIngredients.map((Ingredient ing) => ing.name.toString()).toList(),
+              //   onSelected: (List selected) => setState((){_checkedIngredient = selected;}),
+              //   checked: _checkedIngredient,
+              //   itemBuilder: (Checkbox cb, Text txt, int i){
+              //     return Row(
+              //       children: [cb,txt],
+              //     );
+              //   },
+              // )]),
               RaisedButton(
-                child: Text('Add Transaction'),
+                child: const Text('Apply Filter'),
                 color: Theme.of(context).primaryColor,
                 textColor: Theme.of(context).textTheme.button.color,
-                onPressed: widget.sort,
+                onPressed: _trySubmit
               ),
             ],
           ),
         ),
-      ),
     );
   }
 }

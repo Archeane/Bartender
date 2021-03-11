@@ -17,7 +17,7 @@ class CocktailGridView extends StatefulWidget {
 }
 
 class _CocktailGridViewState extends State<CocktailGridView> {
-  List<Cocktail> _cocktailsList;
+  List<Cocktail> _cocktailsList;  // immutable const
   List<Cocktail> _filteredList;
 
   bool loading = false;
@@ -45,11 +45,22 @@ class _CocktailGridViewState extends State<CocktailGridView> {
     return results;
   }
 
-  void _sortCocktails(){
-    _filteredList.sort((a,b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+  void _sortCocktails(bool strength, bool name){
+    if(name){
+      _filteredList.sort((a,b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+    }
+    if(strength) {
+      _filteredList.sort((a,b) => a.alcoholContent.compareTo(b.alcoholContent));
+    }
     setState(() => _filteredList = _filteredList);
   }
 
+  void _filterCocktails(List<String> strength){
+    final filteredCocktails = _cocktailsList.where((cocktail) => strength.contains(cocktail.strength)).toList();
+    final filtered = _filteredList.where((cocktail) => filteredCocktails.contains(cocktail.name));
+
+    setState(() => _filteredList = filtered);
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -59,6 +70,7 @@ class _CocktailGridViewState extends State<CocktailGridView> {
           onSearch: _searchCocktails,
           onReset: _resetSearch,
           onSort: _sortCocktails,
+          onFilter: _filterCocktails,
           minimumChars: 2,
         ),
         loading
@@ -80,10 +92,13 @@ class _CocktailGridViewState extends State<CocktailGridView> {
                           }),
                         );
                       },
-                      child: _filteredList[i].imageUrl == null 
+                      child: GridTile(
+                        child: _filteredList[i].imageUrl == null 
                           ? Image(image: AssetImage('images/default_cocktail.png'))
                           : Image.network(_filteredList[i].imageUrl,
                           fit: BoxFit.cover, filterQuality: FilterQuality.none),
+                        footer: Text(_filteredList[i].name)
+                      )
                     ),
                   ),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:fraction/fraction.dart';
 
 class IngredientList extends StatefulWidget {
   final ingredients;
@@ -25,7 +26,7 @@ class _IngredientListState extends State<IngredientList> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(ingreidentsList[idx].name),
-              Text("${ingreidentsList[idx].amount.toString()} ${ingreidentsList[idx].unit}"),
+              Text("${Fraction.fromDouble(ingreidentsList[idx].amount).toString()} ${ingreidentsList[idx].unit}"),
             ],
           );
         },           

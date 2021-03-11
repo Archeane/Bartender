@@ -36,7 +36,6 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(allCocktails);
     return Scaffold(
       appBar: AppBar(title: const Text("Discover Screen")),
       body: CocktailGridView(allCocktails));

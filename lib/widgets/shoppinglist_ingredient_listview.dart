@@ -68,7 +68,6 @@ class _ShoppingListIngredientListViewState extends State<ShoppingListIngredientL
         SearchBar(
           onSearch: _searchCocktails,
           onReset: _resetSearch,
-          onSort: _sortCocktails,
           minimumChars: 2,
         ),
         loading

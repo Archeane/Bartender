@@ -1,6 +1,7 @@
 import 'package:bartender/model/ingredient.dart';
 import 'package:bartender/firebase_util.dart';
 
+
 enum Flavor {
   Sweet,
   Sour,
