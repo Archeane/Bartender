@@ -1,17 +1,19 @@
 import 'dart:async';
 
+import 'package:bartender/providers/auth.dart';
 import 'package:bartender/screens/mybar_cocktails_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bartender/widgets/searchbar.dart';
 import 'package:bartender/model/ingredient.dart';
+import 'package:provider/provider.dart';
 
 class MyBarIngredientsListView extends StatefulWidget {
   final List<Ingredient> ingredientList;
-  final void Function(String) addIngredientFunc;
-  final void Function(String) removeIngredientFunc;
+  // final void Function(String) addIngredientFunc;
+  // final void Function(String) removeIngredientFunc;
 
-  MyBarIngredientsListView(this.ingredientList, this.addIngredientFunc, this.removeIngredientFunc);
+  MyBarIngredientsListView(this.ingredientList);
 
   @override
   _MyBarIngredientsListViewState createState() => _MyBarIngredientsListViewState();
@@ -23,7 +25,7 @@ class _MyBarIngredientsListViewState extends State<MyBarIngredientsListView> {
 
   bool loading = false;
   bool _cocktailsLoading = false;
-  int _numberCocktails = 10;
+  int _numberCocktails = 0;
 
   @override
   void initState() {
@@ -53,33 +55,33 @@ class _MyBarIngredientsListViewState extends State<MyBarIngredientsListView> {
     setState(() => _filteredList = _filteredList);
   }
 
-  void addIngredient(String id, int index) async {
+  void addIngredient(String id, int index, Auth authProvider) async {
     //change state
     setState((){
        _filteredList[index].inMyBar = true;
        _cocktailsLoading = true;
     });
 
-    widget.addIngredientFunc(id);
-
     // call calculate cocktails
-    await Future.delayed(Duration(seconds: 1), () => print('done'));
-    List<String> cocktailIds = ["1CBFexv7aMXxuTh79Joa", "7V2rGzoqQlaX1HU2noKY", "AEpPcl32Hp4m1yEnEB5a", "vyTwCSGtppp4Q4es9JCV"];
+    // await Future.delayed(Duration(seconds: 1), () => print('done'));
+    // List<String> cocktailIds = ["1CBFexv7aMXxuTh79Joa", "7V2rGzoqQlaX1HU2noKY", "AEpPcl32Hp4m1yEnEB5a", "vyTwCSGtppp4Q4es9JCV"];
+    authProvider.addIngredientToMyBar(id);
     
     setState((){
       _cocktailsLoading = false;
-      _numberCocktails = cocktailIds.length;
+      _numberCocktails = authProvider.mybarCocktails.length;
     });
 
   }
 
-  void removeIngredient(String id, int index){
+  void removeIngredient(String id, int index, Auth authProvider){
     setState(() => _filteredList[index].inMyBar = false);
-    widget.removeIngredientFunc(id);
+    authProvider.removeIngredientFromMyBar(id);
   }
   
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<Auth>(context);
     return Column(
       children: [
         SearchBar(
@@ -100,21 +102,21 @@ class _MyBarIngredientsListViewState extends State<MyBarIngredientsListView> {
                         ? null
                         : Image.network(_filteredList[i].imageUrl, fit: BoxFit.cover, filterQuality: FilterQuality.none),
                       title: Text(_filteredList[i].name),
-                      trailing: _filteredList[i].inMyBar
+                      trailing: authProvider.mybarIngredients.contains(_filteredList[i].id)
                         ? GestureDetector(
                           child: Icon(Icons.check, color: Colors.greenAccent),
-                          onTap: () => removeIngredient(_filteredList[i].id, i),
+                          onTap: () => removeIngredient(_filteredList[i].id, i, authProvider),
                         )
                         : GestureDetector(
                           child: Icon(CupertinoIcons.add),
-                          onTap: () => addIngredient(_filteredList[i].id, i),
+                          onTap: () => addIngredient(_filteredList[i].id, i, authProvider),
                         ),
                     ),
                     onTap: () {},
                   ),
                 ),
               ),
-          RaisedButton(
+          ElevatedButton(
             child: Container(
               width: 200,
               child: Row(children:[
@@ -125,9 +127,11 @@ class _MyBarIngredientsListViewState extends State<MyBarIngredientsListView> {
                 const Text(" Cocktails")
               ]),
             ),
-            onPressed: (){
+            onPressed: _numberCocktails == 0 
+              ? null 
+              : (){
               Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => MyBarCocktailScreen(this._filteredList))
+                MaterialPageRoute(builder: (_) => MyBarCocktailScreen())
               );
             },
           ),

@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:bartender/firebase_util.dart';
+import 'package:bartender/model/cocktail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
@@ -17,6 +19,10 @@ class Auth with ChangeNotifier{
   List<String> _shoppingList;
   List<String> _favorites;
 
+  Set<String> _mybarIngredients;
+  Set<String> _mybarCocktails;
+  Map<String, List<String>> _missing1Ing = new Map<String, List<String>>();
+
   get isLoggedIn {
     return currentUser != null && _collections != null && _shoppingList != null;
   }
@@ -34,6 +40,10 @@ class Auth with ChangeNotifier{
         _collections = userData['collections'];
         _shoppingList = userData['shopping'].cast<String>();
         _favorites = userData['favorites'].cast<String>();
+        List<String> ingredientsData = userData['bar']['ingredients'].cast<String>();
+        final cocktailsData = userData['bar']['cocktails'].cast<String>();
+        _mybarIngredients = ingredientsData.toSet();
+        _mybarCocktails = cocktailsData.toSet();
         print("resetted userDoc in authInit");
         notifyListeners();
       }
@@ -93,7 +103,10 @@ class Auth with ChangeNotifier{
         _collections = userData['collections'];
         _shoppingList = userData['shopping'].cast<String>();
         _favorites = userData['favorites'].cast<String>();
-        
+        List<String> ingredientsData = userData['bar']['ingredients'].cast<String>();
+        final cocktailsData = userData['bar']['cocktails'].cast<String>();
+        _mybarIngredients = ingredientsData.toSet();
+        _mybarCocktails = cocktailsData.toSet();
       }
       notifyListeners();
     } on PlatformException catch (err) {
@@ -162,17 +175,20 @@ class Auth with ChangeNotifier{
   List<String> get favorites {
     return [..._favorites];
   }
+  List<String> get mybarCocktails { return [..._mybarCocktails]; }
+  List<String> get mybarIngredients { return [..._mybarIngredients]; }
+  Map<String, List<String>> get missing1Ing {return {..._missing1Ing}; }
 
-  Future<List<String>> get mybarIngredients async {
-    if (currentUser != null){
-      DocumentSnapshot userDoc = await collection.doc(currentUser.uid).get();
-      if(userDoc.exists){
-        final userData = userDoc.data();
-        return userData['bar']['ingredients'].cast<String>();
-      }
-    }
-    return null;
-  }
+  // Future<List<String>> get mybarIngredients async {
+  //   if (currentUser != null){
+  //     DocumentSnapshot userDoc = await collection.doc(currentUser.uid).get();
+  //     if(userDoc.exists){
+  //       final userData = userDoc.data();
+  //       return userData['bar']['ingredients'].cast<String>();
+  //     }
+  //   }
+  //   return null;
+  // }
 
   List<dynamic> get collections {
     return [..._collections];
@@ -216,7 +232,32 @@ class Auth with ChangeNotifier{
   }
 
   void addIngredientToMyBar(String id){
+    _mybarIngredients.add(id);
+    if(_missing1Ing.containsKey(id)){
+      _mybarCocktails.addAll(_missing1Ing[id]);
+      _missing1Ing.remove(id);
+      notifyListeners();
+      return;
+    }
+    for(Cocktail cocktail in allCocktails){
+      // check if added ingredient is in missing1Ing
+      if(!_mybarCocktails.contains(cocktail.id)){
+        final common = _mybarIngredients.intersection(cocktail.ingredientsIds);
+        if(common.length == cocktail.ingredientsIds.length){
+          _mybarCocktails.add(cocktail.id);
+        } else if(common.length == cocktail.ingredientsIds.length - 1){
+          String missingIng = cocktail.ingredientsIds.difference(common).first;
+          if(_missing1Ing.containsKey(missingIng)){
+            _missing1Ing[missingIng].add(cocktail.id);
+          } else{
+            _missing1Ing[missingIng] = <String>[cocktail.id];
+          }
+        }
+      }
+    }
+    notifyListeners();
     // add to firebase
+    return;
   }
   void removeIngredientFromMyBar(String id){
     // remove from firebase

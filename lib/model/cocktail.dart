@@ -22,6 +22,7 @@ class Cocktail {
   int alcoholContent;
   String flavor;
   List<Ingredient> ingredients = new List<Ingredient>();
+  Set<String> ingredientsIds = new Set<String>();
   List<String> prepSteps;
   // String baseSpirit;
   // List<dynamic> packs;
@@ -82,6 +83,7 @@ class Cocktail {
     final snapshotIngredients = snapshot.containsKey("ingredients") ? snapshot['ingredients'] : null;
     if(snapshotIngredients != null){
       snapshotIngredients.forEach((id, amount) {
+        this.ingredientsIds.add(id);
         final ingredient = getIngredientById(id);
         final parts = amount.toString().split(' ');
         if(ingredient != null){

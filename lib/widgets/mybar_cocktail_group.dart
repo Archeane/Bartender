@@ -5,14 +5,14 @@ import 'package:carousel_slider/carousel_slider.dart';
 
 // ignore: must_be_immutable
 class MyBarCocktailGroup extends StatelessWidget {
-  final List<String> cocktails;
+  final List<Cocktail> cocktails;
   bool enlargeCenter = false;
-  final String ingredient;
+  // final String ingredient;
 
   MyBarCocktailGroup({
     @required this.cocktails, 
     this.enlargeCenter = false,
-    this.ingredient
+    // this.ingredient
   });
 
   @override
@@ -22,14 +22,14 @@ class MyBarCocktailGroup extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(5),
       child: Column(children: [
-        if(ingredient != null)
-          Container(child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text("$ingredient, ${cocktails.length} cocktails", style: textThemes.bodyText1),
-          ),),
+        // if(ingredient != null)
+        //   Container(child: Align(
+        //     alignment: Alignment.centerLeft,
+        //     child: Text("$ingredient, ${cocktails.length} cocktails", style: textThemes.bodyText1),
+        //   ),),
         CarouselSlider(
           options: CarouselOptions(height: 240.0, viewportFraction: 0.5, enlargeCenterPage: enlargeCenter),
-          items: cocktails.map((i) {
+          items: cocktails.map((cocktail) {
             return Builder(
               builder: (BuildContext context) {
                 return Container(
@@ -38,7 +38,7 @@ class MyBarCocktailGroup extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Colors.amber
                   ),
-                  child: Text('text $i', style: TextStyle(fontSize: 16.0),)
+                  child: Text(cocktail.name, style: TextStyle(fontSize: 16.0),)
                 );
               },
             );
