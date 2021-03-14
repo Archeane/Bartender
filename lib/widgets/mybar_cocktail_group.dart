@@ -1,4 +1,5 @@
 import 'package:bartender/model/cocktail.dart';
+import 'package:bartender/widgets/cocktail_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -32,14 +33,7 @@ class MyBarCocktailGroup extends StatelessWidget {
           items: cocktails.map((cocktail) {
             return Builder(
               builder: (BuildContext context) {
-                return Container(
-                  width: 160,
-                  margin: EdgeInsets.symmetric(horizontal: 5.0),
-                  decoration: BoxDecoration(
-                    color: Colors.amber
-                  ),
-                  child: Text(cocktail.name, style: TextStyle(fontSize: 16.0),)
-                );
+                return CocktailCard(cocktail);
               },
             );
           }).toList(),

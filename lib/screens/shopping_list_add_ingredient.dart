@@ -43,7 +43,7 @@ class _ShoppingListAddIngredientScreenState extends State<ShoppingListAddIngredi
     final provider = Provider.of<Auth>(context); 
     return Scaffold(
       appBar: AppBar(actions: [
-        FlatButton(
+        TextButton(
           child: const Text("Done"),
           onPressed: () {
             provider.updateShoppingList(newList);

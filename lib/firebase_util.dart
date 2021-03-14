@@ -1,9 +1,7 @@
 
 import 'package:bartender/model/cocktail.dart';
-import 'package:bartender/providers/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:provider/provider.dart';
+
 import './model/ingredient.dart';
 
 
@@ -103,6 +101,7 @@ Future<List<Ingredient>> fetchAllIngredients() async {
   for(var doc in snapshot.docs){
       ingredients.add(Ingredient.fromFirebaseSnapshot(doc.id, doc.data()));
   }
+  ingredients.sort((a,b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
   return ingredients;
 }
 

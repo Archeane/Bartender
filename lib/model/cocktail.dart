@@ -19,9 +19,9 @@ class Cocktail {
   String imageUrl;
   String name;
   String about;
-  int alcoholContent;
+  int alcoholContent = 0;
   String flavor;
-  List<Ingredient> ingredients = new List<Ingredient>();
+  List<Ingredient> ingredients = <Ingredient>[];
   Set<String> ingredientsIds = new Set<String>();
   List<String> prepSteps;
   // String baseSpirit;
@@ -79,8 +79,9 @@ class Cocktail {
     this.about = snapshot.containsKey("about") ? snapshot['about'] : null;
     this.prepSteps = snapshot.containsKey("prepSteps") ? snapshot['prepSteps'].cast<String>() : null;
     this.flavor = snapshot.containsKey("flavor") ? snapshot['flavor'] : null;
-    this.alcoholContent = snapshot.containsKey("alcoholContent") ? snapshot['alcoholContent'] : null;
+    this.alcoholContent = snapshot.containsKey("alcoholContent") ? snapshot['alcoholContent'] : 0;
     final snapshotIngredients = snapshot.containsKey("ingredients") ? snapshot['ingredients'] : null;
+  
     if(snapshotIngredients != null){
       snapshotIngredients.forEach((id, amount) {
         this.ingredientsIds.add(id);

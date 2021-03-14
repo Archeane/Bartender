@@ -15,6 +15,7 @@ class SearchBarStyle {
 }
 
 class SearchBar extends StatefulWidget {
+  final bool isIngredient;
   final int minimumChars;
   final Future<dynamic> Function(String text) onSearch;
   final void Function() onReset;
@@ -27,6 +28,7 @@ class SearchBar extends StatefulWidget {
     this.onSort,
     this.onFilter,
     this.minimumChars = 3,
+    this.isIngredient = false,
   });
 
   @override
@@ -79,7 +81,7 @@ class _SearchBarState extends State<SearchBar> {
         return GestureDetector(
           onTap: () {},
           behavior: HitTestBehavior.opaque,
-          child: FilterForm(widget.onSort, widget.onFilter),
+          child: FilterForm(widget.onSort, widget.onFilter, widget.isIngredient),
         );
       },
     );

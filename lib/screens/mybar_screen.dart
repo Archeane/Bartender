@@ -17,7 +17,6 @@ class _MyBarScreenState extends State<MyBarScreen> {
   //   List<String> _mybarIngredients = authProvider.mybarIngredients;
   //   for(var ingredientId in _mybarIngredients){ 
   //     int index = _allIngredients.indexWhere((item) => item.id == ingredientId);
-  //     _allIngredients[index].inMyBar = true;
   //   }
   //   return _allIngredients;
   // }

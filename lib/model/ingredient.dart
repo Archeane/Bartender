@@ -1,8 +1,17 @@
 import 'package:flutter/foundation.dart';
 
 enum IngredientType {
-  Spirit,
-  Liqueur,
+  spirit,
+  liqueur,
+  bitter,
+  wine,
+  beverage,
+  syrup,
+  fruit,
+  juice,
+  basic,
+  dairy,
+  condiment,
 }
 
 class Ingredient {
@@ -11,11 +20,10 @@ class Ingredient {
   String unit;
   num amount;
   num alcoholContent;
-  String type;  // base spirit, bitter, etc
+  IngredientType type;  
   String imageUrl;
   String about;
   String origin;
-  bool _inMybar = false;
   bool _inMyShoppingList = false; 
 
   Ingredient({
@@ -45,7 +53,9 @@ class Ingredient {
   Ingredient.fromFirebaseSnapshot(String id, var snapshot){
     this.id = id;
     this.name = snapshot['name'];
-    this.type = snapshot.containsKey('type') ? snapshot['type'] : null;
+    if(snapshot.containsKey('type')){
+      this.type = IngredientType.values.firstWhere((e) => describeEnum(e) == snapshot['type']); //, orElse: () => null);
+    }
     this.alcoholContent = snapshot.containsKey('alcoholContent') ? snapshot['alcoholContent'] : null;
     this.origin = snapshot.containsKey('origin') ? snapshot['origin'] : null;
     this.about = snapshot.containsKey('about') ? snapshot['about'] : null;
@@ -63,8 +73,6 @@ class Ingredient {
     return data;
   }
 
-  get inMyBar => _inMybar;
-  set inMyBar(bool val) => _inMybar = val;
   get inMyShoppingList => _inMyShoppingList;
   set inMyShoppingList(bool val) => _inMyShoppingList = val;
 

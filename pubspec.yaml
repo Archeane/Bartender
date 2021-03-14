@@ -37,7 +37,6 @@ dependencies:
   provider: ^4.3.3
   fraction: ^1.0.0
   grouped_buttons: ^1.0.4
-  tuple: ^1.0.0
   
 dev_dependencies:
   flutter_test:

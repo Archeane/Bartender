@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:bartender/model/cocktail.dart';
 import 'package:bartender/model/ingredient.dart';
 import 'package:bartender/providers/auth.dart';
@@ -5,30 +7,39 @@ import 'package:bartender/widgets/mybar_cocktail_group.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
-import 'package:tuple/tuple.dart';
 
 
 import '../firebase_util.dart';
 
 
-class MyBarCocktailScreen extends StatelessWidget {
+class MyBarCocktailScreen extends StatefulWidget {
   const MyBarCocktailScreen();
 
-  Tuple2<List<Cocktail>, Map<Ingredient, int>> _getCocktails(Auth authProvider) {
+  @override
+  _MyBarCocktailScreenState createState() => _MyBarCocktailScreenState();
+}
+
+class _MyBarCocktailScreenState extends State<MyBarCocktailScreen> {
+  SplayTreeMap<Ingredient, int> missing1Ing;
+
+  List<Cocktail> _getCocktails(Auth authProvider) {
     List<Cocktail> availbleCocktails = <Cocktail>[];
     List<String> cocktails = authProvider.mybarCocktails;
-    print(cocktails);
     for(String id in cocktails){
       int index = allCocktails.indexWhere((cocktail) => cocktail.id == id);
       availbleCocktails.add(allCocktails[index]);
-
     }
     Map<Ingredient, int> result = {};
     for(String key in authProvider.missing1Ing.keys){
-      Ingredient ing = getIngredientById(key);
-      result[ing] = authProvider.missing1Ing[key].length;
+      if(!authProvider.inShoppingList(key)){
+        Ingredient ing = getIngredientById(key);
+        result[ing] = authProvider.missing1Ing[key].length;
+      }
     }
-    return Tuple2<List<Cocktail>, Map<Ingredient, int>>(availbleCocktails, result);
+    final sorted = SplayTreeMap<Ingredient, int>.from(
+      result, (key1, key2) => result[key2].compareTo(result[key1]));
+    setState(() => missing1Ing = sorted);
+    return availbleCocktails;
     // Map<String, List<Cocktail>> result = {};
     // for(String key in authProvider.missing1Ing.keys){
     //   if(!result.containsKey(key)){
@@ -42,31 +53,40 @@ class MyBarCocktailScreen extends StatelessWidget {
     // return Tuple2<List<Cocktail>, Map<String, List<Cocktail>>>(availbleCocktails, result);
   }
 
-
   @override
   Widget build(BuildContext context) {
     Auth authProvider = Provider.of<Auth>(context);
-    final data = _getCocktails(authProvider);
-    Map<Ingredient, int> missing1Ing = data.item2;
+    final cocktails = _getCocktails(authProvider);
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(title: const Text("Availble cocktails")),
       body: SingleChildScrollView(
             child: Column(children: [
-              MyBarCocktailGroup(cocktails: data.item1, enlargeCenter: true),
-              Divider(),
+              Container(
+                height: 250,
+                child: MyBarCocktailGroup(cocktails: cocktails, enlargeCenter: true)
+              ),
+              Divider(height: 20,),
               Container(
                 child: ListView.builder(
                   itemCount: missing1Ing.length,
                   itemBuilder: (context, index) {
                     Ingredient ing = missing1Ing.keys.elementAt(index);
                     return ListTile(
-                      title: Text(ing.name),
-                      subtitle: Text(missing1Ing[ing].toString()),
-                      trailing: ElevatedButton.icon(label: const Text("Add to shopping list"), icon: Icon(Icons.add), onPressed: (){},),
+                      title: Text(ing.name, style: TextStyle(color: Colors.black, fontSize: 16)),
+                      subtitle: Text("${missing1Ing[ing].toString()} cocktails", style: TextStyle(color: Colors.black54, fontSize: 14)),
+                      trailing: ElevatedButton.icon(
+                        label: const Text("Shopping List", style: TextStyle(fontSize: 12)), 
+                        icon: Icon(Icons.add, size: 18), 
+                        onPressed: (){
+                          authProvider.addShoppingListItem(ing.id);
+                          missing1Ing.remove(ing);
+                        },
+                      ),
                     );
                   }
                 ),
-                height: 500,
+                height: height - 300,
               )
               // Expanded(
               //   child: ListView.builder(

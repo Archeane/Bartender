@@ -1,4 +1,5 @@
 import 'package:bartender/screens/community_cocktail_detail_screen.dart';
+import 'package:bartender/widgets/cocktail_card.dart';
 import 'package:bartender/widgets/searchbar.dart';
 
 import 'package:flutter/material.dart';
@@ -57,9 +58,9 @@ class _CocktailGridViewState extends State<CocktailGridView> {
 
   void _filterCocktails(List<String> strength){
     final filteredCocktails = _cocktailsList.where((cocktail) => strength.contains(cocktail.strength)).toList();
-    final filtered = _filteredList.where((cocktail) => filteredCocktails.contains(cocktail.name));
+    // final filtered = _filteredList.where((cocktail) => filteredCocktails.contains(cocktail.name));
 
-    setState(() => _filteredList = filtered);
+    setState(() => _filteredList = filteredCocktails);
   }
   
   @override
@@ -80,30 +81,11 @@ class _CocktailGridViewState extends State<CocktailGridView> {
                   padding: const EdgeInsets.all(10.0),
                   itemCount: _filteredList.length,
                   itemBuilder: (ctx, i) => GridTile(
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_) {
-                            if(_filteredList[i] is CommunityCocktail){
-                              return CommunityCocktailDetailScreen(_filteredList[i]);
-                            }else{
-                              return CocktailDetailScreen(_filteredList[i]);
-                            }
-                          }),
-                        );
-                      },
-                      child: GridTile(
-                        child: _filteredList[i].imageUrl == null 
-                          ? Image(image: AssetImage('images/default_cocktail.png'))
-                          : Image.network(_filteredList[i].imageUrl,
-                          fit: BoxFit.cover, filterQuality: FilterQuality.none),
-                        footer: Text(_filteredList[i].name)
-                      )
-                    ),
+                    child: CocktailCard(_filteredList[i])
                   ),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    childAspectRatio: 4 / 3,
+                    // childAspectRatio: 4 / 3,
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
                   ),

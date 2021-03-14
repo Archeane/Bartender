@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bartender/providers/auth.dart';
 import 'package:bartender/screens/mybar_cocktails_screen.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:bartender/widgets/searchbar.dart';
 import 'package:bartender/model/ingredient.dart';
@@ -50,15 +51,9 @@ class _MyBarIngredientsListViewState extends State<MyBarIngredientsListView> {
     return results;
   }
 
-  void _sortCocktails(){
-    _filteredList.sort((a,b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
-    setState(() => _filteredList = _filteredList);
-  }
-
   void addIngredient(String id, int index, Auth authProvider) async {
     //change state
     setState((){
-       _filteredList[index].inMyBar = true;
        _cocktailsLoading = true;
     });
 
@@ -75,8 +70,13 @@ class _MyBarIngredientsListViewState extends State<MyBarIngredientsListView> {
   }
 
   void removeIngredient(String id, int index, Auth authProvider){
-    setState(() => _filteredList[index].inMyBar = false);
     authProvider.removeIngredientFromMyBar(id);
+  }
+
+  void _filterIngredients(List<String> types){
+    List<IngredientType> filteredTypes = types.map((type) => IngredientType.values.firstWhere((e) => describeEnum(e) == type)).toList();
+    final filteredCocktails = _cocktailsList.where((ingredient) => filteredTypes.contains(ingredient.type)).toList();
+    setState(() => _filteredList = filteredCocktails);
   }
   
   @override
@@ -88,6 +88,8 @@ class _MyBarIngredientsListViewState extends State<MyBarIngredientsListView> {
           onSearch: _searchCocktails,
           onReset: _resetSearch,
           minimumChars: 2,
+          onFilter: _filterIngredients,
+          isIngredient: true,
         ),
         loading
             ? Center(child: CircularProgressIndicator())

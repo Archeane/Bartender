@@ -179,6 +179,10 @@ class Auth with ChangeNotifier{
   List<String> get mybarIngredients { return [..._mybarIngredients]; }
   Map<String, List<String>> get missing1Ing {return {..._missing1Ing}; }
 
+  bool inShoppingList(String ingId){
+    return _shoppingList.contains(ingId);
+  }
+
   // Future<List<String>> get mybarIngredients async {
   //   if (currentUser != null){
   //     DocumentSnapshot userDoc = await collection.doc(currentUser.uid).get();
@@ -247,7 +251,7 @@ class Auth with ChangeNotifier{
           _mybarCocktails.add(cocktail.id);
         } else if(common.length == cocktail.ingredientsIds.length - 1){
           String missingIng = cocktail.ingredientsIds.difference(common).first;
-          if(_missing1Ing.containsKey(missingIng)){
+          if(_missing1Ing.containsKey(missingIng) && !_missing1Ing[missingIng].contains(cocktail.id)){
             _missing1Ing[missingIng].add(cocktail.id);
           } else{
             _missing1Ing[missingIng] = <String>[cocktail.id];
