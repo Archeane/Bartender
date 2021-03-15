@@ -17,7 +17,7 @@ class CommunityCocktailDetailScreen extends StatelessWidget {
     final textThemes = Theme.of(context).textTheme;
 
     return Scaffold(
-      appBar: AppBar(title: Text("Cocktail Detail")),
+      appBar: AppBar(title: Text("Custom Receipe")),
       body: 
       SingleChildScrollView( // make center take up as much height as needed by children
         // child: Center(
@@ -25,6 +25,7 @@ class CommunityCocktailDetailScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               CocktailDetailHeader(cocktailData),
+              // TODO: created by author
               Container(
                 height: 100,
                 width: screenWidth / 2,
@@ -33,11 +34,13 @@ class CommunityCocktailDetailScreen extends StatelessWidget {
                 ),
                 child: IngredientList(cocktailData.ingredients)
               ),
-              Container(
-                padding: const EdgeInsets.all(5), 
-                child: Text("Prepreation", style: textThemes.headline4)
-              ), 
-              CocktailDetailPrepSteps(cocktailData.prepSteps),
+              if(cocktailData.prepSteps != null)
+                Container(
+                  padding: const EdgeInsets.all(5), 
+                  child: Text("Prepreation", style: textThemes.headline4)
+                ), 
+              if(cocktailData.prepSteps != null)
+                CocktailDetailPrepSteps(cocktailData.prepSteps),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 // padding: const EdgeInsets.all(5), 

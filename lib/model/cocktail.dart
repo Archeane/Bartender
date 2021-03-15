@@ -106,8 +106,10 @@ class CommunityCocktail extends Cocktail{
   String name;
   String originalCocktailId;
   String notes;
+  String authorName;
+  String authorId;
   bool isPublic;
-  List<Ingredient> ingredients;
+  List<Ingredient> ingredients = <Ingredient>[];
   List<String> prepSteps;
   String imageUrl;
   // int strength;
@@ -123,6 +125,28 @@ class CommunityCocktail extends Cocktail{
     this.imageUrl,
   });
 
+  CommunityCocktail.fromFirebaseSnapshot(String id, var snapshot){
+    this.id = id;
+    this.name = snapshot['name'];
+    this.imageUrl = snapshot['imageUrl'];
+    this.notes = snapshot.containsKey("notes") ? snapshot['notes'] : null;
+    this.prepSteps = snapshot.containsKey("prepSteps") ? snapshot['prepSteps'].cast<String>() : null;
+    if(snapshot.containsKey("ingredients")){
+      final snapshotIngredients = snapshot['ingredients'];
+      snapshotIngredients.forEach((ing) {
+        Ingredient newIng = new Ingredient(
+          id: ing['id'],
+          name: ing['name'],
+          amount: ing['amount'] is double ? ing['amount'] : double.parse(ing['amount']),
+          unit: ing['unit']
+        );
+
+        this.ingredients.add(newIng);
+      });
+    }
+    // ingredients: snapshot.containsKey("ingredients") ? snapshot['ingredients'].cast<Ingredient>() : null,
+  }
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['name'] = name;
@@ -130,11 +154,16 @@ class CommunityCocktail extends Cocktail{
     data['notes'] = notes;
     data['public'] = isPublic;
     data['imageUrl'] = imageUrl;
-    data['prepSteps'] = List<String>.generate(prepSteps.length, (i) => prepSteps[i]);
+    data['authorName'] = authorName;
+    data['authorId'] = authorId;
+    if(prepSteps != null){
+      data['prepSteps'] = List<String>.generate(prepSteps.length, (i) => prepSteps[i]);
+    }
     data['ingredients'] = [];
     for(var ing in ingredients){
       data['ingredients'].add(ing.toJson());
     }
     return data;
   } 
+
 }

@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:bartender/firebase_util.dart';
 import 'package:bartender/providers/auth.dart';
 import 'package:bartender/screens/shopping_list_screen.dart';
-import 'package:bartender/widgets/auth/auth_form.dart';
 import 'package:bartender/widgets/auth/auth_form_wrapper.dart';
 import 'package:bartender/widgets/cocktail_gridview.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +18,32 @@ class FavoritesScreen extends StatelessWidget {
       builder: (ctx, auth, _) => Scaffold(
         appBar: AppBar(title: const Text("Favorites")),
         body: CocktailGridView(findCocktailsByIds(auth.favorites))
+    ));
+  }
+}
+
+class CustomCollectionScreen extends StatelessWidget {
+
+  const CustomCollectionScreen();
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<Auth>(
+      builder: (ctx, auth, _) => Scaffold(
+        appBar: AppBar(title: const Text("Favorites")),
+        body: FutureBuilder(
+          future: findCommunityCocktailByIds(auth.custom),
+          builder: (context, snapshot) {
+            if(snapshot.connectionState != ConnectionState.done) {
+              return Center(child: CircularProgressIndicator());
+            }
+            if(snapshot.hasError) {
+              print("error in collection screen findCommunityCocktailByIds");
+              return Center(child: Text("An error has occured, please try again later!"));
+            }
+            return CocktailGridView(snapshot.data);
+          }
+        )
     ));
   }
 }
@@ -48,6 +71,8 @@ class CollectionsScreen extends StatelessWidget {
                   return Navigator.of(context).push(MaterialPageRoute(builder: (_) => ShoppingListScreen()));
                 case "favorites":
                   return Navigator.of(context).push(MaterialPageRoute(builder: (_) => FavoritesScreen()));
+                case "custom":
+                  return Navigator.of(context).push(MaterialPageRoute(builder: (_) => CustomCollectionScreen()));
               }
             },
           )

@@ -13,8 +13,10 @@ class InvalidArgumentException implements Exception {
 bool isInit = false;
 CollectionReference ingredientsCollection = FirebaseFirestore.instance.collection('ingredients');
 CollectionReference cocktailsCollection = FirebaseFirestore.instance.collection('cocktails');
+CollectionReference communityCollection = FirebaseFirestore.instance.collection('community');
 List<Ingredient> allIngredients;
 List<Cocktail> allCocktails;
+List<CommunityCocktail> allCommunityCocktails;
 
 // Map<String, List<Ingredient>> allIngredientsByType = new Map<String, List<Ingredient>>();
 
@@ -122,6 +124,33 @@ List<Cocktail> findCocktailsByIds(List<String> ids) {
   }
   return data;
 }
+
+Future<List<CommunityCocktail>> fetchAllCommunityCocktail() async {
+  List<CommunityCocktail> data = <CommunityCocktail>[];
+  QuerySnapshot snapshot = await communityCollection.get();
+  for(QueryDocumentSnapshot doc in snapshot.docs){
+    data.add(CommunityCocktail.fromFirebaseSnapshot(doc.id, doc.data()));
+  }
+  allCommunityCocktails = data;
+  return data;
+}
+
+Future<List<CommunityCocktail>> findCommunityCocktailByIds(List<String> ids) async {
+  if(allCommunityCocktails == null){
+    await fetchAllCommunityCocktail();
+  }
+  List<CommunityCocktail> data = <CommunityCocktail>[];
+  for (String id in ids){
+    int index = allCommunityCocktails.indexWhere((doc) => doc.id == id);
+    data.add(allCocktails[index]);
+  }
+  return data;
+}
+
+void saveCommunityCocktail(Map<String, dynamic> cocktailData){
+    communityCollection.add(cocktailData);
+}
+
 
 // // =============== User related actions =====================
 

@@ -1,36 +1,23 @@
+import 'package:bartender/firebase_util.dart';
 import 'package:bartender/model/ingredient.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 
 class IngredientsInputList extends StatelessWidget {
-  final List<String> dropdownList = [
-                'Canada',
-                'us',
-                'china',
-                'uk',
-                'brazil',
-                'japan',
-                'korea',
-                'russia',
-                'africa',
-                'prussia',
-                'Canada',
-                'us',
-                'china',
-                'uk',
-                'brazil',
-                'japan',
-                'korea',
-                'russia',
-                'africa',
-                'prussia'
-              ];
+  final List<String> dropdownList = allIngredients.map((ing) => ing.name).toList();
   final List<Ingredient> _ingredientsList;
   final Function _addIngredient;
   final Function _deleteIngredient;
+  final List<String> units = ['oz', 'part', 'dash', 'wedges', 'tsp', 'cube'];
   
   IngredientsInputList(this._ingredientsList, this._deleteIngredient, this._addIngredient);
+
+  // populate dropdown based on type of ingredient
+  // return a list of ingredients only associated with the type of associatedIngredient.
+  // List<String> _populateDropdown(Ingredient assoicatedIngredient){
+  //   if(assoicatedIngredient.type =)
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -56,12 +43,21 @@ class IngredientsInputList extends StatelessWidget {
                       child: Container(
                         height: 45,
                         child: DropdownSearch<String>(
+                          // mode: Mode.MENU,
                           showSelectedItem: true,
+                          showSearchBox: true,
+                          searchBoxDecoration: InputDecoration(icon: Icon(Icons.search), hintText: "Search for ingredient..."),
                           items: dropdownList,
-                          onChanged: print,
+                          // onChanged: print,
                           selectedItem: _ingredientsList[index].name,
                           onSaved: (value) {
                             _ingredientsList[index].name = value.toString();
+                          },
+                          validator: (String item) {
+                            if (item == null)
+                              return "Required field";
+                            else
+                              return null;
                           },
                         ),
                       )),
@@ -84,7 +80,7 @@ class IngredientsInputList extends StatelessWidget {
                             return null;
                           },
                           onSaved: (value) {
-                            _ingredientsList[index].amount = int.parse(value);
+                            _ingredientsList[index].amount = double.parse(value);
                           },
                         ),
                       )),
@@ -97,12 +93,12 @@ class IngredientsInputList extends StatelessWidget {
                           offAxisFraction: 0,
                           itemExtent: 36.0,
                           onSelectedItemChanged: (value) {
-                            _ingredientsList[index].unit = value.toString();
+                            _ingredientsList[index].unit = units[value];
                           },
-                          children: List<Widget>.generate(3, (int index) {
-                            return Text(['oz', 'part', 'dash'][index]);
+                          children: List<Widget>.generate(units.length, (int index) {
+                            return Text(units[index]);
                           }),
-                          scrollController: FixedExtentScrollController(initialItem: 1),
+                          scrollController: FixedExtentScrollController(initialItem: units.indexOf(_ingredientsList[index].unit)),
                         ),
                       ))
                 ]

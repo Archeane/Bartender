@@ -1,7 +1,8 @@
 import 'dart:io';
+import 'package:bartender/firebase_util.dart';
+import 'package:bartender/providers/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:bartender/model/cocktail.dart';
 
@@ -10,6 +11,7 @@ import 'package:bartender/widgets/customzie_cocktail_screen/ingredients_input_li
 import 'package:bartender/widgets/customzie_cocktail_screen/receipe_image_picker.dart';
 import 'package:bartender/widgets/customzie_cocktail_screen/prepstep_input_list.dart';
 import 'package:bartender/screens/community_cocktail_detail_screen.dart';
+import 'package:provider/provider.dart';
 
 class CustomizeCocktailScreen extends StatefulWidget {
   final Cocktail cocktail;
@@ -22,18 +24,6 @@ class CustomizeCocktailScreen extends StatefulWidget {
 }
 
 class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
-  /**
-   * TODO: 
-   * 4. ingredient dropdown selections populate with subsitute ingredients
-   *      - should not contain duplicates of existing ingredients
-   *      - only ingredients of the same type will be shown 
-   *      - each ingredient will be fetched onFormSaved
-   *      a. populate dropdown menu with other ingredients in the same collection
-   *      b. when a user adds a new ingredient, optimally they can select ingredient type and corresponding ingredients will be fetched,
-   *          or show all ingredients with a search bar
-   *      c. no need to fetch the ingredient - just save the communityCocktail Object to firestore 
-   * 5. populate name field with username
-   */
 
   List<Ingredient> _ingredientsList;
   List<String> _prepStepsList;
@@ -53,7 +43,7 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
     );
     _ingredientsList = _customCocktail.ingredients;
     _prepStepsList = _customCocktail.prepSteps;
-    _isPublic = false;
+    _isPublic = true;
   }
 
   void _addIngredient() => setState(
@@ -75,7 +65,7 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
     }
     _form.currentState.save();
 
-    if (_ingredientsList.length == 0 || _prepStepsList.length == 0) {
+    if (_ingredientsList.length == 0) {
       await showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
@@ -84,7 +74,7 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
             ? const Text('Please add at least one ingredient')
             : const Text("Please add at least one prepreation step"),
           actions: <Widget>[
-            FlatButton(
+            TextButton(
               child: Text('Okay'),
               onPressed: () {
                 Navigator.of(ctx).pop();
@@ -99,17 +89,14 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
     if(_userImageFile == null){
       _customCocktail.imageUrl = widget.cocktail.imageUrl;
     }
+    Auth authProvider = Provider.of<Auth>(context, listen: false);
+    _customCocktail.authorName = authProvider.username;
+    _customCocktail.authorId = authProvider.id;
+    authProvider.addCustom(_customCocktail.id);
+    
     Map<String, dynamic> jsonData = _customCocktail.toJson();
-    // save to own collection
-    final customCollection = FirebaseFirestore.instance
-          .collection('users').doc("FTNuvRC3FSfjN9aH4kbn")
-          .collection("custom");
-    customCollection.add(jsonData);
-    //save to public collection
-    if(_isPublic){
-      final communityCollection = FirebaseFirestore.instance.collection('community');
-      communityCollection.add(jsonData);
-    }
+    saveCommunityCocktail(jsonData);
+    
     //redirect to custom cocktail page
     Navigator.of(context).push(MaterialPageRoute(builder: (_) => CommunityCocktailDetailScreen(_customCocktail),));
   }
@@ -122,7 +109,7 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
         appBar: AppBar(
           title: Text('Customize Cocktail'),
           actions: <Widget>[
-            FlatButton(
+            TextButton(
               child: Text("Done", style: TextStyle(color: Colors.white)),
               onPressed: _saveForm,
             ),
@@ -155,9 +142,10 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
                       child: IngredientsInputList(
                           _ingredientsList, _deleteIngredient, _addIngredient),
                     ),
-                    Container(
-                        child: PrepstepInputList(
-                            _prepStepsList, _deletePrepStep, _addPrepStep)),
+                    if(_prepStepsList != null)
+                      Container(
+                          child: PrepstepInputList(
+                              _prepStepsList, _deletePrepStep, _addPrepStep)),
                     Text("Notes", style: textThemes.headline4),
                     SizedBox(height: 10,),
                     Container(

@@ -1,11 +1,7 @@
 
-import 'package:bartender/model/ingredient.dart';
+import 'package:bartender/firebase_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-
-import 'package:bartender/model/cocktail.dart';
 import 'package:bartender/widgets/cocktail_gridview.dart';
 
 class CommunityCocktailScreen extends StatefulWidget {
@@ -17,23 +13,6 @@ class CommunityCocktailScreen extends StatefulWidget {
 
 class _CommunityCocktailScreenState extends State<CommunityCocktailScreen> {
 
-  Future<List<CommunityCocktail>> _fetchCollection() async {
-    final snapshot = await FirebaseFirestore.instance.collection('community').get();
-    List<CommunityCocktail> _cocktailList = new List();  
-    for(QueryDocumentSnapshot doc in snapshot.docs){
-      print(doc.toString());
-      _cocktailList.add(CommunityCocktail(
-          id: doc.id,
-          name: doc['name'],
-          imageUrl: doc['imageUrl'],
-          notes: doc.data().containsKey("notes") ? doc['notes'] : null,
-          prepSteps: doc.data().containsKey("prepSteps") ? doc['prepSteps'].cast<String>() : null,
-          ingredients: doc.data().containsKey("ingredients") ? doc['ingredients'].cast<Ingredient>() : null,
-        ));
-    }
-    return _cocktailList;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +20,7 @@ class _CommunityCocktailScreenState extends State<CommunityCocktailScreen> {
         title: Text("Community Screen"),
       ),
       body: FutureBuilder(
-        future: _fetchCollection(),
+        future: fetchAllCommunityCocktail(),
         builder: (context, snapshot) {
           if(snapshot.connectionState != ConnectionState.done) {
             return Center(child: CircularProgressIndicator());

@@ -16,6 +16,7 @@ class Auth with ChangeNotifier{
   User currentUser = FirebaseAuth.instance.currentUser;
   CollectionReference collection = FirebaseFirestore.instance.collection('users');
   List<dynamic> _collections;
+  List<String> _custom;
   List<String> _shoppingList;
   List<String> _favorites;
 
@@ -38,6 +39,7 @@ class Auth with ChangeNotifier{
         location = userData['location'] == '' ? null : userData['location'];
         imageUrl = userData['imageUrl'] == '' ? null : userData['imageUrl'];
         _collections = userData['collections'];
+        _custom = userData['custom'].cast<String>();
         _shoppingList = userData['shopping'].cast<String>();
         _favorites = userData['favorites'].cast<String>();
         List<String> ingredientsData = userData['bar']['ingredients'].cast<String>();
@@ -101,6 +103,7 @@ class Auth with ChangeNotifier{
         location = userData['location'] == '' ? null : userData['location'];
         imageUrl = userData['imageUrl'] == '' ? null : userData['imageUrl'];
         _collections = userData['collections'];
+        _custom = userData['custom'].cast<String>();
         _shoppingList = userData['shopping'].cast<String>();
         _favorites = userData['favorites'].cast<String>();
         List<String> ingredientsData = userData['bar']['ingredients'].cast<String>();
@@ -129,6 +132,7 @@ class Auth with ChangeNotifier{
       currentUser = null;
       id = null;
       _collections = [];
+      _custom = [];
       _shoppingList = [];
       _favorites = [];
       notifyListeners();
@@ -175,6 +179,7 @@ class Auth with ChangeNotifier{
   List<String> get favorites {
     return [..._favorites];
   }
+  List<String> get custom => [..._custom];
   List<String> get mybarCocktails { return [..._mybarCocktails]; }
   List<String> get mybarIngredients { return [..._mybarIngredients]; }
   Map<String, List<String>> get missing1Ing {return {..._missing1Ing}; }
@@ -231,6 +236,20 @@ class Auth with ChangeNotifier{
     if(_favorites.contains(cocktailId)){
       int index = _favorites.indexOf(cocktailId);
       _favorites.removeAt(index);
+      notifyListeners();
+    }
+  }
+
+  void addCustom(String communityCocktailId){
+    if(!_custom.contains(communityCocktailId)){
+      _custom.add(communityCocktailId);
+      notifyListeners();
+    }
+  }
+  void removeCustom(String communityCocktailId){
+    if(_custom.contains(communityCocktailId)){
+      int index = _custom.indexOf(communityCocktailId);
+      _custom.removeAt(index);
       notifyListeners();
     }
   }

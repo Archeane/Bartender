@@ -48,6 +48,7 @@ class Ingredient {
     name = "select ingredient..";
     unit = "oz";
     amount = 0;
+    type = null;
   }
 
   Ingredient.fromFirebaseSnapshot(String id, var snapshot){
