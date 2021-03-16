@@ -17,7 +17,7 @@ class FavoritesScreen extends StatelessWidget {
     return Consumer<Auth>(
       builder: (ctx, auth, _) => Scaffold(
         appBar: AppBar(title: const Text("Favorites")),
-        body: CocktailGridView(findCocktailsByIds(auth.favorites))
+        body: CocktailGridView(cocktailsList: findCocktailsByIds(auth.favorites), )
     ));
   }
 }
@@ -30,7 +30,7 @@ class CustomCollectionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<Auth>(
       builder: (ctx, auth, _) => Scaffold(
-        appBar: AppBar(title: const Text("Favorites")),
+        appBar: AppBar(title: const Text("Custom Receipes")),
         body: FutureBuilder(
           future: findCommunityCocktailByIds(auth.custom),
           builder: (context, snapshot) {
@@ -39,9 +39,10 @@ class CustomCollectionScreen extends StatelessWidget {
             }
             if(snapshot.hasError) {
               print("error in collection screen findCommunityCocktailByIds");
+              print(snapshot.error.toString());
               return Center(child: Text("An error has occured, please try again later!"));
             }
-            return CocktailGridView(snapshot.data);
+            return CocktailGridView(cocktailsList: snapshot.data, showSearchBar: false,);
           }
         )
     ));

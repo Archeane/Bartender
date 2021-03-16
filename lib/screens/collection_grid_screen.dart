@@ -47,7 +47,7 @@ class CollectionGridScreen extends StatelessWidget {
             return Center(child: Text("An error has occured in the server, please try again later!"));
           }
           List<Cocktail> cocktailsList = snapshot.data;
-          return CocktailGridView(cocktailsList);
+          return CocktailGridView(cocktailsList: cocktailsList);
         }
       ), 
     );

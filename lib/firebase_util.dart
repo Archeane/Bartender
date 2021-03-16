@@ -102,19 +102,18 @@ Future<List<CommunityCocktail>> fetchAllCommunityCocktail() async {
 }
 
 Future<List<CommunityCocktail>> findCommunityCocktailByIds(List<String> ids) async {
-  if(allCommunityCocktails == null){
     await fetchAllCommunityCocktail();
-  }
   List<CommunityCocktail> data = <CommunityCocktail>[];
   for (String id in ids){
     int index = allCommunityCocktails.indexWhere((doc) => doc.id == id);
-    data.add(allCocktails[index]);
+    data.add(allCommunityCocktails[index]);
   }
   return data;
 }
 
-void saveCommunityCocktail(Map<String, dynamic> cocktailData){
-    communityCollection.add(cocktailData);
+Future<String> saveCommunityCocktail(Map<String, dynamic> cocktailData) async {
+    DocumentReference doc = await communityCollection.add(cocktailData);
+    return doc.id;
 }
 
 

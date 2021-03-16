@@ -1,4 +1,3 @@
-import 'package:bartender/screens/community_cocktail_detail_screen.dart';
 import 'package:bartender/widgets/cocktail_card.dart';
 import 'package:bartender/widgets/searchbar.dart';
 
@@ -6,12 +5,15 @@ import 'package:flutter/material.dart';
 
 import 'package:bartender/model/cocktail.dart';
 
-import 'package:bartender/screens/cocktail_detail_screen.dart';
 
 class CocktailGridView extends StatefulWidget {
   final List<Cocktail> cocktailsList;
+  final bool showSearchBar;
 
-  CocktailGridView(this.cocktailsList);
+  CocktailGridView({
+    @required this.cocktailsList, 
+    this.showSearchBar = true
+  });
 
   @override
   _CocktailGridViewState createState() => _CocktailGridViewState();
@@ -66,13 +68,14 @@ class _CocktailGridViewState extends State<CocktailGridView> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SearchBar(
-          onSearch: _searchCocktails,
-          onReset: _resetSearch,
-          onSort: _sortCocktails,
-          onFilter: _filterCocktails,
-          minimumChars: 2,
-        ),
+        if(widget.showSearchBar)
+          SearchBar(
+            onSearch: _searchCocktails,
+            onReset: _resetSearch,
+            onSort: _sortCocktails,
+            onFilter: _filterCocktails,
+            minimumChars: 2,
+          ),
         loading
             ? Center(child: CircularProgressIndicator())
             : Expanded(

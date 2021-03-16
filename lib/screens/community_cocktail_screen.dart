@@ -29,7 +29,7 @@ class _CommunityCocktailScreenState extends State<CommunityCocktailScreen> {
             print("error in community_screen _fetchCollection");
             return Center(child: Text("An error has occured, please try again later!"));
           }
-          return CocktailGridView(snapshot.data);
+          return CocktailGridView(cocktailsList: snapshot.data);
         }
       ),
     );

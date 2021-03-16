@@ -92,10 +92,10 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
     Auth authProvider = Provider.of<Auth>(context, listen: false);
     _customCocktail.authorName = authProvider.username;
     _customCocktail.authorId = authProvider.id;
-    authProvider.addCustom(_customCocktail.id);
     
     Map<String, dynamic> jsonData = _customCocktail.toJson();
-    saveCommunityCocktail(jsonData);
+    String docId = await saveCommunityCocktail(jsonData);
+    authProvider.addCustom(docId);
     
     //redirect to custom cocktail page
     Navigator.of(context).push(MaterialPageRoute(builder: (_) => CommunityCocktailDetailScreen(_customCocktail),));
