@@ -89,22 +89,31 @@ class _SearchBarState extends State<SearchBar> {
 
   Widget _searchButton(String text){
     return Container(
-      child: Center(
-        child: Text(text) 
+      // elevation: 2,
+      margin: const EdgeInsets.only(left:4, right: 5),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(4),
+        color: Colors.white,
+        border: Border.all(width: 0.5, color: Colors.black54, )
+      ),
+      child: Container(
+        height: 47,
+        child: Center(child: Text(text, style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w600)))
       )
     );
   } 
 
   @override
   Widget build(BuildContext context) {
-    final widthMax = MediaQuery.of(context).size.width;
     return Container(
-      height: 80,
+      height: 70,
+      margin: const EdgeInsets.only(left: 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Flexible(
             child: AnimatedContainer(
+              height: 50,
               duration: Duration(milliseconds: 200),
               // width: _animate ? widthMax * .8 : widthMax,
               decoration: BoxDecoration(
@@ -144,7 +153,7 @@ class _SearchBarState extends State<SearchBar> {
               child: AnimatedContainer(
                 duration: Duration(milliseconds: 200),
                 width: _animate ? MediaQuery.of(context).size.width * 0.2 : 0,
-                child: _searchButton("cancel")
+                child: _searchButton("Cancel")
               )
             ),
           ),
@@ -157,7 +166,7 @@ class _SearchBarState extends State<SearchBar> {
               child: AnimatedContainer(
                 duration: Duration(milliseconds: 200),
                 width: _animate ? 0: MediaQuery.of(context).size.width * 0.2,
-                child: _searchButton("filter")
+                child: _searchButton("Filter")
               )
             ),
           )

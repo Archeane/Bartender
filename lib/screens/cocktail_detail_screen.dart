@@ -1,4 +1,4 @@
-import 'package:bartender/providers/auth.dart';
+import 'package:bartender/widgets/favorite_cocktail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -7,7 +7,6 @@ import 'package:bartender/widgets/ingredient_list.dart';
 import 'package:bartender/widgets/cocktail_detail/cocktail_detail_header.dart';
 import 'package:bartender/widgets/cocktail_detail/cocktail_detail_prep_steps.dart';
 import 'package:bartender/screens/customize_cocktail_screen.dart';
-import 'package:provider/provider.dart';
 
 class CocktailDetailScreen extends StatelessWidget {
   final Cocktail cocktailData;
@@ -18,46 +17,12 @@ class CocktailDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     final textThemes = Theme.of(context).textTheme;
-    final provider = Provider.of<Auth>(context);
 
     return Scaffold(
       appBar: AppBar(
         title: Text("Cocktail Detail"),
         actions: [
-          provider.isLoggedIn 
-          ? IconButton(
-            icon: Icon(
-              provider.favorites.contains(cocktailData.id)
-              ? Icons.star
-              : Icons.star_border_outlined
-            ),
-            onPressed: () {
-              if(provider.favorites.contains(cocktailData.id)){
-                provider.removeFavorites(cocktailData.id);
-              } else {
-                provider.addFavorites(cocktailData.id);
-              }
-            })
-          : IconButton(
-              icon: Icon(Icons.star_border_outlined),
-              onPressed: () async {
-                await showDialog(
-                  context: context,
-                  builder: (ctx) => AlertDialog(
-                    title: const Text('Cannot Add to Favorites'),
-                    content: const Text('Please login to add to favorites'),
-                    actions: <Widget>[
-                      FlatButton(
-                        child: const Text('OK'),
-                        onPressed: () {
-                          Navigator.of(context, rootNavigator: true).pop();
-                        },
-                      )
-                    ],
-                  ),
-                );
-              },
-            )
+          FavoriteCocktailButton(this.cocktailData.id)
         ],
       ),
       body: 
@@ -83,8 +48,8 @@ class CocktailDetailScreen extends StatelessWidget {
                 ),
               ),
               Container(
-                height: 100,
-                width: screenWidth / 2,
+                height: 150,
+                width: screenWidth * 2/3,
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.black),
                 ),

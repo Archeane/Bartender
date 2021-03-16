@@ -126,7 +126,6 @@ class Auth with ChangeNotifier{
   }
 
   Future<void> logout() async {
-    print(isLoggedIn);
     if(isLoggedIn){
       await FirebaseAuth.instance.signOut();
       currentUser = null;
@@ -188,69 +187,65 @@ class Auth with ChangeNotifier{
     return _shoppingList.contains(ingId);
   }
 
-  // Future<List<String>> get mybarIngredients async {
-  //   if (currentUser != null){
-  //     DocumentSnapshot userDoc = await collection.doc(currentUser.uid).get();
-  //     if(userDoc.exists){
-  //       final userData = userDoc.data();
-  //       return userData['bar']['ingredients'].cast<String>();
-  //     }
-  //   }
-  //   return null;
-  // }
-
   List<dynamic> get collections {
     return [..._collections];
   }
 
-  void addShoppingListItem(String ing){
+  void addShoppingListItem(String ing) async {
     if(!_shoppingList.contains(ing)){
-      // add to firebase
       _shoppingList.add(ing);
       notifyListeners();
+      await collection.doc(currentUser.uid).update({'shopping': FieldValue.arrayUnion([ing])});
     }
   }
 
-  void removeShoppingListItem(String ing){
+  void removeShoppingListItem(String ing) async {
     if(_shoppingList.contains(ing)){
       int index = _shoppingList.indexOf(ing);
       _shoppingList.removeAt(index);
       notifyListeners();
+      await collection.doc(currentUser.uid).update({'shopping': FieldValue.arrayRemove([ing])});
     }
   }
 
-  void updateShoppingList(List<String> newList){
-    _shoppingList = newList;
-    print(_shoppingList);
+  Future<void> updateShoppingList(List<String> newList) async {
+    // List<String> concatList = newList + _shoppingList;
+    // List<String> distinctList = [...{..._shoppingList}];
+    _shoppingList = [...{...newList}];
     notifyListeners();
+    await collection.doc(currentUser.uid).update({'shopping': _shoppingList});
   }
 
-  void addFavorites(String cocktailId){
+  void addFavorites(String cocktailId) async {
     if(!_favorites.contains(cocktailId)){
       _favorites.add(cocktailId);
       notifyListeners();
+      await collection.doc(currentUser.uid).update({'favorites': FieldValue.arrayUnion([cocktailId])});
     }
   }
 
-  void removeFavorites(String cocktailId){
+  void removeFavorites(String cocktailId) async {
     if(_favorites.contains(cocktailId)){
       int index = _favorites.indexOf(cocktailId);
       _favorites.removeAt(index);
       notifyListeners();
+      await collection.doc(currentUser.uid).update({'favorites': FieldValue.arrayRemove([cocktailId])});
     }
   }
 
-  void addCustom(String communityCocktailId){
+  void addCustom(String communityCocktailId) async{
     if(!_custom.contains(communityCocktailId)){
       _custom.add(communityCocktailId);
       notifyListeners();
+      await collection.doc(currentUser.uid).update({'custom': FieldValue.arrayUnion([communityCocktailId])});
     }
   }
-  void removeCustom(String communityCocktailId){
+  void removeCustom(String communityCocktailId) async{
     if(_custom.contains(communityCocktailId)){
       int index = _custom.indexOf(communityCocktailId);
       _custom.removeAt(index);
       notifyListeners();
+      await collection.doc(currentUser.uid).update({'custom': FieldValue.arrayRemove([communityCocktailId])});
     }
   }
 

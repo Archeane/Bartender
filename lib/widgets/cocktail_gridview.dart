@@ -38,7 +38,6 @@ class _CocktailGridViewState extends State<CocktailGridView> {
     setState(() => loading = true);
     var regex = new RegExp(".*$searchString?", caseSensitive: false);
     var results = _cocktailsList.where((i) => regex.hasMatch(i.name)).toList();
-    results.forEach((result) => print(result.name));
     setState((){ 
       _filteredList = results;
       loading = false;
@@ -86,8 +85,8 @@ class _CocktailGridViewState extends State<CocktailGridView> {
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     // childAspectRatio: 4 / 3,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 5,
+                    mainAxisSpacing: 5,
                   ),
                 ),
               ),

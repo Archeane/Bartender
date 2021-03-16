@@ -28,7 +28,6 @@ class CollectionGridScreen extends StatelessWidget {
         ));
       }
     }
-    print(_cocktailList);
     return _cocktailList;
   }
 

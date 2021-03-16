@@ -1,3 +1,4 @@
+import 'package:bartender/widgets/favorite_cocktail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -17,7 +18,7 @@ class CommunityCocktailDetailScreen extends StatelessWidget {
     final textThemes = Theme.of(context).textTheme;
 
     return Scaffold(
-      appBar: AppBar(title: Text("Custom Receipe")),
+      appBar: AppBar(title: Text("Custom Receipe")), // actions: [FavoriteCocktailButton(cocktailData.id)],),
       body: 
       SingleChildScrollView( // make center take up as much height as needed by children
         // child: Center(
@@ -25,7 +26,9 @@ class CommunityCocktailDetailScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               CocktailDetailHeader(cocktailData),
-              // TODO: created by author
+              Container(
+                child: Text("Created by ${cocktailData.authorName}")
+              ),
               Container(
                 height: 100,
                 width: screenWidth / 2,

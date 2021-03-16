@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:bartender/model/cocktail.dart';
 import 'package:bartender/model/ingredient.dart';
 import 'package:bartender/providers/auth.dart';
@@ -20,25 +18,31 @@ class MyBarCocktailScreen extends StatefulWidget {
 }
 
 class _MyBarCocktailScreenState extends State<MyBarCocktailScreen> {
-  SplayTreeMap<Ingredient, int> missing1Ing;
+  Map<Ingredient, List<String>> missing1Ing;
 
   List<Cocktail> _getCocktails(Auth authProvider) {
     List<Cocktail> availbleCocktails = <Cocktail>[];
     List<String> cocktails = authProvider.mybarCocktails;
     for(String id in cocktails){
       int index = allCocktails.indexWhere((cocktail) => cocktail.id == id);
-      availbleCocktails.add(allCocktails[index]);
+      if(index >= 0){
+        availbleCocktails.add(allCocktails[index]);
+      } else {
+        print("!!!!!!!");
+        print(id);
+        print(index);
+      }
     }
-    Map<Ingredient, int> result = {};
+    Map<Ingredient, List<String>> result = {};
     for(String key in authProvider.missing1Ing.keys){
       if(!authProvider.inShoppingList(key)){
         Ingredient ing = getIngredientById(key);
-        result[ing] = authProvider.missing1Ing[key].length;
+        result[ing] = authProvider.missing1Ing[key];
       }
     }
-    final sorted = SplayTreeMap<Ingredient, int>.from(
-      result, (key1, key2) => result[key2].compareTo(result[key1]));
-    setState(() => missing1Ing = sorted);
+    // final sorted = Map<Ingredient, int>.from(
+    //   result, (key1, key2) => result[key2].compareTo(result[key1]));
+    setState(() => missing1Ing = result);
     return availbleCocktails;
     // Map<String, List<Cocktail>> result = {};
     // for(String key in authProvider.missing1Ing.keys){
@@ -51,6 +55,12 @@ class _MyBarCocktailScreenState extends State<MyBarCocktailScreen> {
     //   });
     // }
     // return Tuple2<List<Cocktail>, Map<String, List<Cocktail>>>(availbleCocktails, result);
+  }
+
+  String explodeDrinksList(List<String> cocktailNames){
+    String x = "";
+    cocktailNames.forEach((name) => x += name += ", ");
+    return x.length > 50 ? x.substring(0, 50) + "..." : x;
   }
 
   @override
@@ -74,7 +84,7 @@ class _MyBarCocktailScreenState extends State<MyBarCocktailScreen> {
                     Ingredient ing = missing1Ing.keys.elementAt(index);
                     return ListTile(
                       title: Text(ing.name, style: TextStyle(color: Colors.black, fontSize: 16)),
-                      subtitle: Text("${missing1Ing[ing].toString()} cocktails", style: TextStyle(color: Colors.black54, fontSize: 14)),
+                      subtitle: Text("${missing1Ing[ing].length.toString()} drink: ${explodeDrinksList(missing1Ing[ing])}", style: TextStyle(color: Colors.black54, fontSize: 14)),
                       trailing: ElevatedButton.icon(
                         label: const Text("Shopping List", style: TextStyle(fontSize: 12)), 
                         icon: Icon(Icons.add, size: 18), 

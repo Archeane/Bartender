@@ -19,14 +19,14 @@ class _ShoppingListAddIngredientScreenState extends State<ShoppingListAddIngredi
 
   List<String> newList;
 
-  List<Ingredient> _fetchIngredients(Auth authProvider) {
-    List<Ingredient> _allIngredients = []..addAll(allIngredients);
+  List<bool> _getInShoppingList(Auth authProvider) {
+    List<bool> inShoppingList = List.filled(allIngredients.length, false);
     List<String> _shoppingList = authProvider.shoppingList;
     for(var ingredientId in _shoppingList){ 
-      int index = _allIngredients.indexWhere((item) => item.id == ingredientId);
-      _allIngredients[index].inMyShoppingList = true;
+      int index = allIngredients.indexWhere((item) => item.id == ingredientId);
+      inShoppingList[index] = true;
     }
-    return _allIngredients;
+    return inShoppingList;
   }
 
   void addToShoppingList(String id) {
@@ -42,16 +42,18 @@ class _ShoppingListAddIngredientScreenState extends State<ShoppingListAddIngredi
     newList = widget._originalShoppingList;
     final provider = Provider.of<Auth>(context); 
     return Scaffold(
-      appBar: AppBar(actions: [
-        TextButton(
-          child: const Text("Done"),
-          onPressed: () {
-            provider.updateShoppingList(newList);
-            Navigator.of(context).pop();
-          }
-        )
+      appBar: AppBar(
+        // title: const Text("Add to Shopping List"),
+        actions: [
+          TextButton(
+            child: const Text("Done", style: TextStyle(color: Colors.white),),
+            onPressed: () async {
+              await provider.updateShoppingList(newList);
+              Navigator.of(context).pop();
+            }
+          )
       ],),
-      body: ShoppingListIngredientListView(_fetchIngredients(provider), addToShoppingList, removeFromShoppingList)
+      body: ShoppingListIngredientListView(allIngredients, _getInShoppingList(provider), addToShoppingList, removeFromShoppingList)
     );
   }
 }

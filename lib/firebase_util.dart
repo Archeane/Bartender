@@ -38,19 +38,6 @@ Future<void> init() async {
   return;
 }
 
-// Future<List<Ingredient>> fetchUserShoppingList() async {
-//   List<Ingredient> ingredients = new List<Ingredient>();
-//   DocumentSnapshot userSnapshot = await usersCollection.doc(user.uid).get();
-//   if(userSnapshot.exists){
-//     final userData = userSnapshot.data();
-//     for(var ingredientId in userData['shopping']){
-//       Ingredient doc = await fetchIngredientById(ingredientId);
-//       ingredients.add(doc);
-//     }
-//   }
-//   return ingredients;
-// }
-
 Ingredient getIngredientById(String id) {
   if(allIngredients != null){
     int idx = allIngredients.indexWhere((ing) => ing.id == id);
@@ -74,29 +61,6 @@ Future<Ingredient> fetchIngredientById(String id) async {
   throw new InvalidArgumentException("$id does not exist");
 }
 
-// Future<List<Ingredient>> fetchMybarIngredients() async {
-//   List<Ingredient> ingredients = new List<Ingredient>();
-//   DocumentSnapshot userSnapshot = await usersCollection.doc(user.uid).get();
-//   if(userSnapshot.exists){
-//     final userData = userSnapshot.data();
-//     for(var ingredientId in userData['bar']['ingredients']){
-//       print(ingredientId);
-//       Ingredient doc = await fetchIngredientById(ingredientId);
-//       ingredients.add(doc);
-//     }
-//   }
-//   return ingredients;
-//  }
-
-// Future<List<dynamic>> getMyBarIngredients() async {
-//   CollectionReference usersCollection = FirebaseFirestore.instance.collection('users');
-//   DocumentSnapshot userSnapshot = await usersCollection.doc(FirebaseAuth.instance.currentUser.uid).get();
-//   if(userSnapshot.exists){
-//     return userSnapshot.data()['bar']['ingredients'];
-//   }
-//   return null;
-// }
-
 Future<List<Ingredient>> fetchAllIngredients() async {
   List<Ingredient> ingredients = new List<Ingredient>();
   QuerySnapshot snapshot = await ingredientsCollection.get();
@@ -108,7 +72,7 @@ Future<List<Ingredient>> fetchAllIngredients() async {
 }
 
 Future<List<Cocktail>> fetchAllCocktails() async {
-  List<Cocktail> cocktails = new List<Cocktail>();
+  List<Cocktail> cocktails = <Cocktail>[];
   QuerySnapshot snapshot = await cocktailsCollection.get();
   for(QueryDocumentSnapshot doc in snapshot.docs){
     cocktails.add(Cocktail.fromFirebaseSnapshot(doc.id, doc.data()));
@@ -117,10 +81,12 @@ Future<List<Cocktail>> fetchAllCocktails() async {
 }
 
 List<Cocktail> findCocktailsByIds(List<String> ids) {
-  List<Cocktail> data = new List<Cocktail>();
+  List<Cocktail> data = <Cocktail>[];
   for (String id in ids){
     int index = allCocktails.indexWhere((doc) => doc.id == id);
-    data.add(allCocktails[index]);
+    if(index != -1){
+      data.add(allCocktails[index]);
+    }
   }
   return data;
 }
@@ -176,6 +142,10 @@ void saveCommunityCocktail(Map<String, dynamic> cocktailData){
 // }
 
 // Future<void> addShoppingListItem(String ingredientId) async {
+//   Auth authProvider = Provider.of<Auth>(context, listen:false);
+// .collection('YourCollection')
+// .document('YourDocument')
+// .updateData({'array':FieldValue.arrayUnion(['data1','data2','data3'])});
 //   DocumentSnapshot userSnapshot = await usersCollection.doc(user.uid).get();
 //   if(userSnapshot.exists){
 //     final ingredients = userSnapshot.data()['bar']['ingredients'];

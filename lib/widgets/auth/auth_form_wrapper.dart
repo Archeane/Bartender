@@ -60,8 +60,9 @@ class _AuthFormWrapperState extends State<AuthFormWrapper> {
     return FutureBuilder(
         future: provider.authInit(),
         builder: (ctx, snapshot) {
-          print(provider.isLoggedIn);
-          // print(provider.collections);
+          if(snapshot.connectionState == ConnectionState.waiting){
+            return Center(child: CircularProgressIndicator());
+          }
           return AuthForm(_submitAuthForm, false);
         }
       );

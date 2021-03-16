@@ -1,3 +1,4 @@
+import 'package:bartender/firebase_util.dart';
 import 'package:bartender/providers/auth.dart';
 import 'package:bartender/screens/shopping_list_add_ingredient.dart';
 import 'package:flutter/material.dart';
@@ -29,21 +30,23 @@ class ShoppingListScreen extends StatelessWidget {
           return ListView.builder(
             padding: const EdgeInsets.all(10.0),
             itemCount: shoppingList.length,
-            itemBuilder: (ctx, i) => GestureDetector(child: 
+            itemBuilder: (ctx, i){
+              final ing = getIngredientById(shoppingList[i]);
+              return GestureDetector(child: 
               ListTile(
                 // leading: shoppingList[i].imageUrl == null 
                 //   ? null
                 //   : Image.network(shoppingList[i].imageUrl, fit: BoxFit.cover, filterQuality: FilterQuality.none),
-                title: Text(shoppingList[i]),
+                title: Text(ing.name),
                 trailing: GestureDetector(
-                    child: Icon(Icons.remove_circle, color: Colors.greenAccent),
+                    child: Icon(Icons.remove_circle, color: Colors.redAccent),
                     onTap: () {
                       auth.removeShoppingListItem(shoppingList[i]);
                     },
                   )
               ),
               onTap: () {},
-            ),
+            );},
           );
         },
       ),

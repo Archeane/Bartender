@@ -43,7 +43,6 @@ class _MyBarIngredientsListViewState extends State<MyBarIngredientsListView> {
     setState(() => loading = true);
     var regex = new RegExp(".*$searchString?", caseSensitive: false);
     var results = _cocktailsList.where((i) => regex.hasMatch(i.name)).toList();
-    results.forEach((result) => print(result.name));
     setState((){ 
       _filteredList = results;
       loading = false;
