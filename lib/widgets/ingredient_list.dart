@@ -19,7 +19,10 @@ class _IngredientListState extends State<IngredientList> {
     final ingreidentsList = widget.ingredients;  
     return Container(
       padding: const EdgeInsets.all(10),
-      child: ListView.builder(
+      child: ListView.separated(
+        separatorBuilder: (context, index) {
+          return Divider();
+        },
         itemCount: ingreidentsList.length,
         itemBuilder: (ctx, idx) {
           return Row(

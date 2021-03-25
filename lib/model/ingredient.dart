@@ -1,3 +1,4 @@
+import 'package:bartender/model/cocktail.dart';
 import 'package:flutter/foundation.dart';
 
 enum IngredientType {
@@ -76,6 +77,19 @@ class Ingredient {
 
   get inMyShoppingList => _inMyShoppingList;
   set inMyShoppingList(bool val) => _inMyShoppingList = val;
+
+  String get strength {
+    if(this.alcoholContent != null){
+      if (this.alcoholContent < 10){
+        return Strength.Light.toString().split('.').last;
+      } else if (this.alcoholContent > 10 && this.alcoholContent < 20){
+        return Strength.Medium.toString().split('.').last;
+      } else {
+        return Strength.Strong.toString().split('.').last;
+      }
+    }
+    return null;
+  }
 
   @override
     String toString() {

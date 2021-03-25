@@ -24,6 +24,7 @@ class Cocktail {
   List<Ingredient> ingredients = <Ingredient>[];
   Set<String> ingredientsIds = new Set<String>();
   List<String> prepSteps;
+  String origin;
   // String baseSpirit;
   // List<dynamic> packs;
   // List<dynamic> stars;
@@ -36,6 +37,7 @@ class Cocktail {
     this.imageUrl,
     this.about,
     this.flavor,
+    this.origin,
     List<dynamic> prepSteps,
     int alcoholContent,
     Map ingredients,
@@ -80,6 +82,7 @@ class Cocktail {
     this.prepSteps = snapshot.containsKey("prepSteps") ? snapshot['prepSteps'].cast<String>() : null;
     this.flavor = snapshot.containsKey("flavor") ? snapshot['flavor'] : null;
     this.alcoholContent = snapshot.containsKey("alcoholContent") ? snapshot['alcoholContent'] : 0;
+    this.origin = snapshot.containsKey('origin') ? snapshot['origin'] : null;
     final snapshotIngredients = snapshot.containsKey("ingredients") ? snapshot['ingredients'] : null;
   
     if(snapshotIngredients != null){

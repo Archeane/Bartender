@@ -24,6 +24,8 @@ class CocktailDetailHeader extends StatelessWidget {
           if(cocktailData.strength != null)
             Text("${cocktailData.strength.toLowerCase()}, ${cocktailData.alcoholContent.toString()}%",
               style: textThemes.subtitle2),
+          if(cocktailData.origin != null)
+            Text("Originated from ${cocktailData.origin.toLowerCase()}", style: textThemes.subtitle2),
         ],
       ),
     );
