@@ -18,8 +18,6 @@ class MyBarCocktailGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textThemes = Theme.of(context).textTheme;
-
     return Container(
       padding: const EdgeInsets.all(5),
       child: Column(children: [
@@ -29,7 +27,7 @@ class MyBarCocktailGroup extends StatelessWidget {
         //     child: Text("$ingredient, ${cocktails.length} cocktails", style: textThemes.bodyText1),
         //   ),),
         CarouselSlider(
-          options: CarouselOptions(height: 240.0, viewportFraction: 0.5, enlargeCenterPage: enlargeCenter),
+          options: CarouselOptions(height: 200.0, viewportFraction: 0.5, enlargeCenterPage: enlargeCenter),
           items: cocktails.map((cocktail) {
             return Builder(
               builder: (BuildContext context) {

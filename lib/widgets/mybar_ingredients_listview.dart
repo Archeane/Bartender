@@ -59,7 +59,7 @@ class _MyBarIngredientsListViewState extends State<MyBarIngredientsListView> {
     // call calculate cocktails
     // await Future.delayed(Duration(seconds: 1), () => print('done'));
     // List<String> cocktailIds = ["1CBFexv7aMXxuTh79Joa", "7V2rGzoqQlaX1HU2noKY", "AEpPcl32Hp4m1yEnEB5a", "vyTwCSGtppp4Q4es9JCV"];
-    authProvider.addIngredientToMyBar(id);
+    await authProvider.addIngredientToMyBar(id);
     
     setState((){
       _cocktailsLoading = false;

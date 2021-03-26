@@ -86,6 +86,7 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
     }
     _customCocktail.ingredients = _ingredientsList;
     _customCocktail.prepSteps = _prepStepsList;
+    _customCocktail.isPublic = _isPublic;
     if(_userImageFile == null){
       _customCocktail.imageUrl = widget.cocktail.imageUrl;
     }

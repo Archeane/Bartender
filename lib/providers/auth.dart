@@ -43,7 +43,7 @@ class Auth with ChangeNotifier{
         _shoppingList = userData['shopping'].cast<String>();
         _favorites = userData['favorites'].cast<String>();
         List<String> ingredientsData = userData['bar']['ingredients'].cast<String>();
-        final cocktailsData = userData['bar']['cocktails'].cast<String>();
+        List<String> cocktailsData = userData['bar']['cocktails'].cast<String>();
         _mybarIngredients = ingredientsData.toSet();
         _mybarCocktails = cocktailsData.toSet();
         print("resetted userDoc in authInit");
@@ -249,12 +249,13 @@ class Auth with ChangeNotifier{
     }
   }
 
-  void addIngredientToMyBar(String id){
+  void addIngredientToMyBar(String id) async {
     _mybarIngredients.add(id);
     if(_missing1Ing.containsKey(id)){
       _mybarCocktails.addAll(_missing1Ing[id]);
       _missing1Ing.remove(id);
       notifyListeners();
+      await collection.doc(currentUser.uid).update({'bar.cocktails': FieldValue.arrayUnion(_missing1Ing[id])});
       return;
     }
     for(Cocktail cocktail in allCocktails){
@@ -263,6 +264,7 @@ class Auth with ChangeNotifier{
         final common = _mybarIngredients.intersection(cocktail.ingredientsIds);
         if(common.length == cocktail.ingredientsIds.length){
           _mybarCocktails.add(cocktail.id);
+          await collection.doc(currentUser.uid).update({'bar.cocktails': FieldValue.arrayUnion([cocktail.id])});
         } else if(common.length == cocktail.ingredientsIds.length - 1){
           String missingIng = cocktail.ingredientsIds.difference(common).first;
           if(_missing1Ing.containsKey(missingIng) && !_missing1Ing[missingIng].contains(cocktail.id)){
@@ -274,11 +276,13 @@ class Auth with ChangeNotifier{
       }
     }
     notifyListeners();
-    // add to firebase
+    await collection.doc(currentUser.uid).update({'bar.ingredients': FieldValue.arrayUnion([id])});
     return;
   }
-  void removeIngredientFromMyBar(String id){
+  void removeIngredientFromMyBar(String id) async{
     // remove from firebase
+    await collection.doc(currentUser.uid).update({'bar.ingredients': FieldValue.arrayUnion([id])});
+    return;
   }
 
 }

@@ -16,7 +16,6 @@ CollectionReference cocktailsCollection = FirebaseFirestore.instance.collection(
 CollectionReference communityCollection = FirebaseFirestore.instance.collection('community');
 List<Ingredient> allIngredients;
 List<Cocktail> allCocktails;
-List<CommunityCocktail> allCommunityCocktails;
 
 // Map<String, List<Ingredient>> allIngredientsByType = new Map<String, List<Ingredient>>();
 
@@ -84,7 +83,7 @@ List<Cocktail> findCocktailsByIds(List<String> ids) {
   List<Cocktail> data = <Cocktail>[];
   for (String id in ids){
     int index = allCocktails.indexWhere((doc) => doc.id == id);
-    if(index != -1){
+    if(index >= 0){
       data.add(allCocktails[index]);
     }
   }
@@ -97,16 +96,18 @@ Future<List<CommunityCocktail>> fetchAllCommunityCocktail() async {
   for(QueryDocumentSnapshot doc in snapshot.docs){
     data.add(CommunityCocktail.fromFirebaseSnapshot(doc.id, doc.data()));
   }
-  allCommunityCocktails = data;
   return data;
 }
 
 Future<List<CommunityCocktail>> findCommunityCocktailByIds(List<String> ids) async {
-    await fetchAllCommunityCocktail();
+  
+  List<CommunityCocktail> allCommunityCocktails = await fetchAllCommunityCocktail();
   List<CommunityCocktail> data = <CommunityCocktail>[];
   for (String id in ids){
     int index = allCommunityCocktails.indexWhere((doc) => doc.id == id);
-    data.add(allCommunityCocktails[index]);
+    if(index >= 0){
+      data.add(allCommunityCocktails[index]);
+    }
   }
   return data;
 }

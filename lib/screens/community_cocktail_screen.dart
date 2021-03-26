@@ -1,5 +1,6 @@
 
 import 'package:bartender/firebase_util.dart';
+import 'package:bartender/model/cocktail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:bartender/widgets/cocktail_gridview.dart';
@@ -29,7 +30,9 @@ class _CommunityCocktailScreenState extends State<CommunityCocktailScreen> {
             print("error in community_screen _fetchCollection");
             return Center(child: Text("An error has occured, please try again later!"));
           }
-          return CocktailGridView(cocktailsList: snapshot.data);
+          List<CommunityCocktail> data = snapshot.data;
+          
+          return CocktailGridView(cocktailsList: data.where((cocktail) => cocktail.isPublic == true).toList());
         }
       ),
     );

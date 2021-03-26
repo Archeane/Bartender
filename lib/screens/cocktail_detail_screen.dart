@@ -1,5 +1,5 @@
-import 'package:bartender/screens/ingredient_detail_screen.dart';
 import 'package:bartender/widgets/favorite_cocktail.dart';
+import 'package:bartender/widgets/ingredient_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -7,7 +7,6 @@ import 'package:bartender/model/cocktail.dart';
 import 'package:bartender/widgets/cocktail_detail/cocktail_detail_header.dart';
 import 'package:bartender/widgets/cocktail_detail/cocktail_detail_prep_steps.dart';
 import 'package:bartender/screens/customize_cocktail_screen.dart';
-import 'package:fraction/fraction.dart';
 
 class CocktailDetailScreen extends StatelessWidget {
   final Cocktail cocktailData;
@@ -17,7 +16,6 @@ class CocktailDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
     final textThemes = Theme.of(context).textTheme;
     Widget customizeReceipeButton = CupertinoButton(
         padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
@@ -51,41 +49,7 @@ class CocktailDetailScreen extends StatelessWidget {
               ),
               Text("Ingredients", style: textThemes.headline4),
               SizedBox(height: 10,),
-              SingleChildScrollView(
-                child: Container(
-                  width: screenWidth * 2/3,
-                  child: Card(
-                    elevation: 2,
-                    // child: IngredientList(cocktailData.ingredients)
-                    child: Column(children: cocktailData.ingredients.map((ing) => 
-                      Column(
-                        children: [
-                          if(ing.id != cocktailData.ingredients[0].id)
-                            Divider(height: 0),
-                          Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: GestureDetector(
-                              onTap: (){
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(builder: (_) => IngredientDetailScreen(ing.id)),
-                                );
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(ing.name),
-                                  Text("${Fraction.fromDouble(ing.amount).toString()} ${ing.unit}"),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ]
-                      )).toList(),
-                    )
-                  ),
-                ),
-              ),
-
+              IngredientList(cocktailData.ingredients),
               if(cocktailData.prepSteps != null)
                 Container(
                   padding: const EdgeInsets.all(5), 

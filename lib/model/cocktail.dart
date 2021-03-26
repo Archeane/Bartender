@@ -19,7 +19,7 @@ class Cocktail {
   String imageUrl;
   String name;
   String about;
-  int alcoholContent = 0;
+  int alcoholContent;
   String flavor;
   List<Ingredient> ingredients = <Ingredient>[];
   Set<String> ingredientsIds = new Set<String>();
@@ -45,8 +45,8 @@ class Cocktail {
     if(prepSteps != null){
       this.prepSteps = prepSteps.map((s) => s as String).toList();
     }
-    if(alcoholContent == null) this.alcoholContent = 5;
-    else this.alcoholContent = alcoholContent;
+    if(alcoholContent != null) 
+      this.alcoholContent = alcoholContent;
     // this.flavor = Flavor.values.firstWhere((e) => e.toString() == 'Flavor.' + flavor);
     if(ingredients != null){
       List<Ingredient> ingredientsBuffer = new List<Ingredient>();
@@ -134,6 +134,9 @@ class CommunityCocktail extends Cocktail{
     this.imageUrl = snapshot['imageUrl'];
     this.notes = snapshot.containsKey("notes") ? snapshot['notes'] : null;
     this.prepSteps = snapshot.containsKey("prepSteps") ? snapshot['prepSteps'].cast<String>() : null;
+    this.authorName = snapshot.containsKey("authorName") ? snapshot['authorName'] : null;
+    this.authorId = snapshot.containsKey("authorId") ? snapshot['authorId'] : null;
+    this.isPublic = snapshot.containsKey("public") ? snapshot['public'] : false;
     if(snapshot.containsKey("ingredients")){
       final snapshotIngredients = snapshot['ingredients'];
       snapshotIngredients.forEach((ing) {
