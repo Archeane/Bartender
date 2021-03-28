@@ -1,6 +1,7 @@
 
 import 'package:bartender/model/cocktail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tuple/tuple.dart';
 
 import './model/ingredient.dart';
 
@@ -90,6 +91,14 @@ List<Cocktail> findCocktailsByIds(List<String> ids) {
   return data;
 }
 
+Cocktail findCocktailById(String id) {
+  int index = allCocktails.indexWhere((doc) => doc.id == id);
+  if(index >= 0){
+    return allCocktails[index];
+  }
+  return null;
+}
+
 Future<List<CommunityCocktail>> fetchAllCommunityCocktail() async {
   List<CommunityCocktail> data = <CommunityCocktail>[];
   QuerySnapshot snapshot = await communityCollection.get();
@@ -117,40 +126,27 @@ Future<String> saveCommunityCocktail(Map<String, dynamic> cocktailData) async {
     return doc.id;
 }
 
-
-// // =============== User related actions =====================
-
-// Future<void> addIngredientToMyBar(String ingredientId) async {
-//   DocumentSnapshot userSnapshot = await usersCollection.doc(user.uid).get();
-//   if(userSnapshot.exists){
-//     final ingredients = userSnapshot.data()['bar']['ingredients'];
-//     ingredients.add(ingredientId);
-//     await usersCollection.doc(user.uid)
-//           .update({'bar.ingredients': ingredients});
-//   }
-// }
-
-// Future<void> removeIngredientFromMyBar(String ingredientId) async {
-//   DocumentSnapshot userSnapshot = await usersCollection.doc(user.uid).get();
-//   if(userSnapshot.exists){
-//     final ingredients = userSnapshot.data()['bar']['ingredients'];
-//     int index = ingredients.indexOf(ingredientId);
-//     ingredients.removeAt(index);
-//     await usersCollection.doc(user.uid)
-//           .update({'bar.ingredients': ingredients});
-//   }
-// }
-
-// Future<void> addShoppingListItem(String ingredientId) async {
-//   Auth authProvider = Provider.of<Auth>(context, listen:false);
-// .collection('YourCollection')
-// .document('YourDocument')
-// .updateData({'array':FieldValue.arrayUnion(['data1','data2','data3'])});
-//   DocumentSnapshot userSnapshot = await usersCollection.doc(user.uid).get();
-//   if(userSnapshot.exists){
-//     final ingredients = userSnapshot.data()['bar']['ingredients'];
-//     ingredients.add(ingredientId);
-//     await usersCollection.doc(user.uid)
-//           .update({'bar.ingredients': ingredients});
-//   }
-// }
+Tuple2<Set<String>, Map<String, List<String>>> calculateCocktails(
+    Set<String> ingredients, 
+    Map<String, List<String>> missing1Ing, 
+    Set<String> cocktails
+  ){
+  for(Cocktail cocktail in allCocktails){
+      // check if added ingredient is in missing1Ing
+      if(!cocktails.contains(cocktail.id)){
+        final common = ingredients.intersection(cocktail.ingredientsIds);
+        if(common.length == cocktail.ingredientsIds.length){
+          cocktails.add(cocktail.id);
+          // await collection.doc(currentUser.uid).update({'bar.cocktails': FieldValue.arrayUnion([cocktail.id])});
+        } else if(common.length == cocktail.ingredientsIds.length - 1){
+          String missingIng = cocktail.ingredientsIds.difference(common).first;
+          if(missing1Ing.containsKey(missingIng) && !missing1Ing[missingIng].contains(cocktail.id)){
+            missing1Ing[missingIng].add(cocktail.id);
+          } else{
+            missing1Ing[missingIng] = <String>[cocktail.id];
+          }
+        }
+      }
+    }
+  return Tuple2<Set<String>, Map<String, List<String>>>(cocktails, missing1Ing);
+}

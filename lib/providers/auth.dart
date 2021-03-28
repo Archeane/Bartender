@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
+import 'package:tuple/tuple.dart';
 
 class Auth with ChangeNotifier{
   String id;
@@ -21,7 +22,7 @@ class Auth with ChangeNotifier{
   List<String> _favorites;
 
   Set<String> _mybarIngredients;
-  Set<String> _mybarCocktails;
+  Set<String> _mybarCocktails = new Set<String>();
   Map<String, List<String>> _missing1Ing = new Map<String, List<String>>();
 
   get isLoggedIn {
@@ -43,9 +44,9 @@ class Auth with ChangeNotifier{
         _shoppingList = userData['shopping'].cast<String>();
         _favorites = userData['favorites'].cast<String>();
         List<String> ingredientsData = userData['bar']['ingredients'].cast<String>();
-        List<String> cocktailsData = userData['bar']['cocktails'].cast<String>();
+        // List<String> cocktailsData = userData['bar']['cocktails'].cast<String>();
         _mybarIngredients = ingredientsData.toSet();
-        _mybarCocktails = cocktailsData.toSet();
+        // _mybarCocktails = cocktailsData.toSet();
         print("resetted userDoc in authInit");
         notifyListeners();
       }
@@ -107,9 +108,9 @@ class Auth with ChangeNotifier{
         _shoppingList = userData['shopping'].cast<String>();
         _favorites = userData['favorites'].cast<String>();
         List<String> ingredientsData = userData['bar']['ingredients'].cast<String>();
-        final cocktailsData = userData['bar']['cocktails'].cast<String>();
+        // final cocktailsData = userData['bar']['cocktails'].cast<String>();
         _mybarIngredients = ingredientsData.toSet();
-        _mybarCocktails = cocktailsData.toSet();
+        // _mybarCocktails = cocktailsData.toSet();
       }
       notifyListeners();
     } on PlatformException catch (err) {
@@ -249,39 +250,39 @@ class Auth with ChangeNotifier{
     }
   }
 
-  void addIngredientToMyBar(String id) async {
+  void initMybarCocktails(){
+    Tuple2<Set<String>, Map<String, List<String>>> results = calculateCocktails(_mybarIngredients, _missing1Ing, _mybarCocktails,);
+    _mybarCocktails = results.item1;
+    _missing1Ing = results.item2;
+  }
+
+  Future<void> addIngredientToMyBar(String id) async {
     _mybarIngredients.add(id);
+    await collection.doc(currentUser.uid).update({'bar.ingredients': FieldValue.arrayUnion([id])});
     if(_missing1Ing.containsKey(id)){
       _mybarCocktails.addAll(_missing1Ing[id]);
       _missing1Ing.remove(id);
       notifyListeners();
-      await collection.doc(currentUser.uid).update({'bar.cocktails': FieldValue.arrayUnion(_missing1Ing[id])});
       return;
     }
-    for(Cocktail cocktail in allCocktails){
-      // check if added ingredient is in missing1Ing
-      if(!_mybarCocktails.contains(cocktail.id)){
-        final common = _mybarIngredients.intersection(cocktail.ingredientsIds);
-        if(common.length == cocktail.ingredientsIds.length){
-          _mybarCocktails.add(cocktail.id);
-          await collection.doc(currentUser.uid).update({'bar.cocktails': FieldValue.arrayUnion([cocktail.id])});
-        } else if(common.length == cocktail.ingredientsIds.length - 1){
-          String missingIng = cocktail.ingredientsIds.difference(common).first;
-          if(_missing1Ing.containsKey(missingIng) && !_missing1Ing[missingIng].contains(cocktail.id)){
-            _missing1Ing[missingIng].add(cocktail.id);
-          } else{
-            _missing1Ing[missingIng] = <String>[cocktail.id];
-          }
-        }
-      }
-    }
+    Tuple2<Set<String>, Map<String, List<String>>> results = calculateCocktails(_mybarIngredients, _missing1Ing, _mybarCocktails);
+    _mybarCocktails = results.item1;
+    _missing1Ing = results.item2;
     notifyListeners();
-    await collection.doc(currentUser.uid).update({'bar.ingredients': FieldValue.arrayUnion([id])});
     return;
   }
-  void removeIngredientFromMyBar(String id) async{
-    // remove from firebase
-    await collection.doc(currentUser.uid).update({'bar.ingredients': FieldValue.arrayUnion([id])});
+  Future<void> removeIngredientFromMyBar(String ingId) async{
+    _mybarIngredients.remove(ingId);
+    await collection.doc(currentUser.uid).update({'bar.ingredients': FieldValue.arrayRemove([ingId])});
+    List<String> toRemove = [];
+    for (String cocktailId in _mybarCocktails){
+      Cocktail cocktail = findCocktailById(cocktailId);
+      if(cocktail.ingredientsIds.contains(ingId)){
+        toRemove.add(cocktailId);
+      }
+    }
+    _mybarCocktails.removeAll(toRemove);
+    _missing1Ing[ingId] = toRemove;
     return;
   }
 

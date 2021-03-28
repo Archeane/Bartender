@@ -33,6 +33,12 @@ class _MyBarIngredientsListViewState extends State<MyBarIngredientsListView> {
     super.initState();
     _cocktailsList = widget.ingredientList;
     _filteredList = widget.ingredientList;
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Auth tempAuthProvider = Provider.of<Auth>(context, listen: false);
+      tempAuthProvider.initMybarCocktails();
+      setState(() => _numberCocktails = tempAuthProvider.mybarCocktails.length);
+    });
+    
   }
 
   void _resetSearch() {
@@ -68,8 +74,15 @@ class _MyBarIngredientsListViewState extends State<MyBarIngredientsListView> {
 
   }
 
-  void removeIngredient(String id, int index, Auth authProvider){
-    authProvider.removeIngredientFromMyBar(id);
+  void removeIngredient(String id, int index, Auth authProvider) async {
+    setState((){
+       _cocktailsLoading = true;
+    });
+    await authProvider.removeIngredientFromMyBar(id);
+    setState((){
+      _cocktailsLoading = false;
+      _numberCocktails = authProvider.mybarCocktails.length;
+    });
   }
 
   void _filterIngredients(List<String> types){
@@ -106,7 +119,7 @@ class _MyBarIngredientsListViewState extends State<MyBarIngredientsListView> {
                       trailing: authProvider.mybarIngredients.contains(_filteredList[i].id)
                         ? GestureDetector(
                           child: Icon(Icons.check, color: Colors.greenAccent),
-                          onTap: () => removeIngredient(_filteredList[i].id, i, authProvider),
+                          onTap: () => removeIngredient(_filteredList[i].id, i, authProvider)
                         )
                         : GestureDetector(
                           child: Icon(CupertinoIcons.add),

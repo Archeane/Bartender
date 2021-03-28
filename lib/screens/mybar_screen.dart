@@ -11,21 +11,10 @@ class MyBarScreen extends StatefulWidget {
 }
 
 class _MyBarScreenState extends State<MyBarScreen> {
- 
-  // List<Ingredient> _fetchIngredients(Auth authProvider) {
-  //   List<Ingredient> _allIngredients = []..addAll(allIngredients);
-  //   List<String> _mybarIngredients = authProvider.mybarIngredients;
-  //   for(var ingredientId in _mybarIngredients){ 
-  //     int index = _allIngredients.indexWhere((item) => item.id == ingredientId);
-  //   }
-  //   return _allIngredients;
-  // }
 
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<Auth>(context);
-    // return Consumer<Auth>(
-        // builder: (ctx, auth, _) => Scaffold(
     return Scaffold(
       appBar: AppBar(),
       body: authProvider.isLoggedIn
