@@ -132,8 +132,8 @@ class BartenderApp extends StatelessWidget {
             ),
             textTheme: materialTextThemes,
           ),
-          home: //CommunityCocktailScreen()
-          CupertinoTabScaffold(
+          home: CommunityCocktailScreen()
+          /*CupertinoTabScaffold(
             tabBar: CupertinoTabBar(
               items: [
                 BottomNavigationBarItem(
@@ -176,7 +176,7 @@ class BartenderApp extends StatelessWidget {
                 }
               },);
             }
-          ), 
+          ), */
         );}
     ));
   }

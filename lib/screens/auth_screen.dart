@@ -58,7 +58,7 @@ class AuthScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<Auth>(context);
+    final provider = Provider.of<Auth>(context, listen: false);
     final textThemes = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(title: const Text("account")),

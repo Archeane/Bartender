@@ -35,15 +35,27 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
   @override
   void initState() {
     super.initState();
-    _customCocktail = CommunityCocktail(
-      name: "Custom ${widget.cocktail.name}",
-      originalCocktailId: widget.cocktail.id,
-      ingredients: widget.cocktail.ingredients,
-      prepSteps: widget.cocktail.prepSteps,
-    );
-    _ingredientsList = _customCocktail.ingredients;
-    _prepStepsList = _customCocktail.prepSteps;
     _isPublic = true;
+    if(widget.cocktail != null){
+      _customCocktail = CommunityCocktail(
+        name: "Custom ${widget.cocktail.name}",
+        originalCocktailId: widget.cocktail.id,
+        ingredients: widget.cocktail.ingredients,
+        prepSteps: widget.cocktail.prepSteps,
+      );
+    } else {
+      _customCocktail = CommunityCocktail(
+        name: "",
+        ingredients: [
+          Ingredient.empty()
+        ],
+        prepSteps: [
+          null
+        ],
+      );
+    }
+    _ingredientsList = _customCocktail.ingredients;
+      _prepStepsList = _customCocktail.prepSteps;
   }
 
   void _addIngredient() => setState(

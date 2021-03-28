@@ -131,7 +131,9 @@ class _SearchBarState extends State<SearchBar> {
                     decoration: InputDecoration(
                       icon: const Icon(Icons.search),
                       border: InputBorder.none,
-                      hintText: "Search for a receipe...",
+                      hintText: widget.isIngredient 
+                        ? "Search for ingredient..."
+                        : "Search for a receipe...",
                       hintStyle: const TextStyle(
                           color: Color.fromRGBO(142, 142, 147, 1)),
                     ),

@@ -94,6 +94,7 @@ class _MyBarIngredientsListViewState extends State<MyBarIngredientsListView> {
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<Auth>(context);
+    double height = MediaQuery.of(context).size.height;
     return Column(
       children: [
         SearchBar(
@@ -106,7 +107,7 @@ class _MyBarIngredientsListViewState extends State<MyBarIngredientsListView> {
         loading
             ? Center(child: CircularProgressIndicator())
             : Container(
-              height: 480,
+              height: height * 0.65,
                 child: ListView.builder(
                   padding: const EdgeInsets.all(10.0),
                   itemCount: _filteredList.length,
