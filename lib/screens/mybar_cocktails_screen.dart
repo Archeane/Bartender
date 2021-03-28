@@ -69,10 +69,11 @@ class _MyBarCocktailScreenState extends State<MyBarCocktailScreen> {
       body: SingleChildScrollView(
             child: Column(children: [
               Container(
-                height: 250,
+                height: 240,
                 child: MyBarCocktailGroup(cocktails: cocktails, enlargeCenter: true)
               ),
               Divider(height: 20,),
+              const Text("Recommended Ingredients"),
               Container(
                 child: ListView.builder(
                   itemCount: missing1Ing.length,
@@ -80,7 +81,7 @@ class _MyBarCocktailScreenState extends State<MyBarCocktailScreen> {
                     Ingredient ing = missing1Ing.keys.elementAt(index);
                     return ListTile(
                       title: Text(ing.name, style: TextStyle(color: Colors.black, fontSize: 16)),
-                      subtitle: Text("${missing1Ing[ing].length.toString()} drink", style: TextStyle(color: Colors.black54, fontSize: 14)),
+                      subtitle: Text("${missing1Ing[ing].length.toString()} drinks", style: TextStyle(color: Colors.black54, fontSize: 14)),
                       trailing: ElevatedButton.icon(
                         label: const Text("Shopping List", style: TextStyle(fontSize: 12)), 
                         icon: Icon(Icons.add, size: 18), 

@@ -1,6 +1,7 @@
+import 'package:bartender/firebase_util.dart';
 import 'package:bartender/providers/auth.dart';
 import 'package:bartender/widgets/auth/auth_form_wrapper.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:bartender/widgets/cocktail_gridview.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,27 +13,30 @@ class AuthScreen extends StatelessWidget {
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-        CircleAvatar(
-          radius: 60,
-          backgroundColor: Colors.grey,
-          backgroundImage: provider.imageUrl != null 
-            ? NetworkImage(provider.imageUrl)
-            : null,
-        ),
-        Column(children: [
-          Text(provider.username, style: textTheme.bodyText1, textAlign: TextAlign.start,),
-          if(provider.location != null)
-            Text(provider.location, style: textTheme.caption, textAlign: TextAlign.start,)
-          ],
-          crossAxisAlignment: CrossAxisAlignment.start,
-        )
-      ],),
-      SizedBox(height: 40,),
-      Container(
-        child: Text("${provider.username}'s Custom Cocktails", style: textTheme.headline6),
-        padding: const EdgeInsets.only(bottom: 10),
+          CircleAvatar(
+            radius: 60,
+            backgroundColor: Colors.white,
+            backgroundImage: provider.profileImage
+          ),
+          Column(
+            children: [
+              Text(
+                provider.username,
+                style: textTheme.bodyText1,
+                textAlign: TextAlign.start,
+              ),
+              if (provider.location != null)
+                Text(
+                  provider.location,
+                  style: textTheme.caption,
+                  textAlign: TextAlign.start,
+                )
+            ],
+            crossAxisAlignment: CrossAxisAlignment.start,
+          )
+        ],
       ),
-      CarouselSlider(
+      /*CarouselSlider(
           options: CarouselOptions(height: 240.0, viewportFraction: 0.5, enlargeCenterPage: true),
           items: ["first", "second", "third", "fourth"].map((i) {
             return Builder(
@@ -48,32 +52,59 @@ class AuthScreen extends StatelessWidget {
               },
             );
           }).toList(),
-        ),
+        ),*/
     ]);
   }
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<Auth>(context); 
+    final provider = Provider.of<Auth>(context);
     final textThemes = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(title: const Text("account")),
       body: provider.isLoggedIn
         ? Container(
           padding: const EdgeInsets.all(20),
-          margin: const EdgeInsets.only(bottom: 80),
-          child: 
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                userProfile(provider, textThemes),
-                FlatButton(
-                  child: const Text("Logout", style: TextStyle(color: Colors.red)),
-                  onPressed: () => provider.logout(),
-                )
-            ])
-        )
-        : AuthFormWrapper()
-    );
+        margin: const EdgeInsets.only(bottom: 80),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              userProfile(provider, textThemes),
+              SizedBox(height: 10,),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Text("${provider.username}'s Custom Cocktails", textAlign: TextAlign.start,)),
+              ),
+              Expanded(
+                // height: 500,
+                // child: SingleChildScrollView(
+                  child: FutureBuilder(
+                    future: findCommunityCocktailByIds(provider.custom),
+                    builder: (context, snapshot) {
+                      if(snapshot.connectionState != ConnectionState.done) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                      if(snapshot.hasError) {
+                        print("error in collection screen findCommunityCocktailByIds");
+                        print(snapshot.error.toString());
+                        return Center(child: Text("An error has occured, please try again later!"));
+                      }
+                      return CocktailGridView(
+                        showSearchBar: false,
+                        cocktailsList: snapshot.data,
+                      );
+                    }
+                  ),
+                ),
+              // ),
+              TextButton(
+                child: const Text("Logout",
+                    style: TextStyle(color: Colors.red)),
+                onPressed: () => provider.logout(),
+              )
+            ]))
+          : AuthFormWrapper()); 
   }
 }

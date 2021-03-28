@@ -68,9 +68,28 @@ class CupertinoHomeScreen extends StatelessWidget {
 }
 
 
+const MaterialColor kPrimaryColor = const MaterialColor(
+  // 0xFFF0F3F5,
+  0xFFEFFBFF,
+  const <int, Color>{
+    50: const Color(0xFF0E7AC7),
+    100: const Color(0xFF0E7AC7),
+    200: const Color(0xFF0E7AC7),
+    300: const Color(0xFF0E7AC7),
+    400: const Color(0xFF0E7AC7),
+    500: const Color(0xFF0E7AC7),
+    600: const Color(0xFF0E7AC7),
+    700: const Color(0xFF0E7AC7),
+    800: const Color(0xFF0E7AC7),
+    900: const Color(0xFF0E7AC7),
+  },
+);
+
+
 class BartenderApp extends StatelessWidget {
 
   TextTheme materialTextThemes = new TextTheme(
+    
     headline3: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.black),
     headline4: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
     subtitle1: TextStyle(fontSize: 16, color: Colors.black54),
@@ -91,17 +110,30 @@ class BartenderApp extends StatelessWidget {
           if(snapshot.connectionState == ConnectionState.waiting){
             return Center(child: CircularProgressIndicator());
           }
-
-          return MaterialApp(
+        return MaterialApp(
           title: 'Bartender',
           theme: ThemeData(
-            primarySwatch: Colors.pink,
+            primarySwatch: kPrimaryColor,
+            primaryColor: kPrimaryColor,
+            backgroundColor: kPrimaryColor,
+            scaffoldBackgroundColor: kPrimaryColor,
+
+            fontFamily: 'Open Sans',
+
+            appBarTheme: AppBarTheme(
+              textTheme: ThemeData.light().textTheme.copyWith(
+                headline6: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 20,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+              elevation: 0,
+            ),
             textTheme: materialTextThemes,
-            backgroundColor: Colors.pink,
-            accentColor: Colors.deepPurple,
-            accentColorBrightness: Brightness.dark,
           ),
-          home: CupertinoTabScaffold(
+          home: //CommunityCocktailScreen()
+          CupertinoTabScaffold(
             tabBar: CupertinoTabBar(
               items: [
                 BottomNavigationBarItem(
@@ -113,16 +145,16 @@ class BartenderApp extends StatelessWidget {
                   label: "Collections",
                 ),
                 BottomNavigationBarItem(
+                  icon: Icon(CupertinoIcons.add),
+                  label: "My Bar",
+                ),
+                BottomNavigationBarItem(
                   icon: Icon(CupertinoIcons.person_3_fill),
                   label: "Community",
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(CupertinoIcons.person),
                   label: "Account",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.add),
-                  label: "My Bar",
                 ),
               ],
             ),
@@ -134,17 +166,17 @@ class BartenderApp extends StatelessWidget {
                   case 1:
                     return CollectionsScreen();
                   case 2:
-                    return CommunityCocktailScreen();
+                    return MyBarScreen();
                   case 3:
                     return AuthScreen();
                   case 4: 
-                    return MyBarScreen();
+                    return CommunityCocktailScreen();
                   default:
                     return DiscoverScreen();
                 }
               },);
             }
-          ),
+          ), 
         );}
     ));
   }

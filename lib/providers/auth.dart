@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tuple/tuple.dart';
 
@@ -14,6 +15,7 @@ class Auth with ChangeNotifier{
   String email;
   String location;
   String imageUrl;
+  ImageProvider profileImage;
   User currentUser = FirebaseAuth.instance.currentUser;
   CollectionReference collection = FirebaseFirestore.instance.collection('users');
   List<dynamic> _collections;
@@ -38,7 +40,9 @@ class Auth with ChangeNotifier{
         username = userData['username'];
         email = userData['email'];
         location = userData['location'] == '' ? null : userData['location'];
-        imageUrl = userData['imageUrl'] == '' ? null : userData['imageUrl'];
+        profileImage = userData['imageUrl'] == '' 
+          ? AssetImage('images/bartender-avatar.png') 
+          : NetworkImage(userData['imageUrl']);
         _collections = userData['collections'];
         _custom = userData['custom'].cast<String>();
         _shoppingList = userData['shopping'].cast<String>();

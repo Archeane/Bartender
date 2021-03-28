@@ -8,12 +8,10 @@ import 'package:carousel_slider/carousel_slider.dart';
 class MyBarCocktailGroup extends StatelessWidget {
   final List<Cocktail> cocktails;
   bool enlargeCenter = false;
-  // final String ingredient;
 
   MyBarCocktailGroup({
     @required this.cocktails, 
     this.enlargeCenter = false,
-    // this.ingredient
   });
 
   @override
@@ -27,11 +25,18 @@ class MyBarCocktailGroup extends StatelessWidget {
         //     child: Text("$ingredient, ${cocktails.length} cocktails", style: textThemes.bodyText1),
         //   ),),
         CarouselSlider(
-          options: CarouselOptions(height: 200.0, viewportFraction: 0.5, enlargeCenterPage: enlargeCenter),
+          options: CarouselOptions(
+            viewportFraction: 0.3, 
+            enlargeCenterPage: enlargeCenter
+          ),
           items: cocktails.map((cocktail) {
             return Builder(
               builder: (BuildContext context) {
-                return CocktailCard(cocktail);
+                return Container(
+                  width: 300,
+                  height: 300,
+                  child: CocktailCard(cocktail)
+                );
               },
             );
           }).toList(),
