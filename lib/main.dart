@@ -92,9 +92,10 @@ class BartenderApp extends StatelessWidget {
     
     headline3: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.black),
     headline4: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+    headline6: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.black87),
     subtitle1: TextStyle(fontSize: 16, color: Colors.black54),
     subtitle2: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black54),
-    bodyText1: TextStyle(fontSize: 18),
+    bodyText1: TextStyle(fontSize: 8, color: Colors.black54, fontWeight: FontWeight.w100),
     overline: TextStyle(fontSize: 12, color: Colors.black45),
   );
 
@@ -119,6 +120,7 @@ class BartenderApp extends StatelessWidget {
             scaffoldBackgroundColor: kPrimaryColor,
 
             fontFamily: 'Open Sans',
+            primaryTextTheme: materialTextThemes,
 
             appBarTheme: AppBarTheme(
               textTheme: ThemeData.light().textTheme.copyWith(
@@ -127,10 +129,21 @@ class BartenderApp extends StatelessWidget {
                   fontSize: 20,
                   fontWeight: FontWeight.normal,
                 ),
+                bodyText1: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 8,
+                  fontWeight: FontWeight.normal
+                )
               ),
               elevation: 0,
             ),
-            textTheme: materialTextThemes,
+            buttonTheme: ButtonTheme.of(context).copyWith(
+              buttonColor: Colors.pink,
+              textTheme: ButtonTextTheme.primary,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+            ),
           ),
           home: CommunityCocktailScreen()
           /*CupertinoTabScaffold(

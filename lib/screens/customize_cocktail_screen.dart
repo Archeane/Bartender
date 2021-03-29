@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:bartender/firebase_util.dart';
 import 'package:bartender/providers/auth.dart';
+import 'package:bartender/widgets/auth/auth_form_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -71,7 +72,7 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
 
   void _saveRecipeName(String val) => _customCocktail.name = val;
 
-  Future<void> _saveForm() async {
+  Future<void> _saveForm(Auth authProvider) async {
     if (!_form.currentState.validate()) {
       return;
     }
@@ -100,9 +101,12 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
     _customCocktail.prepSteps = _prepStepsList;
     _customCocktail.isPublic = _isPublic;
     if(_userImageFile == null){
-      _customCocktail.imageUrl = widget.cocktail.imageUrl;
+      if(widget.cocktail == null){
+        _customCocktail.imageUrl = null;
+      } else {
+        _customCocktail.imageUrl = widget.cocktail.imageUrl;
+      }
     }
-    Auth authProvider = Provider.of<Auth>(context, listen: false);
     _customCocktail.authorName = authProvider.username;
     _customCocktail.authorId = authProvider.id;
     
@@ -117,18 +121,19 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
   @override
   Widget build(BuildContext context) {
     final textThemes = Theme.of(context).textTheme;
-
+    final auth = Provider.of<Auth>(context);
     return Scaffold(
         appBar: AppBar(
-          title: Text('Customize Cocktail'),
+          title: const Text('Customize Cocktail'),
           actions: <Widget>[
             TextButton(
-              child: Text("Done", style: TextStyle(color: Colors.white)),
-              onPressed: _saveForm,
+              child: Text("Done", style: TextStyle(color: Colors.black)),
+              onPressed: () => _saveForm(auth),
             ),
           ],
         ),
-        body: SingleChildScrollView(
+        body: auth.isLoggedIn 
+        ? SingleChildScrollView(
           child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
               child: Form(
@@ -180,6 +185,8 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
                   ],
                 ),
               )),
-        ));
+        )
+        : AuthFormWrapper()
+      );
   }
 }

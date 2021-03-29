@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bartender/screens/auth_screen.dart';
 import 'package:bartender/widgets/auth/auth_form.dart';
 import 'package:bartender/providers/auth.dart';
 
@@ -43,7 +44,7 @@ class _AuthFormWrapperState extends State<AuthFormWrapper> {
         message = err.message;
       }
 
-      Scaffold.of(ctx).showSnackBar(
+      ScaffoldMessenger.of(ctx).showSnackBar(
         SnackBar(
           content: Text(message),
           backgroundColor: Theme.of(ctx).errorColor,
@@ -63,7 +64,10 @@ class _AuthFormWrapperState extends State<AuthFormWrapper> {
           if(snapshot.connectionState == ConnectionState.waiting){
             return Center(child: CircularProgressIndicator());
           }
-          return AuthForm(_submitAuthForm, false);
+          if(!provider.isLoggedIn){
+            return AuthForm(_submitAuthForm, false);
+          }
+          return AuthScreen();
         }
       );
   }

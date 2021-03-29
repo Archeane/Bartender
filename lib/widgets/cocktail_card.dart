@@ -39,7 +39,10 @@ class CocktailCard extends StatelessWidget {
                 ),
                   child: Container(
                     padding: const EdgeInsets.all(5),
-                    child: Text(data.name, style: TextStyle(fontWeight: FontWeight.bold)),
+                    child: Align(
+                      child: Text(data.name, style: TextStyle(fontWeight: FontWeight.bold)),
+                      alignment: Alignment(0, -1),
+                    ),
                   ),
                   // padding: const EdgeInsets.only(top: 20),
                 ),

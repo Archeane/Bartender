@@ -12,10 +12,11 @@ class FavoriteCocktailButton extends StatelessWidget {
     Auth provider = Provider.of<Auth>(context);
     return provider.isLoggedIn 
       ? IconButton(
+        color: Colors.redAccent,
         icon: Icon(
           provider.favorites.contains(cocktailId)
-          ? Icons.star
-          : Icons.star_border_outlined
+          ? Icons.favorite
+          : Icons.favorite_border_outlined
         ),
         onPressed: () {
           if(provider.favorites.contains(cocktailId)){
@@ -25,7 +26,8 @@ class FavoriteCocktailButton extends StatelessWidget {
           }
         })
       : IconButton(
-          icon: Icon(Icons.star_border_outlined),
+          color: Colors.redAccent,
+          icon: Icon(Icons.favorite_border_outlined),
           onPressed: () async {
             await showDialog(
               context: context,
@@ -34,7 +36,7 @@ class FavoriteCocktailButton extends StatelessWidget {
                 content: const Text('Please login to add to favorites'),
                 actions: <Widget>[
                   TextButton(
-                    child: const Text('OK'),
+                    child: const Text('OK', style: TextStyle(color: Colors.black87),),
                     onPressed: () {
                       Navigator.of(context, rootNavigator: true).pop();
                     },

@@ -7,6 +7,7 @@ import 'package:bartender/screens/customize_cocktail_screen.dart';
 import 'package:bartender/screens/discover_screen.dart';
 import 'package:bartender/screens/mybar_screen.dart';
 import 'package:bartender/screens/shopping_list_screen.dart';
+import 'package:bartender/widgets/auth/auth_form_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:bartender/widgets/cocktail_gridview.dart';
@@ -21,30 +22,6 @@ class CommunityCocktailScreen extends StatefulWidget {
 }
 
 class _CommunityCocktailScreenState extends State<CommunityCocktailScreen> {
-
-  Widget loggedInAppBar(Auth auth){
-    return Row(children: [
-      IconButton(
-        icon: Icon(Icons.favorite), 
-        onPressed: () => Navigator.of(context).push(
-          MaterialPageRoute(builder: (_) {
-            return FavoritesScreen();
-          }),
-        ),),
-      InkWell(
-        onTap: () => Navigator.of(context).push(
-          MaterialPageRoute(builder: (_) {
-            return AuthScreen();
-          }),
-        ),
-        child: CircleAvatar(
-          radius: 20,
-          backgroundColor: Colors.white,
-          backgroundImage: auth.profileImage
-        ),
-      )
-    ],);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +68,7 @@ class _CommunityCocktailScreenState extends State<CommunityCocktailScreen> {
             child: Text("Login", style: TextStyle(color: Colors.black)),
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (_) {
-                return AuthScreen();
+                return AuthFormWrapper();
               }),
             ),
           )
@@ -127,26 +104,34 @@ class _CommunityCocktailScreenState extends State<CommunityCocktailScreen> {
         children: <Widget>[
           Align(
             alignment: Alignment(0, 1),
-            child: FloatingActionButton.extended(
-              icon: Icon(Icons.add),
-              label: const Text("Custom Receipe"),
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) {
-                  return CustomizeCocktailScreen(null);
-                }),
+            child: Container(
+              width: 200.0,
+              child: FittedBox(
+                child: FloatingActionButton.extended(
+                    icon: Icon(Icons.add),
+                    label: const Text("Custom Receipe"),
+                    onPressed: () => Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) {
+                        return CustomizeCocktailScreen(null);
+                      }),
+                    ),
+                  ),
+                ),
               ),
-            ),
           ),
           Align(
             alignment: Alignment(0, 0.85),
-            child: FloatingActionButton.extended(
-              icon: Icon(Icons.home),
-              label: const Text("Your Bar"),
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) {
-                  return MyBarScreen();
-                }),
-              ),
+            child: Container(
+              width: 200.0,
+                child: FloatingActionButton.extended(
+                  icon: Icon(Icons.home),
+                  label: const Text("Your Bar"),
+                  onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) {
+                      return MyBarScreen();
+                    }),
+                  ),
+                ),
             ),
           ),
         ],

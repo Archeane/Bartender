@@ -51,10 +51,10 @@ class Auth with ChangeNotifier{
         // List<String> cocktailsData = userData['bar']['cocktails'].cast<String>();
         _mybarIngredients = ingredientsData.toSet();
         // _mybarCocktails = cocktailsData.toSet();
-        print("resetted userDoc in authInit");
+        // print("resetted userDoc in authInit");
         notifyListeners();
       }
-    }
+    } 
   }
 
   Future<void> signup(String username, String email, String password, String location, File image ) async {

@@ -28,7 +28,7 @@ class AuthScreen extends StatelessWidget {
               if (provider.location != null)
                 Text(
                   provider.location,
-                  style: textTheme.caption,
+                  style: textTheme.overline,
                   textAlign: TextAlign.start,
                 )
             ],
@@ -61,12 +61,11 @@ class AuthScreen extends StatelessWidget {
     final provider = Provider.of<Auth>(context, listen: false);
     final textThemes = Theme.of(context).textTheme;
     return Scaffold(
-      appBar: AppBar(title: const Text("account")),
+      appBar: AppBar(title: const Text("Account")),
       body: provider.isLoggedIn
         ? Container(
           padding: const EdgeInsets.all(20),
-        margin: const EdgeInsets.only(bottom: 80),
-        child: Column(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               userProfile(provider, textThemes),
@@ -75,7 +74,8 @@ class AuthScreen extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Container(
                   padding: const EdgeInsets.only(top: 10),
-                  child: Text("${provider.username}'s Custom Cocktails", textAlign: TextAlign.start,)),
+                  child: Text("${provider.username}'s Custom Cocktails", textAlign: TextAlign.start,
+                              style: textThemes.headline6)),
               ),
               Expanded(
                 // height: 500,
