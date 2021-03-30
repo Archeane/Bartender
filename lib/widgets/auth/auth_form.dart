@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:bartender/widgets/auth/user_image_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AuthForm extends StatefulWidget {
@@ -79,7 +78,7 @@ class _AuthFormState extends State<AuthForm> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 if (!_isLogin) UserImagePicker(_pickedImage),
-                if(_isLogin) const Text("Create or login to sync and save your bar, publish custom recipes and manage your favorites"),
+                if(_isLogin) const Text("Login to sync and save your bar, publish custom recipes and manage your favorites"),
                 TextFormField(
                   key: ValueKey('email'),
                   autocorrect: false,
@@ -150,7 +149,7 @@ class _AuthFormState extends State<AuthForm> {
                   TextFormField(
                     autocorrect: true,
                     key: ValueKey('location'),
-                    decoration: InputDecoration(labelText: 'Your location'),
+                    decoration: InputDecoration(labelText: 'City (optional)'),
                     onSaved: (value) {
                       _userLocation = value;
                     }
@@ -158,15 +157,15 @@ class _AuthFormState extends State<AuthForm> {
                 SizedBox(height: 12),
                 if (widget.isLoading) CircularProgressIndicator(),
                 if (!widget.isLoading)
-                  CupertinoButton.filled(
+                  RaisedButton(
                     child: Text(_isLogin ? 'Login' : 'Signup'),
                     onPressed: _trySubmit,
                   ),
                 if (!widget.isLoading)
-                  CupertinoButton(
+                  TextButton(
                     child: Text(_isLogin
                         ? 'Create new account'
-                        : 'I already have an account'),
+                        : 'I already have an account', style: TextStyle(color: Colors.black87)),
                     onPressed: () {
                       setState(() {
                         _isLogin = !_isLogin;

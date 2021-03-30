@@ -1,6 +1,5 @@
 import 'package:bartender/widgets/favorite_cocktail.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 
 import 'package:bartender/model/cocktail.dart';
 import 'package:bartender/widgets/ingredient_list.dart';
@@ -18,7 +17,7 @@ class CommunityCocktailDetailScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Custom Receipe"),
+        title: Text(cocktailData.name),
         actions: [
           FavoriteCocktailButton(this.cocktailData.id)
         ],

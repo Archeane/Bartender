@@ -106,6 +106,9 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
       } else {
         _customCocktail.imageUrl = widget.cocktail.imageUrl;
       }
+    }else {
+      String url = await saveImageToFireStore(_userImageFile, 'community_cocktail_image', authProvider.id + '_'+ DateTime.now().toString());
+      _customCocktail.imageUrl = url;
     }
     _customCocktail.authorName = authProvider.username;
     _customCocktail.authorId = authProvider.id;
@@ -147,13 +150,21 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
                       Expanded(
                           child: Text(
                               "Allow my reciepe to be shown to the community")),
-                      CupertinoSwitch(
+                      Platform.isIOS 
+                      ? CupertinoSwitch(
                         value: _isPublic,
                         onChanged: (val) {
                           _customCocktail.isPublic = val;
                           setState(() => _isPublic = val);
                         },
-                      ),
+                      )
+                      : Switch(
+                        value: _isPublic,
+                         onChanged: (val) {
+                          _customCocktail.isPublic = val;
+                          setState(() => _isPublic = val);
+                        },
+                      )
                     ]),
                     
                     Container(

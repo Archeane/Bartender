@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 
 class CocktailDetailHeader extends StatelessWidget {
   
@@ -20,12 +19,12 @@ class CocktailDetailHeader extends StatelessWidget {
             Image.network(cocktailData.imageUrl,
               width: 150, height: 200, fit: BoxFit.cover),
           SizedBox(height: 10),
-          Text(cocktailData.name, style: textThemes.headline3),
+          // Text(cocktailData.name, style: textThemes.headline3),
           if(cocktailData.strength != null)
             Text("${cocktailData.strength.toLowerCase()}, ${cocktailData.alcoholContent.toString()}%",
               style: textThemes.subtitle2),
           if(cocktailData.origin != null)
-            Text("Originated from ${cocktailData.origin.toLowerCase()}", style: textThemes.subtitle2),
+            Text("Originated from ${cocktailData.origin.toLowerCase()}", style: textThemes.overline),
         ],
       ),
     );

@@ -66,13 +66,7 @@ class Auth with ChangeNotifier{
       currentUser = authResult.user;
       id = authResult.user.uid;
       if (image != null){
-        final ref = FirebaseStorage.instance
-                .ref()
-                .child('user_image')
-                .child(authResult.user.uid + '.jpg');
-
-        await ref.putFile(image);
-        final url = await ref.getDownloadURL();
+        String url = await saveImageToFireStore(image, 'user_image', id);
         await setEmptyUser(id, email, username, location, url);
       } else {
         await setEmptyUser(id, email, username, location, null);

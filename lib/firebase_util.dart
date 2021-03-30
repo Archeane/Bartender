@@ -1,6 +1,9 @@
 
+import 'dart:io';
+
 import 'package:bartender/model/cocktail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:tuple/tuple.dart';
 
 import './model/ingredient.dart';
@@ -15,6 +18,7 @@ bool isInit = false;
 CollectionReference ingredientsCollection = FirebaseFirestore.instance.collection('ingredients');
 CollectionReference cocktailsCollection = FirebaseFirestore.instance.collection('cocktails');
 CollectionReference communityCollection = FirebaseFirestore.instance.collection('community');
+
 List<Ingredient> allIngredients;
 List<Cocktail> allCocktails;
 
@@ -149,4 +153,15 @@ Tuple2<Set<String>, Map<String, List<String>>> calculateCocktails(
       }
     }
   return Tuple2<Set<String>, Map<String, List<String>>>(cocktails, missing1Ing);
+}
+
+Future<String> saveImageToFireStore(File image, String collection, String id) async{
+  firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
+    .ref()
+    .child(collection)
+    .child(id+'.jpg');
+
+  await ref.putFile(image);
+  final url = await ref.getDownloadURL();
+  return url;
 }

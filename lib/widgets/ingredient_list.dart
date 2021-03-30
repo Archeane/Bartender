@@ -1,7 +1,6 @@
 import 'dart:core';
 import 'package:bartender/screens/ingredient_detail_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:fraction/fraction.dart';
 
 class IngredientList extends StatefulWidget {

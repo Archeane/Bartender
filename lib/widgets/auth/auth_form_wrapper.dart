@@ -65,7 +65,10 @@ class _AuthFormWrapperState extends State<AuthFormWrapper> {
             return Center(child: CircularProgressIndicator());
           }
           if(!provider.isLoggedIn){
-            return AuthForm(_submitAuthForm, false);
+            return Scaffold(
+              appBar: AppBar(title: const Text("Login/Signup"),),
+              body: AuthForm(_submitAuthForm, false)
+            );
           }
           return AuthScreen();
         }

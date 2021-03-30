@@ -1,7 +1,6 @@
 import 'package:bartender/widgets/favorite_cocktail.dart';
 import 'package:bartender/widgets/ingredient_list.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 
 import 'package:bartender/model/cocktail.dart';
 import 'package:bartender/widgets/cocktail_detail/cocktail_detail_header.dart';
@@ -30,7 +29,7 @@ class CocktailDetailScreen extends StatelessWidget {
       );
     return Scaffold(
       appBar: AppBar(
-        title: Text("Cocktail Detail"),
+        title: Text(cocktailData.name),
         actions: [
           FavoriteCocktailButton(this.cocktailData.id)
         ],

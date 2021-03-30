@@ -139,50 +139,6 @@ class BartenderApp extends StatelessWidget {
             ),
           ),
           home: CommunityCocktailScreen()
-          /*CupertinoTabScaffold(
-            tabBar: CupertinoTabBar(
-              items: [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  label: "Discover",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.list_bullet),
-                  label: "Collections",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.add),
-                  label: "My Bar",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.person_3_fill),
-                  label: "Community",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.person),
-                  label: "Account",
-                ),
-              ],
-            ),
-            tabBuilder: (BuildContext context, int index) {
-              return CupertinoTabView(builder: (context){
-                switch(index){
-                  case 0:
-                    return DiscoverScreen();
-                  case 1:
-                    return CollectionsScreen();
-                  case 2:
-                    return MyBarScreen();
-                  case 3:
-                    return AuthScreen();
-                  case 4: 
-                    return CommunityCocktailScreen();
-                  default:
-                    return DiscoverScreen();
-                }
-              },);
-            }
-          ), */
         );}
     ));
   }

@@ -1,7 +1,6 @@
 import 'package:bartender/model/cocktail.dart';
 import 'package:bartender/widgets/cocktail_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 // ignore: must_be_immutable

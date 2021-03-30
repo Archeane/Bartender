@@ -22,7 +22,7 @@ class AuthScreen extends StatelessWidget {
             children: [
               Text(
                 provider.username,
-                style: textTheme.bodyText1,
+                style: textTheme.headline6,
                 textAlign: TextAlign.start,
               ),
               if (provider.location != null)

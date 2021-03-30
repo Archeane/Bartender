@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -35,7 +34,7 @@ class CollectionGridScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final collectionRef = FirebaseFirestore.instance.collection('cocktails');
     return Scaffold(
-      appBar: AppBar(title: Text("Collection GridView")),
+      appBar: AppBar(title: Text("Collection")),
       body: FutureBuilder(
         future: _fetchCollectionItems(collectionRef),
         builder: (context, snapshot) {

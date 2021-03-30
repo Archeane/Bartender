@@ -32,14 +32,14 @@ class _UserImagePickerState extends State<UserImagePicker> {
     return Column(
       children: <Widget>[
         CircleAvatar(
-          radius: 40,
-          backgroundColor: Colors.grey,
+          radius: 80,
+          backgroundColor: Colors.white,
           backgroundImage:
               _pickedImage != null ? FileImage(_pickedImage) : null,
         ),
-        TextButton.icon(
+        FlatButton.icon(
           onPressed: _pickImage,
-          icon: Icon(Icons.image),
+          icon: Icon(Icons.image, color: Colors.black87,),
           label: Text('Add Image', style: TextStyle(color: Colors.black87)),
         ),
       ],
