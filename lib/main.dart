@@ -1,14 +1,10 @@
 import 'package:bartender/firebase_util.dart';
 import 'package:bartender/providers/auth.dart';
-import 'package:bartender/screens/auth_screen.dart';
-import 'package:bartender/screens/mybar_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-import 'package:bartender/screens/collections_screen.dart';
-import 'package:bartender/screens/discover_screen.dart';
 import 'package:bartender/screens/community_cocktail_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -72,32 +68,20 @@ const MaterialColor kPrimaryColor = const MaterialColor(
   // 0xFFF0F3F5,
   0xFFEFFBFF,
   const <int, Color>{
-    50: const Color(0xFF0E7AC7),
-    100: const Color(0xFF0E7AC7),
-    200: const Color(0xFF0E7AC7),
-    300: const Color(0xFF0E7AC7),
-    400: const Color(0xFF0E7AC7),
-    500: const Color(0xFF0E7AC7),
-    600: const Color(0xFF0E7AC7),
-    700: const Color(0xFF0E7AC7),
-    800: const Color(0xFF0E7AC7),
-    900: const Color(0xFF0E7AC7),
+    50: const Color(0xFFFAE7E4),
+    100: const Color(0xFFEAE4F1),
+    200: const Color(0xFFE4F0E1),
+    300: const Color(0xFFEFFBFF),
+    400: const Color(0xFFEFFBFF),
+    500: const Color(0xFFEFFBFF),
+    600: const Color(0xFFEFFBFF),
+    700: const Color(0xFFEFFBFF),
+    800: const Color(0xFFEFFBFF),
+    900: const Color(0xFFEFFBFF),
   },
 );
 
-
 class BartenderApp extends StatelessWidget {
-
-  TextTheme materialTextThemes = new TextTheme(
-    
-    headline3: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.black),
-    headline4: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
-    headline6: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.black87),
-    subtitle1: TextStyle(fontSize: 16, color: Colors.black54),
-    subtitle2: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black54),
-    bodyText1: TextStyle(fontSize: 8, color: Colors.black54, fontWeight: FontWeight.w100),
-    overline: TextStyle(fontSize: 12, color: Colors.black45),
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +104,16 @@ class BartenderApp extends StatelessWidget {
             scaffoldBackgroundColor: kPrimaryColor,
 
             fontFamily: 'Open Sans',
-            primaryTextTheme: materialTextThemes,
+            textTheme: TextTheme(
+              headline3: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.black),
+              headline4: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
+              headline5: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+              headline6: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+              subtitle1: TextStyle(fontSize: 16, color: Colors.black54),
+              subtitle2: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black54),
+              bodyText1: TextStyle(fontSize: 8, color: Colors.black54, fontWeight: FontWeight.w100),
+              overline: TextStyle(fontSize: 12, color: Colors.black45),
+            ),
 
             appBarTheme: AppBarTheme(
               textTheme: ThemeData.light().textTheme.copyWith(
@@ -137,11 +130,11 @@ class BartenderApp extends StatelessWidget {
               ),
               elevation: 0,
             ),
-            buttonTheme: ButtonTheme.of(context).copyWith(
-              buttonColor: Colors.pink,
+            buttonTheme: ButtonThemeData(
+              buttonColor: kPrimaryColor[100],
               textTheme: ButtonTextTheme.primary,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(30),
               ),
             ),
           ),

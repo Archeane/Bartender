@@ -58,16 +58,19 @@ class _FilterFormState extends State<FilterForm> {
       ),
       child: widget.isIngredient 
       ? Column(children: [
-        const Text("Filter by Ingredient Type"),
+        const Text("Filter by Ingredient Type", style: TextStyle(fontWeight: FontWeight.w500),),
         CustomCheckboxGroup(
           orientation: GroupedButtonsOrientation.HORIZONTAL,
           labels: IngredientType.values.map((IngredientType type) => type.toString().split(".").last).toList(),
           onSelected: (List selected) => setState((){_checkedIngType = selected;}),
           checked: _checkedIngType,
         ),
-        ElevatedButton(
-          child: const Text('Apply Filter'),
-          onPressed: _trySubmit
+        Container(
+          margin: const EdgeInsets.only(top: 10),
+          child: ElevatedButton(
+            child: const Text('Apply Filter'),
+            onPressed: _trySubmit
+          ),
         ),
       ],)
       : Column(
@@ -76,12 +79,16 @@ class _FilterFormState extends State<FilterForm> {
           // sorts: strength, name
           Text("Sort by"),
           CheckboxListTile(
+            activeColor: Colors.white10,
+            checkColor: Colors.redAccent,
             title: const Text("Strength"),
             value: _sortStrength,
             onChanged: (bool val) => setState(() => _sortStrength = val),
             controlAffinity: ListTileControlAffinity.platform,  //  <-- leading Checkbox
           ),
           CheckboxListTile(
+            activeColor: Colors.white10,
+            checkColor: Colors.redAccent,
             title: Text("Name"),
             value: _sortName,
             onChanged: (bool val) => setState(() => _sortName = val),
@@ -90,6 +97,8 @@ class _FilterFormState extends State<FilterForm> {
           // filter: strength, spirit, liqueur
           Text("Strength"),
           CheckboxGroup(
+            activeColor: Colors.white10,
+            checkColor: Colors.redAccent,
             orientation: GroupedButtonsOrientation.HORIZONTAL,
             labels: Strength.values.map((Strength strength) => strength.toString().split(".").last).toList(),
             onSelected: (List selected) => setState((){_checkedStrength = selected;}),
@@ -100,21 +109,12 @@ class _FilterFormState extends State<FilterForm> {
               );
             },
           ),
-          // Text("Ingredient"),
-          // Column(children:[CheckboxGroup(
-          //   orientation: GroupedButtonsOrientation.HORIZONTAL,
-          //   labels: allSpiritIngredients.map((Ingredient ing) => ing.name.toString()).toList(),
-          //   onSelected: (List selected) => setState((){_checkedIngredient = selected;}),
-          //   checked: _checkedIngredient,
-          //   itemBuilder: (Checkbox cb, Text txt, int i){
-          //     return Row(
-          //       children: [cb,txt],
-          //     );
-          //   },
-          // )]),
-          ElevatedButton(
-            child: const Text('Apply Filter'),
-            onPressed: _trySubmit
+          Container(
+            margin: const EdgeInsets.only(top: 10),
+            child: ElevatedButton(
+              child: const Text('Apply Filter'),
+              onPressed: _trySubmit
+            ),
           ),
         ],
       ),

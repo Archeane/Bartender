@@ -34,26 +34,30 @@ class _ReceipeImagePickerState extends State<ReceipeImagePicker> {
       Column(
         children: <Widget>[
           Container(
-            child: _pickedImage != null ? Image(image: FileImage(_pickedImage)) : null,
+            child: CircleAvatar(
+              backgroundColor: Colors.white,
+              radius: 60,
+              child: _pickedImage != null ? Image(image: FileImage(_pickedImage)) : null
+            ) 
           ),
-          FlatButton(
-            textColor: Theme.of(context).primaryColor,
+          TextButton(
             onPressed: _pickImage,
-            child: const Text('Add Image'),
+            child: const Text('Add Image', style: TextStyle(color: Colors.redAccent)),
           ),
         ],
       ),
+      SizedBox(width: 10,),
       Expanded(
-          flex: 2,
           child: TextFormField(
               // initialValue: _customCocktail.name,
               decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                   border: OutlineInputBorder(
                       borderSide:
-                          BorderSide(color: Colors.black54),
+                          BorderSide(color: Colors.black87),
                       borderRadius:
                           BorderRadius.circular(5)),
-                  hintText: "Receipe Name"),
+                  hintText: "Add a Name..."),
               validator: (value) {
                 if (value.isEmpty) {
                   return 'Please provide a name.';

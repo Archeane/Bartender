@@ -17,7 +17,7 @@ class PrepstepInputList extends StatelessWidget {
         Container(
           margin: const EdgeInsets.symmetric(vertical: 10),
           child: Text("Prepreation Steps",
-              style: textThemes.headline4)),
+              style: textThemes.headline6)),
         Container(
           height: 50.0 * _prepStepsList.length,
           child: ListView.builder(
@@ -57,14 +57,15 @@ class PrepstepInputList extends StatelessWidget {
           ),
         ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-          FlatButton.icon(
+          TextButton.icon(
             icon: Icon(Icons.delete),
-            label: Text("Remove Step"),
+            label: Text("Remove Step", style: TextStyle(color: Colors.black87)),
             onPressed: _deleteStep,
           ),
-          FlatButton.icon(
+          RaisedButton.icon(
+            color: Color(0xFFE4F0E1),
             icon: Icon(Icons.add),
             label: Text("Add Step"),
             onPressed: _addPrepStep,

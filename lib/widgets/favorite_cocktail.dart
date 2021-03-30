@@ -36,7 +36,7 @@ class FavoriteCocktailButton extends StatelessWidget {
                 content: const Text('Please login to add to favorites'),
                 actions: <Widget>[
                   TextButton(
-                    child: const Text('OK', style: TextStyle(color: Colors.black87),),
+                    child: const Text('OK', style: TextStyle(color: Colors.black87)),
                     onPressed: () {
                       Navigator.of(context, rootNavigator: true).pop();
                     },

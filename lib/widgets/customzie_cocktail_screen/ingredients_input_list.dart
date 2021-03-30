@@ -27,7 +27,7 @@ class IngredientsInputList extends StatelessWidget {
         Container(
           margin: const EdgeInsets.symmetric(vertical: 15),
           child:
-              Text("Ingredients", style: textThemes.headline4)),
+              Text("Ingredients", style: textThemes.headline6)),
         Container(
           height: 50.0 * _ingredientsList.length,
           margin: const EdgeInsets.symmetric(vertical: 4),
@@ -107,14 +107,15 @@ class IngredientsInputList extends StatelessWidget {
           )
         ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            FlatButton.icon(
+            TextButton.icon(
               icon: Icon(Icons.delete),
-              label: Text("Remove Ingredient"),
+              label: Text("Remove Ingredient", style: TextStyle(color: Colors.black87)),
               onPressed: _deleteIngredient,
             ),
-            FlatButton.icon(
+            RaisedButton.icon(
+              color: Color(0xFFE4F0E1),
               icon: Icon(Icons.add),
               label: Text("Add Ingredient"),
               onPressed: _addIngredient,

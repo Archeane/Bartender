@@ -131,7 +131,7 @@ class _MyBarIngredientsListViewState extends State<MyBarIngredientsListView> {
                   ),
                 ),
               ),
-          ElevatedButton(
+          RaisedButton(
             child: Container(
               width: 200,
               child: Row(children:[

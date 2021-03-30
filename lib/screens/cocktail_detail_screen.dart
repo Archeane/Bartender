@@ -17,9 +17,8 @@ class CocktailDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textThemes = Theme.of(context).textTheme;
-    Widget customizeReceipeButton = CupertinoButton(
-        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-        color: Colors.pink,
+    Widget customizeReceipeButton = RaisedButton(
+        // padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
         child: const Text("Customize Receipe"),
         onPressed: () => Navigator.of(context).push(
             MaterialPageRoute(

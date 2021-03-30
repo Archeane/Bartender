@@ -108,8 +108,10 @@ class _CommunityCocktailScreenState extends State<CommunityCocktailScreen> {
               width: 200.0,
               child: FittedBox(
                 child: FloatingActionButton.extended(
+                  elevation: 4,
+                    backgroundColor: Color(0xFFFAE7E4),
                     icon: Icon(Icons.add),
-                    label: const Text("Custom Receipe"),
+                    label: const Text("Create a Receipe"),
                     onPressed: () => Navigator.of(context).push(
                       MaterialPageRoute(builder: (_) {
                         return CustomizeCocktailScreen(null);
@@ -124,6 +126,8 @@ class _CommunityCocktailScreenState extends State<CommunityCocktailScreen> {
             child: Container(
               width: 200.0,
                 child: FloatingActionButton.extended(
+                  elevation: 4,
+                  backgroundColor: Color(0xFFEAE4F1),
                   icon: Icon(Icons.home),
                   label: const Text("Your Bar"),
                   onPressed: () => Navigator.of(context).push(

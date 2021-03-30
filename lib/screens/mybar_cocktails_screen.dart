@@ -62,7 +62,7 @@ class _MyBarCocktailScreenState extends State<MyBarCocktailScreen> {
     Auth authProvider = Provider.of<Auth>(context);
     final cocktails = _getCocktails(authProvider);
     double height = MediaQuery.of(context).size.height;
-
+    final textThemes = Theme.of(context).textTheme;
 
     return Scaffold(
       appBar: AppBar(title: const Text("Availble cocktails")),
@@ -73,7 +73,7 @@ class _MyBarCocktailScreenState extends State<MyBarCocktailScreen> {
                 child: MyBarCocktailGroup(cocktails: cocktails, enlargeCenter: true)
               ),
               Divider(height: 20,),
-              const Text("Recommended Ingredients"),
+              Text("Recommended Ingredients", style: textThemes.headline6,),
               Container(
                 child: ListView.builder(
                   itemCount: missing1Ing.length,
@@ -82,7 +82,7 @@ class _MyBarCocktailScreenState extends State<MyBarCocktailScreen> {
                     return ListTile(
                       title: Text(ing.name, style: TextStyle(color: Colors.black, fontSize: 16)),
                       subtitle: Text("${missing1Ing[ing].length.toString()} drinks", style: TextStyle(color: Colors.black54, fontSize: 14)),
-                      trailing: ElevatedButton.icon(
+                      trailing: RaisedButton.icon(
                         label: const Text("Shopping List", style: TextStyle(fontSize: 12)), 
                         icon: Icon(Icons.add, size: 18), 
                         onPressed: (){

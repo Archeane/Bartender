@@ -46,7 +46,7 @@ class _ShoppingListAddIngredientScreenState extends State<ShoppingListAddIngredi
         // title: const Text("Add to Shopping List"),
         actions: [
           TextButton(
-            child: const Text("Done", style: TextStyle(color: Colors.white),),
+            child: const Text("Done", style: TextStyle(color: Colors.black87)),
             onPressed: () async {
               await provider.updateShoppingList(newList);
               Navigator.of(context).pop();

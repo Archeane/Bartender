@@ -88,7 +88,7 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
             : const Text("Please add at least one prepreation step"),
           actions: <Widget>[
             TextButton(
-              child: Text('Okay'),
+              child: Text('Okay', style: TextStyle(color: Colors.black87)),
               onPressed: () {
                 Navigator.of(ctx).pop();
               },
@@ -164,8 +164,10 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
                       Container(
                           child: PrepstepInputList(
                               _prepStepsList, _deletePrepStep, _addPrepStep)),
-                    Text("Notes", style: textThemes.headline4),
-                    SizedBox(height: 10,),
+                    Container(
+                      child: Text("Notes", style: textThemes.headline6),
+                      padding: const EdgeInsets.all(10),
+                    ),
                     Container(
                       height: 100,
                       child: TextFormField(
