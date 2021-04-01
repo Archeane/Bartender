@@ -91,14 +91,14 @@ packages:
       name: cupertino_icons
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "1.0.2"
   dropdown_search:
     dependency: "direct main"
     description:
       name: dropdown_search
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.8"
+    version: "0.4.9"
   fake_async:
     dependency: transitive
     description:
@@ -295,7 +295,7 @@ packages:
       name: nested
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.4"
+    version: "1.0.0"
   path:
     dependency: transitive
     description:
@@ -309,7 +309,7 @@ packages:
       name: pedantic
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.9.2"
+    version: "1.11.0"
   plugin_platform_interface:
     dependency: transitive
     description:

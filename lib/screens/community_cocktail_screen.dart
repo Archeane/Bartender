@@ -107,6 +107,7 @@ class _CommunityCocktailScreenState extends State<CommunityCocktailScreen> {
               width: 200.0,
               child: FittedBox(
                 child: FloatingActionButton.extended(
+                  heroTag: "createReceipe",
                   elevation: 4,
                     backgroundColor: Color(0xFFFAE7E4),
                     icon: Icon(Icons.add),
@@ -125,6 +126,7 @@ class _CommunityCocktailScreenState extends State<CommunityCocktailScreen> {
             child: Container(
               width: 200.0,
                 child: FloatingActionButton.extended(
+                  heroTag: "yourbar",
                   elevation: 4,
                   backgroundColor: Color(0xFFEAE4F1),
                   icon: Icon(Icons.home),

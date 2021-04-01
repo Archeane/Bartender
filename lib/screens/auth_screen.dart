@@ -102,7 +102,10 @@ class AuthScreen extends StatelessWidget {
               TextButton(
                 child: const Text("Logout",
                     style: TextStyle(color: Colors.red)),
-                onPressed: () => provider.logout(),
+                onPressed: () async {
+                  await provider.logout();
+                  Navigator.of(context).pop();
+                },
               )
             ]))
           : AuthFormWrapper()); 

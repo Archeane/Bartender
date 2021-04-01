@@ -108,6 +108,9 @@ class Auth with ChangeNotifier{
         List<String> ingredientsData = userData['bar']['ingredients'].cast<String>();
         // final cocktailsData = userData['bar']['cocktails'].cast<String>();
         _mybarIngredients = ingredientsData.toSet();
+        profileImage = userData['imageUrl'] == '' 
+          ? AssetImage('images/bartender-avatar.png') 
+          : NetworkImage(userData['imageUrl']);
         // _mybarCocktails = cocktailsData.toSet();
       }
       notifyListeners();

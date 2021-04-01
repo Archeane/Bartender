@@ -13,46 +13,48 @@ class IngredientList extends StatefulWidget {
 }
 
 class _IngredientListState extends State<IngredientList> {
-
   @override
   Widget build(BuildContext context) {
-    final ingreidentsList = widget.ingredients;  
+    final ingreidentsList = widget.ingredients;
     double screenWidth = MediaQuery.of(context).size.width;
+
     return SingleChildScrollView(
       child: Container(
-        width: screenWidth * 2/3,
+        width: screenWidth * 2 / 3,
         child: Card(
-          elevation: 2,
-          // child: IngredientList(cocktailData.ingredients)
-          child: Column(children: ingreidentsList.map<Widget>((ing) => 
-            Column(
-              children: [
-                if(ing.id != ingreidentsList[0].id)
-                  Divider(height: 0),
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: GestureDetector(
-                    onTap: (){
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (_) => IngredientDetailScreen(ing.id)),
-                      );
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(ing.name),
-                        Text("${Fraction.fromDouble(ing.amount).toString()} ${ing.unit}"),
-                      ],
+            elevation: 2,
+            // child: IngredientList(cocktailData.ingredients)
+            child: Column(
+              children: ingreidentsList.map<Widget>((ing) {
+                final fraction = Fraction.fromDouble(ing.amount);
+                fraction.reduce(); 
+                return Column(children: [
+                  if (ing.id != ingreidentsList[0].id) Divider(height: 0),
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (_) => IngredientDetailScreen(ing.id)),
+                        );
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(ing.name),
+                          Text(
+                              "${fraction.toString()} ${ing.unit}"),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ]
-            )).toList(),
-          )
-        ),
+                ]);
+              }).toList(),
+            )),
       ),
     );
-   /* return Container(
+    /* return Container(
       padding: const EdgeInsets.all(10),
       child: ListView.separated(
         separatorBuilder: (context, index) {

@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "888722528888",
+    "project_id": "bartender-23cd9",
+    "storage_bucket": "bartender-23cd9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:888722528888:android:9b976df2a26eaebbc6eb8d",
+        "android_client_info": {
+          "package_name": "com.example.bartender"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "888722528888-brv1aisgbnvchmflrhk6r2i5a2qqgasj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBh9VbAbypTb3jibKj6-YICH4miBwqnAV4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "888722528888-brv1aisgbnvchmflrhk6r2i5a2qqgasj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "888722528888-fg5ngiungde8c22e3q1qvidlqcer2i0k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.jenny.bartender"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:888722528888:android:904cedfb4c0af242c6eb8d",
+        "android_client_info": {
+          "package_name": "com.jenny.bartender"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "888722528888-brv1aisgbnvchmflrhk6r2i5a2qqgasj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBh9VbAbypTb3jibKj6-YICH4miBwqnAV4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "888722528888-brv1aisgbnvchmflrhk6r2i5a2qqgasj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "888722528888-fg5ngiungde8c22e3q1qvidlqcer2i0k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.jenny.bartender"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
