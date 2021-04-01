@@ -81,7 +81,10 @@ class _SearchBarState extends State<SearchBar> {
         return GestureDetector(
           onTap: () {},
           behavior: HitTestBehavior.opaque,
-          child: FilterForm(widget.onSort, widget.onFilter, widget.isIngredient),
+          child: FilterForm(
+            sort: widget.onSort, 
+            filter: widget.onFilter, 
+            isIngredient: widget.isIngredient),
         );
       },
     );

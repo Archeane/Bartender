@@ -48,7 +48,6 @@ class IngredientsInputList extends StatelessWidget {
                           showSearchBox: true,
                           searchBoxDecoration: InputDecoration(icon: Icon(Icons.search), hintText: "Search for ingredient..."),
                           items: dropdownList,
-                          // onChanged: print,
                           selectedItem: _ingredientsList[index].name,
                           onSaved: (value) {
                             _ingredientsList[index].name = value.toString();

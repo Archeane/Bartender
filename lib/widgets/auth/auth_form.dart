@@ -34,6 +34,8 @@ class _AuthFormState extends State<AuthForm> {
   File _userImageFile;
   final _passwordController = TextEditingController();
 
+  bool isLoading = false;
+
   void _pickedImage(File image) {
     _userImageFile = image;
   }

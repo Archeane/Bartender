@@ -1,4 +1,5 @@
 import 'package:bartender/screens/community_cocktail_detail_screen.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:bartender/model/cocktail.dart';
 import 'package:bartender/screens/cocktail_detail_screen.dart';
@@ -32,7 +33,13 @@ class CocktailCard extends StatelessWidget {
                   image: DecorationImage(
                     image: data.imageUrl == null
                       ? AssetImage('images/default_cocktail.png')
-                      : NetworkImage(data.imageUrl),
+                      : CachedNetworkImageProvider(data.imageUrl),
+                      // : CachedNetworkImage(
+                      //     imageUrl: data.imageUrl,
+                      //     progressIndicatorBuilder: (context, url, downloadProgress) => 
+                      //           CircularProgressIndicator(value: downloadProgress.progress),
+                      //     errorWidget: (context, url, error) => Icon(Icons.error),
+                      //   ),
                     fit: BoxFit.fitWidth, 
                     alignment: Alignment(0.0, -0.75),
                   )

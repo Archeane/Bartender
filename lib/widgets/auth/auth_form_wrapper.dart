@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 
 
 class AuthFormWrapper extends StatefulWidget {
-  bool showScaffold;
+  final bool showScaffold;
   
   AuthFormWrapper({this.showScaffold = false});
 
@@ -18,6 +18,8 @@ class AuthFormWrapper extends StatefulWidget {
 }
 
 class _AuthFormWrapperState extends State<AuthFormWrapper> {
+
+  // bool _isLoading = false;
 
   void _submitAuthForm(
     String email,
@@ -28,16 +30,15 @@ class _AuthFormWrapperState extends State<AuthFormWrapper> {
     bool isLogin,
     BuildContext ctx,
   ) async {
-    // setState(() => isLoading = true);
     try {
+      // setState(() => _isLoading = true);
       final provider = Provider.of<Auth>(context, listen: false);
       if (isLogin) {
         await provider.login(email, password);
-        // setState(() => isLoading = false);
       } else {
         await provider.signup(username, email, password, location, image);
-        // setState(() => isLoading = false);
       }      
+      // setState(() => _isLoading = false);
     } catch (err) {
       //debugPrint(err);
       var message = 'An error occurred, please check your credentials!';
@@ -52,12 +53,15 @@ class _AuthFormWrapperState extends State<AuthFormWrapper> {
           backgroundColor: Theme.of(ctx).errorColor,
         ),
       );
+      // setState(() => _isLoading = false);
     } 
   }
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<Auth>(context); 
+    // return _isLoading 
+    // ? Center(child: CircularProgressIndicator())
     return FutureBuilder(
         future: provider.authInit(),
         builder: (ctx, snapshot) {

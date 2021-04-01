@@ -43,6 +43,7 @@ class _CommunityCocktailDetailScreenState extends State<CommunityCocktailDetailS
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                SizedBox(height: 10,),
                 CocktailDetailHeader(widget.cocktailData),
                 Container(
                   child: Text("Created by ${widget.cocktailData.authorName}")

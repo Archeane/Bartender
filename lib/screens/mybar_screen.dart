@@ -16,6 +16,7 @@ class _MyBarScreenState extends State<MyBarScreen> {
   Widget build(BuildContext context) {
     final authProvider = Provider.of<Auth>(context);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(title: const Text("My Bar Ingredients"),),
       body: authProvider.isLoggedIn
         ? MyBarIngredientsListView(allIngredients)

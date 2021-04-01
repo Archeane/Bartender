@@ -23,21 +23,22 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  firebase_core: ^0.7.0
-  cloud_firestore: ^0.16.0
+  firebase_core: ^1.0.2
+  cloud_firestore: ^1.0.3
   cupertino_icons: ^1.0.0
-  dropdown_search: ^0.4.8
+  dropdown_search: ^0.5.0
   flappy_search_bar: ^1.7.2
-  material_floating_search_bar: ^0.2.6
-  image_picker: ^0.6.2
-  firebase_auth: ^0.20.1
-  firebase_storage: ^7.0.0
-  fluttertoast: ^7.1.8
+  material_floating_search_bar: ^0.3.3
+  image_picker: ^0.7.4
+  firebase_auth: ^1.0.1
+  firebase_storage: ^8.0.1
+  fluttertoast: ^8.0.3
   carousel_slider: ^3.0.0
-  provider: ^4.3.3
-  fraction: ^1.0.0
+  provider: ^5.0.0
+  fraction: ^2.0.1
   grouped_buttons: ^1.0.4
-  tuple: ^1.0.0
+  tuple: ^2.0.0
+  cached_network_image: ^3.0.0
   
 dev_dependencies:
   flutter_test:

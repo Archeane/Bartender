@@ -32,6 +32,7 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
   CommunityCocktail _customCocktail;
   final _form = GlobalKey<FormState>();
   File _userImageFile;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -72,31 +73,49 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
 
   void _saveRecipeName(String val) => _customCocktail.name = val;
 
-  Future<void> _saveForm(Auth authProvider) async {
+  Future<void> _saveForm(Auth authProvider, BuildContext ctx) async {
     if (!_form.currentState.validate()) {
       return;
     }
+    setState(() => _isLoading = true);
     _form.currentState.save();
 
-    if (_ingredientsList.length == 0) {
-      await showDialog(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          title: Text('Form Invalid'),
-          content: _ingredientsList.length == 0 
-            ? const Text('Please add at least one ingredient')
-            : const Text("Please add at least one prepreation step"),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Okay', style: TextStyle(color: Colors.black87)),
-              onPressed: () {
-                Navigator.of(ctx).pop();
-              },
-            )
-          ],
+    if (_ingredientsList.length == 0 || _prepStepsList.length == 0) {
+      return ScaffoldMessenger.of(ctx).showSnackBar(
+        SnackBar(
+          content: Text(_ingredientsList.length == 0  
+            ? "Please add at least one ingredient"
+            : "Please add at least one prepartion step"),
+          backgroundColor: Theme.of(ctx).errorColor,
         ),
       );
+      // await showDialog(
+        // context: context,
+        // builder: (ctx) => AlertDialog(
+      //     title: Text('Form Invalid'),
+      //     content: _ingredientsList.length == 0 
+      //       ? const Text('Please add at least one ingredient')
+      //       : const Text("Please add at least one prepreation step"),
+      //     actions: <Widget>[
+      //       TextButton(
+      //         child: Text('Okay', style: TextStyle(color: Colors.black87)),
+      //         onPressed: () {
+      //           Navigator.of(ctx).pop();
+      //         },
+      //       )
+      //     ],
+      //   ),
+      // );
     }
+    // if (_ingredientsList.any((e) => e.name == null)){
+    //   return ScaffoldMessenger.of(ctx).showSnackBar(
+    //     SnackBar(
+    //       content: Text("Please choose an ingredient"),
+    //       backgroundColor: Theme.of(ctx).errorColor,
+    //     ),
+    //   );
+    // }
+
     _customCocktail.ingredients = _ingredientsList;
     _customCocktail.prepSteps = _prepStepsList;
     _customCocktail.isPublic = _isPublic;
@@ -117,8 +136,20 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
     String docId = await saveCommunityCocktail(jsonData);
     authProvider.addCustom(docId);
     
+    ScaffoldMessenger.of(ctx).showSnackBar(
+        SnackBar(
+          content: Text("Custom Receipe added!"),
+          backgroundColor: Colors.greenAccent,
+          duration: Duration(milliseconds: 2000),
+        ),
+      );
+
     //redirect to custom cocktail page
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) => CommunityCocktailDetailScreen(_customCocktail),));
+    Navigator.of(context).pop();
+    // Navigator.of(context).push(
+    //   MaterialPageRoute(
+    //     builder: (_) => CommunityCocktailDetailScreen(_customCocktail),)
+    // );
   }
 
   @override
@@ -131,12 +162,14 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
           actions: <Widget>[
             TextButton(
               child: Text("Done", style: TextStyle(color: Colors.black)),
-              onPressed: () => _saveForm(auth),
+              onPressed: () => _saveForm(auth, context),
             ),
           ],
         ),
         body: auth.isLoggedIn 
-        ? SingleChildScrollView(
+        ? _isLoading 
+        ? Center(child: CircularProgressIndicator.adaptive(),)
+        : SingleChildScrollView(
           child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
               child: Form(
@@ -159,6 +192,7 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
                         },
                       )
                       : Switch(
+                        activeTrackColor: Colors.greenAccent,
                         value: _isPublic,
                          onChanged: (val) {
                           _customCocktail.isPublic = val;

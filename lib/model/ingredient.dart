@@ -39,14 +39,9 @@ class Ingredient {
     this.amount
   });
 
-  Ingredient.shopping(){
-    id = "";
-    name = "water";
-  }
-
   Ingredient.empty(){
-    id = "";
-    name = "select ingredient..";
+    id = null;
+    name = null;
     unit = "oz";
     amount = 0;
     type = null;

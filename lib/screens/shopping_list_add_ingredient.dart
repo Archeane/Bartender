@@ -42,6 +42,7 @@ class _ShoppingListAddIngredientScreenState extends State<ShoppingListAddIngredi
     newList = widget._originalShoppingList;
     final provider = Provider.of<Auth>(context); 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         // title: const Text("Add to Shopping List"),
         actions: [

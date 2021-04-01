@@ -9,15 +9,15 @@ class CocktailDetailHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textThemes = Theme.of(context).textTheme;
-
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Container(
-      // height: 300,
       padding: const EdgeInsets.all(5),
       child: Column(
         children: [
           if(cocktailData.imageUrl != null)
             Image.network(cocktailData.imageUrl,
-              width: 150, height: 200, fit: BoxFit.cover),
+              width: width / 3, height: height * 0.28, fit: BoxFit.cover),
           SizedBox(height: 10),
           // Text(cocktailData.name, style: textThemes.headline3),
           if(cocktailData.strength != null)

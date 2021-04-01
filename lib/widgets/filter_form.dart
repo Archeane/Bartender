@@ -8,9 +8,9 @@ import 'package:grouped_buttons/grouped_buttons.dart';
 class FilterForm extends StatefulWidget {
   final void Function(bool strength, bool name) sort;
   final void Function(List<String> strengths) filter;
-  bool isIngredient = false;
+  final bool isIngredient;
 
-  FilterForm(this.sort, this.filter, this.isIngredient);
+  FilterForm({this.sort, this.filter, this.isIngredient = false});
 
   @override
   _FilterFormState createState() => _FilterFormState();
@@ -60,6 +60,8 @@ class _FilterFormState extends State<FilterForm> {
       ? Column(children: [
         const Text("Filter by Ingredient Type", style: TextStyle(fontWeight: FontWeight.w500),),
         CustomCheckboxGroup(
+          activeColor: Colors.white10,
+          checkColor: Colors.redAccent,
           orientation: GroupedButtonsOrientation.HORIZONTAL,
           labels: IngredientType.values.map((IngredientType type) => type.toString().split(".").last).toList(),
           onSelected: (List selected) => setState((){_checkedIngType = selected;}),

@@ -107,30 +107,30 @@ class _MyBarIngredientsListViewState extends State<MyBarIngredientsListView> {
         loading
             ? Center(child: CircularProgressIndicator())
             : Container(
-              height: height * 0.65,
-                child: ListView.builder(
-                  padding: const EdgeInsets.all(10.0),
-                  itemCount: _filteredList.length,
-                  itemBuilder: (ctx, i) => GestureDetector(child: 
-                    ListTile(
-                      leading: _filteredList[i].imageUrl == null 
-                        ? null
-                        : Image.network(_filteredList[i].imageUrl, fit: BoxFit.cover, filterQuality: FilterQuality.none),
-                      title: Text(_filteredList[i].name),
-                      trailing: authProvider.mybarIngredients.contains(_filteredList[i].id)
-                        ? GestureDetector(
-                          child: Icon(Icons.check, color: Colors.greenAccent),
-                          onTap: () => removeIngredient(_filteredList[i].id, i, authProvider)
-                        )
-                        : GestureDetector(
-                          child: Icon(CupertinoIcons.add),
-                          onTap: () => addIngredient(_filteredList[i].id, i, authProvider),
-                        ),
+                height: height * 0.65,
+                  child: ListView.builder(
+                    padding: const EdgeInsets.all(10.0),
+                    itemCount: _filteredList.length,
+                    itemBuilder: (ctx, i) => GestureDetector(child: 
+                      ListTile(
+                        leading: _filteredList[i].imageUrl == null 
+                          ? null
+                          : Image.network(_filteredList[i].imageUrl, fit: BoxFit.cover, filterQuality: FilterQuality.none),
+                        title: Text(_filteredList[i].name),
+                        trailing: authProvider.mybarIngredients.contains(_filteredList[i].id)
+                          ? GestureDetector(
+                            child: Icon(Icons.check, color: Colors.greenAccent),
+                            onTap: () => removeIngredient(_filteredList[i].id, i, authProvider)
+                          )
+                          : GestureDetector(
+                            child: Icon(CupertinoIcons.add),
+                            onTap: () => addIngredient(_filteredList[i].id, i, authProvider),
+                          ),
+                      ),
+                      onTap: () {},
                     ),
-                    onTap: () {},
                   ),
                 ),
-              ),
           RaisedButton(
             child: Container(
               width: 200,

@@ -17,15 +17,16 @@ class _ReceipeImagePickerState extends State<ReceipeImagePicker> {
   File _pickedImage;
 
   void _pickImage() async {
-    final pickedImageFile = await ImagePicker.pickImage(
+    final picker = ImagePicker();
+    final pickedImageFile = await picker.getImage(
       source: ImageSource.camera,
-      imageQuality: 50,
+      // imageQuality: 50,
       maxWidth: 150,
     );
     setState(() {
-      _pickedImage = pickedImageFile;
+      _pickedImage = File(pickedImageFile.path);
     });
-    widget.imagePickFn(pickedImageFile);
+    widget.imagePickFn(_pickedImage);
   }
 
   @override

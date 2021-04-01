@@ -42,7 +42,7 @@ class CocktailDetailScreen extends StatelessWidget {
             children: [
               CocktailDetailHeader(cocktailData),
               Container(
-                margin: const EdgeInsets.symmetric(vertical: 15),
+                margin: const EdgeInsets.symmetric(vertical: 10),
                 child: customizeReceipeButton
               ),
               Text("Ingredients", style: textThemes.headline4),
