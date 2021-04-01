@@ -57,34 +57,7 @@ class Auth with ChangeNotifier{
     } 
   }
 
-  Future<void> signup(String username, String email, String password, String location, File image ) async {
-    try {
-      UserCredential authResult = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      currentUser = authResult.user;
-      id = authResult.user.uid;
-      if (image != null){
-        String url = await saveImageToFireStore(image, 'user_image', id);
-        await setEmptyUser(id, email, username, location, url);
-      } else {
-        await setEmptyUser(id, email, username, location, null);
-      }
-
-      notifyListeners();
-    } on PlatformException catch (err) {
-      var message = 'An error occurred, pelase check your credentials!';
-
-      if (err.message != null) {
-        message = err.message;
-      }
-      throw(message);
-    } catch (err) {
-      print(err);
-      throw("An error occured in the server, please try again later!");
-    }
-  }
+  
 
   Future<void> login(String email, String password) async {
     try {
@@ -114,16 +87,32 @@ class Auth with ChangeNotifier{
         // _mybarCocktails = cocktailsData.toSet();
       }
       notifyListeners();
-    } on PlatformException catch (err) {
-      var message = 'An error occurred, pelase check your credentials!';
-
-      if (err.message != null) {
-        message = err.message;
-      }
-      throw(message);
     } catch (err) {
       print(err);
-      throw("An error occured in the server, please try again later!");
+      throw(err);
+    } 
+  }
+
+  Future<void> signup(String username, String email, String password, String location, File image ) async {
+    try {
+      UserCredential authResult = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      currentUser = authResult.user;
+      id = authResult.user.uid;
+      if (image != null){
+        String url = await saveImageToFireStore(image, 'user_image', id);
+        await setEmptyUser(id, email, username, location, url);
+      } else {
+        await setEmptyUser(id, email, username, location, null);
+      }
+      login(email, password);
+
+      notifyListeners();
+    } catch(e){
+      print(e.message);
+      throw(e);
     }
   }
 

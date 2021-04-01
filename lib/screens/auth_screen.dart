@@ -108,6 +108,6 @@ class AuthScreen extends StatelessWidget {
                 },
               )
             ]))
-          : AuthFormWrapper()); 
+          : AuthFormWrapper(showScaffold: true)); 
   }
 }

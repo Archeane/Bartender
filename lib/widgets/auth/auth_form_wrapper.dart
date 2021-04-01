@@ -5,12 +5,13 @@ import 'package:bartender/widgets/auth/auth_form.dart';
 import 'package:bartender/providers/auth.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 
 class AuthFormWrapper extends StatefulWidget {
-  AuthFormWrapper();
+  bool showScaffold;
+  
+  AuthFormWrapper({this.showScaffold = false});
 
   @override
   _AuthFormWrapperState createState() => _AuthFormWrapperState();
@@ -27,17 +28,18 @@ class _AuthFormWrapperState extends State<AuthFormWrapper> {
     bool isLogin,
     BuildContext ctx,
   ) async {
+    // setState(() => isLoading = true);
     try {
       final provider = Provider.of<Auth>(context, listen: false);
       if (isLogin) {
         await provider.login(email, password);
-        // handle login success & failure
-        
+        // setState(() => isLoading = false);
       } else {
         await provider.signup(username, email, password, location, image);
-        
+        // setState(() => isLoading = false);
       }      
-    } on PlatformException catch (err) {
+    } catch (err) {
+      //debugPrint(err);
       var message = 'An error occurred, please check your credentials!';
 
       if (err.message != null) {
@@ -50,9 +52,7 @@ class _AuthFormWrapperState extends State<AuthFormWrapper> {
           backgroundColor: Theme.of(ctx).errorColor,
         ),
       );
-    } catch (err) {
-      print(err);
-    }
+    } 
   }
 
   @override
@@ -65,6 +65,9 @@ class _AuthFormWrapperState extends State<AuthFormWrapper> {
             return Center(child: CircularProgressIndicator());
           }
           if(!provider.isLoggedIn){
+            if (!widget.showScaffold){
+              return AuthForm(_submitAuthForm, false);
+            }
             return Scaffold(
               appBar: AppBar(title: const Text("Login/Signup"),),
               body: AuthForm(_submitAuthForm, false)
