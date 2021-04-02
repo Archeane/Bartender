@@ -8,7 +8,6 @@ import 'package:bartender/screens/auth_screen.dart';
 import 'package:bartender/screens/collections_screen.dart';
 import 'package:bartender/screens/shopping_list_screen.dart';
 import 'package:bartender/widgets/auth/auth_form_wrapper.dart';
-import 'package:bartender/screens/customize_cocktail_screen.dart';
 import 'package:bartender/screens/mybar_screen.dart';
 import 'package:provider/provider.dart';
 

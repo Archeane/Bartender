@@ -1,7 +1,6 @@
 import 'dart:io';
-
-import 'package:bartender/widgets/auth/user_image_picker.dart';
 import 'package:flutter/material.dart';
+import '../image_picker_wrapper.dart';
 
 class AuthForm extends StatefulWidget {
   AuthForm(
@@ -79,7 +78,7 @@ class _AuthFormState extends State<AuthForm> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                if (!_isLogin) UserImagePicker(_pickedImage),
+                if (!_isLogin) ImagePickerWrapper(_pickedImage),
                 if(_isLogin) const Text("Login to sync and save your bar, publish custom recipes and manage your favorites"),
                 TextFormField(
                   key: ValueKey('email'),
