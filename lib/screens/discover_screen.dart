@@ -27,7 +27,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-            icon: Icon(Icons.search),
+            icon: Icon(Icons.people_outline_rounded),
             tooltip: "Explore Original Cocktails",
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (_) {
@@ -76,6 +76,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Container(
               width: 200.0,
+              margin: const EdgeInsets.only(bottom: 10),
                 child: FloatingActionButton.extended(
                   heroTag: "yourbar",
                   elevation: 4,

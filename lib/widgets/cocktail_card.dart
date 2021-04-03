@@ -11,6 +11,7 @@ class CocktailCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Container(
       child: GestureDetector(
           onTap: () {
@@ -47,7 +48,13 @@ class CocktailCard extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.all(5),
                     child: Align(
-                      child: Text(data.name, style: TextStyle(fontWeight: FontWeight.bold)),
+                      child: Column(
+                        children: [
+                          Text(data.name, style: TextStyle(fontWeight: FontWeight.bold)),
+                          if(data.alcoholContent != null)
+                            Text(data.alcoholContent.toString()+"%", style: textTheme.overline),
+                        ],
+                      ),
                       alignment: Alignment(0, -1),
                     ),
                   ),

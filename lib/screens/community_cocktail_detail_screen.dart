@@ -20,6 +20,18 @@ class CommunityCocktailDetailScreen extends StatefulWidget {
 
 class _CommunityCocktailDetailScreenState extends State<CommunityCocktailDetailScreen> {
   bool showSettings = false;
+  
+  Future<void> removeReceipe(BuildContext ctx, Auth auth) async {
+    await auth.removeCustom(widget.cocktailData.id);
+    ScaffoldMessenger.of(ctx).showSnackBar(
+      SnackBar(
+        content: Text("${widget.cocktailData.name} has been removed"),
+        backgroundColor: Theme.of(ctx).errorColor,
+      ),
+    );
+
+    Navigator.of(ctx).pop();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +58,8 @@ class _CommunityCocktailDetailScreenState extends State<CommunityCocktailDetailS
                 SizedBox(height: 10,),
                 CocktailDetailHeader(widget.cocktailData),
                 Container(
-                  child: Text("Created by ${widget.cocktailData.authorName}")
-                ),
+                    child: Text("Created by ${widget.cocktailData.authorName}")
+                  ),
                 IngredientList(widget.cocktailData.ingredients),
                 if(widget.cocktailData.prepSteps != null)
                   Container(
@@ -61,19 +73,17 @@ class _CommunityCocktailDetailScreenState extends State<CommunityCocktailDetailS
                     children: [
                       Container(
                         margin: const EdgeInsets.symmetric(horizontal: 20),
-                        // padding: const EdgeInsets.all(5), 
                         child: Text("Notes", style: textThemes.headline4)
                       ),
                       Container(
                         margin: const EdgeInsets.symmetric(horizontal: 20),
-                        // padding: const EdgeInsets.all(5), 
                         child: Text(widget.cocktailData.notes)
                       ),
                     ],
                   ),
                 if(showSettings)
                   RaisedButton(
-                    onPressed: () {}, 
+                    onPressed: () => removeReceipe(context, auth),
                     child: const Text("Remove Receipt"), color: Colors.redAccent
                   ) 
               ],

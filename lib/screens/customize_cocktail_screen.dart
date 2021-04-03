@@ -11,7 +11,6 @@ import 'package:bartender/model/ingredient.dart';
 import 'package:bartender/widgets/customzie_cocktail_screen/ingredients_input_list.dart';
 import 'package:bartender/widgets/customzie_cocktail_screen/receipe_image_picker.dart';
 import 'package:bartender/widgets/customzie_cocktail_screen/prepstep_input_list.dart';
-import 'package:bartender/screens/community_cocktail_detail_screen.dart';
 import 'package:provider/provider.dart';
 
 class CustomizeCocktailScreen extends StatefulWidget {
@@ -39,14 +38,14 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
     super.initState();
     _isPublic = true;
     if(widget.cocktail != null){
-      _customCocktail = CommunityCocktail(
+      _customCocktail = new CommunityCocktail(
         name: "Custom ${widget.cocktail.name}",
         originalCocktailId: widget.cocktail.id,
-        ingredients: widget.cocktail.ingredients,
-        prepSteps: widget.cocktail.prepSteps,
+        ingredients: List.of(widget.cocktail.ingredients),
+        prepSteps: widget.cocktail.prepSteps == null ? [null] : widget.cocktail.prepSteps,
       );
     } else {
-      _customCocktail = CommunityCocktail(
+      _customCocktail = new CommunityCocktail(
         name: "",
         ingredients: [
           Ingredient.empty()
@@ -80,8 +79,9 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
     setState(() => _isLoading = true);
     _form.currentState.save();
 
-    if (_ingredientsList.length == 0 || _prepStepsList.length == 0) {
-      return ScaffoldMessenger.of(ctx).showSnackBar(
+    if (_ingredientsList == null || _prepStepsList == null || _ingredientsList.length == 0 || _prepStepsList.length == 0) {
+      setState(() => _isLoading = false);
+      ScaffoldMessenger.of(ctx).showSnackBar(
         SnackBar(
           content: Text(_ingredientsList.length == 0  
             ? "Please add at least one ingredient"
@@ -89,9 +89,10 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
           backgroundColor: Theme.of(ctx).errorColor,
         ),
       );
+      return;
       // await showDialog(
-        // context: context,
-        // builder: (ctx) => AlertDialog(
+      //   context: context,
+      //   builder: (ctx) => AlertDialog(
       //     title: Text('Form Invalid'),
       //     content: _ingredientsList.length == 0 
       //       ? const Text('Please add at least one ingredient')
@@ -107,15 +108,6 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
       //   ),
       // );
     }
-    // if (_ingredientsList.any((e) => e.name == null)){
-    //   return ScaffoldMessenger.of(ctx).showSnackBar(
-    //     SnackBar(
-    //       content: Text("Please choose an ingredient"),
-    //       backgroundColor: Theme.of(ctx).errorColor,
-    //     ),
-    //   );
-    // }
-
     _customCocktail.ingredients = _ingredientsList;
     _customCocktail.prepSteps = _prepStepsList;
     _customCocktail.isPublic = _isPublic;
@@ -136,6 +128,8 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
     String docId = await saveCommunityCocktail(jsonData);
     authProvider.addCustom(docId);
     
+    setState(() => _isLoading = false);
+
     ScaffoldMessenger.of(ctx).showSnackBar(
         SnackBar(
           content: Text("Custom Receipe added!"),
@@ -145,7 +139,7 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
       );
 
     //redirect to custom cocktail page
-    Navigator.of(context).pop();
+    Navigator.of(context).pop();  // change to redirect to community screen so community refreshes
     // Navigator.of(context).push(
     //   MaterialPageRoute(
     //     builder: (_) => CommunityCocktailDetailScreen(_customCocktail),)
@@ -205,10 +199,9 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
                       child: IngredientsInputList(
                           _ingredientsList, _deleteIngredient, _addIngredient),
                     ),
-                    if(_prepStepsList != null)
-                      Container(
-                          child: PrepstepInputList(
-                              _prepStepsList, _deletePrepStep, _addPrepStep)),
+                    Container(
+                        child: PrepstepInputList(
+                            _prepStepsList, _deletePrepStep, _addPrepStep)),
                     Container(
                       child: Text("Notes", style: textThemes.headline6),
                       padding: const EdgeInsets.all(10),

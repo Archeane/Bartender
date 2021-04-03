@@ -18,7 +18,6 @@ class Auth with ChangeNotifier{
   ImageProvider profileImage;
   User currentUser = FirebaseAuth.instance.currentUser;
   CollectionReference collection = FirebaseFirestore.instance.collection('users');
-  List<dynamic> _collections;
   List<String> _custom;
   List<String> _shoppingList;
   List<String> _favorites;
@@ -28,11 +27,11 @@ class Auth with ChangeNotifier{
   Map<String, List<String>> _missing1Ing = new Map<String, List<String>>();
 
   get isLoggedIn {
-    return currentUser != null && _collections != null && _shoppingList != null;
+    return currentUser != null && _shoppingList != null;
   }
 
   Future<void> authInit() async {
-    if (currentUser != null && _collections == null){
+    if (currentUser != null && _shoppingList == null){
       DocumentSnapshot userDoc = await collection.doc(currentUser.uid).get();
       if(userDoc.exists){
         final userData = userDoc.data();
@@ -43,7 +42,6 @@ class Auth with ChangeNotifier{
         profileImage = userData['imageUrl'] == '' 
           ? AssetImage('images/bartender-avatar.png') 
           : NetworkImage(userData['imageUrl']);
-        _collections = userData['collections'];
         _custom = userData['custom'].cast<String>();
         _shoppingList = userData['shopping'].cast<String>();
         _favorites = userData['favorites'].cast<String>();
@@ -74,7 +72,6 @@ class Auth with ChangeNotifier{
         email = userData['email'];
         location = userData['location'] == '' ? null : userData['location'];
         imageUrl = userData['imageUrl'] == '' ? null : userData['imageUrl'];
-        _collections = userData['collections'];
         _custom = userData['custom'].cast<String>();
         _shoppingList = userData['shopping'].cast<String>();
         _favorites = userData['favorites'].cast<String>();
@@ -121,7 +118,6 @@ class Auth with ChangeNotifier{
       await FirebaseAuth.instance.signOut();
       currentUser = null;
       id = null;
-      _collections = [];
       _custom = [];
       _shoppingList = [];
       _favorites = [];
@@ -132,26 +128,26 @@ class Auth with ChangeNotifier{
   Future<DocumentReference> setEmptyUser(String id, String email, String username, String location, String url) async {
     DocumentReference userDoc = collection.doc(id);
     
-    _collections = [
-      {
-        "name": "custom",
-        "icon": 59430
-      }, 
-      {
-        "name": "shopping",
-        "icon": 58389
-      },
-      {
-        "name": "favorites",
-        "icon": 62607
-      },
-    ];
+    // _collections = [
+    //   {
+    //     "name": "custom",
+    //     "icon": 59430
+    //   }, 
+    //   {
+    //     "name": "shopping",
+    //     "icon": 58389
+    //   },
+    //   {
+    //     "name": "favorites",
+    //     "icon": 62607
+    //   },
+    // ];
     await userDoc.set({
       'username': username,
       'email': email,
       'imageUrl': url == null ? "" : url,
       'location': location,
-      'collections': _collections,
+      // 'collections': _collections,
       'shopping': [],
       'favorites': [],
       'custom': [],
@@ -176,10 +172,6 @@ class Auth with ChangeNotifier{
 
   bool inShoppingList(String ingId){
     return _shoppingList.contains(ingId);
-  }
-
-  List<dynamic> get collections {
-    return [..._collections];
   }
 
   void addShoppingListItem(String ing) async {
@@ -231,7 +223,7 @@ class Auth with ChangeNotifier{
       await collection.doc(currentUser.uid).update({'custom': FieldValue.arrayUnion([communityCocktailId])});
     }
   }
-  void removeCustom(String communityCocktailId) async{
+  Future<void> removeCustom(String communityCocktailId) async{
     if(_custom.contains(communityCocktailId)){
       int index = _custom.indexOf(communityCocktailId);
       _custom.removeAt(index);
