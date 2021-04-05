@@ -112,6 +112,11 @@ Future<List<CommunityCocktail>> fetchAllCommunityCocktail() async {
   return data;
 }
 
+Future<CommunityCocktail> findCommunityCocktailById(String id) async {
+  DocumentSnapshot snapshot = await communityCollection.doc(id).get();
+  return CommunityCocktail.fromFirebaseSnapshot(id, snapshot.data());
+}
+
 Future<List<CommunityCocktail>> findCommunityCocktailByIds(List<String> ids) async {
   
   List<CommunityCocktail> allCommunityCocktails = await fetchAllCommunityCocktail();
@@ -135,6 +140,8 @@ Tuple2<Set<String>, Map<String, List<String>>> calculateCocktails(
     Map<String, List<String>> missing1Ing, 
     Set<String> cocktails
   ){
+  if(ingredients.length == 0)
+    return Tuple2<Set<String>, Map<String, List<String>>>({}, {});
   for(Cocktail cocktail in allCocktails){
       // check if added ingredient is in missing1Ing
       if(!cocktails.contains(cocktail.id)){

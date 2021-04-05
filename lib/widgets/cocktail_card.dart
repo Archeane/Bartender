@@ -18,7 +18,7 @@ class CocktailCard extends StatelessWidget {
             Navigator.of(context).push(
               MaterialPageRoute(builder: (_) {
                 if (data is CommunityCocktail) {
-                  return CommunityCocktailDetailScreen(data);
+                  return CommunityCocktailDetailScreen(cocktailId: data.id, cocktailData: data);
                 } else {
                   return CocktailDetailScreen(data);
                 }

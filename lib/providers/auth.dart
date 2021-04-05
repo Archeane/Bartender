@@ -2,11 +2,9 @@ import 'dart:io';
 import 'package:bartender/firebase_util.dart';
 import 'package:bartender/model/cocktail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:tuple/tuple.dart';
 
 class Auth with ChangeNotifier{
@@ -27,7 +25,7 @@ class Auth with ChangeNotifier{
   Map<String, List<String>> _missing1Ing = new Map<String, List<String>>();
 
   get isLoggedIn {
-    return currentUser != null && _shoppingList != null;
+    return currentUser != null && username != null;
   }
 
   Future<void> authInit() async {
@@ -121,6 +119,12 @@ class Auth with ChangeNotifier{
       _custom = [];
       _shoppingList = [];
       _favorites = [];
+      imageUrl = null;
+      profileImage = null;
+  
+      _mybarIngredients = null;
+      _mybarCocktails = new Set<String>();
+      _missing1Ing = new Map<String, List<String>>();
       notifyListeners();
     }
   }

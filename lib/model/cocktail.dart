@@ -128,7 +128,7 @@ class CommunityCocktail extends Cocktail{
     this.imageUrl,
   });
 
-  CommunityCocktail.fromFirebaseSnapshot(String id, var snapshot){
+  CommunityCocktail.fromFirebaseSnapshot(String id, Map<String, dynamic> snapshot){
     this.id = id;
     this.name = snapshot['name'];
     this.imageUrl = snapshot['imageUrl'];

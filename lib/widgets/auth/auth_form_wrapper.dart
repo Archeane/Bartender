@@ -19,7 +19,7 @@ class AuthFormWrapper extends StatefulWidget {
 
 class _AuthFormWrapperState extends State<AuthFormWrapper> {
 
-  // bool _isLoading = false;
+  bool _isLoading = false;
 
   void _submitAuthForm(
     String email,
@@ -31,15 +31,16 @@ class _AuthFormWrapperState extends State<AuthFormWrapper> {
     BuildContext ctx,
   ) async {
     try {
-      // setState(() => _isLoading = true);
+      setState(() => _isLoading = true);
       final provider = Provider.of<Auth>(context, listen: false);
       if (isLogin) {
         await provider.login(email, password);
       } else {
         await provider.signup(username, email, password, location, image);
       }      
-      // setState(() => _isLoading = false);
+      setState(() => _isLoading = false);
     } catch (err) {
+      setState(() => _isLoading = false);
       //debugPrint(err);
       var message = 'An error occurred, please check your credentials!';
 
@@ -53,16 +54,15 @@ class _AuthFormWrapperState extends State<AuthFormWrapper> {
           backgroundColor: Theme.of(ctx).errorColor,
         ),
       );
-      // setState(() => _isLoading = false);
     } 
   }
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<Auth>(context); 
-    // return _isLoading 
-    // ? Center(child: CircularProgressIndicator())
-    return FutureBuilder(
+    return _isLoading 
+    ? Center(child: CircularProgressIndicator())
+    : FutureBuilder(
         future: provider.authInit(),
         builder: (ctx, snapshot) {
           if(snapshot.connectionState == ConnectionState.waiting){

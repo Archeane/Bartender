@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:bartender/firebase_util.dart';
 import 'package:bartender/providers/auth.dart';
+import 'package:bartender/screens/community_cocktail_detail_screen.dart';
 import 'package:bartender/widgets/auth/auth_form_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -139,11 +140,11 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
       );
 
     //redirect to custom cocktail page
-    Navigator.of(context).pop();  // change to redirect to community screen so community refreshes
-    // Navigator.of(context).push(
-    //   MaterialPageRoute(
-    //     builder: (_) => CommunityCocktailDetailScreen(_customCocktail),)
-    // );
+
+    Navigator.of(context).pushNamed(
+      CommunityCocktailDetailScreen.routeName,
+      arguments: _customCocktail,
+    );
   }
 
   @override

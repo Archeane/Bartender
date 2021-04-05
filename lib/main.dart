@@ -1,5 +1,6 @@
 import 'package:bartender/firebase_util.dart';
 import 'package:bartender/providers/auth.dart';
+import 'package:bartender/screens/community_cocktail_detail_screen.dart';
 import 'package:bartender/screens/discover_screen.dart';
 
 import 'package:flutter/material.dart';
@@ -138,7 +139,12 @@ class BartenderApp extends StatelessWidget {
               ),
             ),
           ),
-          home: DiscoverScreen()
+          initialRoute: '/',
+          routes: {
+            '/': (ctx) => DiscoverScreen(),
+            CommunityCocktailDetailScreen.routeName: (ctx) =>
+                CommunityCocktailDetailScreen(),
+          },
         );}
     ));
   }
