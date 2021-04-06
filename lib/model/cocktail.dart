@@ -1,5 +1,6 @@
 import 'package:bartender/model/ingredient.dart';
 import 'package:bartender/firebase_util.dart';
+import 'package:flutter/foundation.dart';
 
 
 enum Flavor {
@@ -14,6 +15,40 @@ enum Strength {
   Strong,
 }
 
+enum DefaultPrepStep {
+  Shake,
+  Stir,
+  Pour,
+}
+
+
+extension DefaultPrepStepExtension on DefaultPrepStep {
+  List<String> get value {
+    switch (this) {
+      case DefaultPrepStep.Shake:
+        return [
+          "Fill up the Shaker with Ice",
+          "Pour everything into the Shaker",
+          "Shake well",
+          "Strain into the drinking glass"
+        ];
+      case DefaultPrepStep.Stir:
+        return [
+          "Fill up the drinking glass with Ice",
+          "Pour everything into the drinking glass",
+          "Stir together",
+        ];
+      case DefaultPrepStep.Pour:
+        return [
+          "Fill up the drinking glass with Ice",
+          "Pour everything into the drinking glass",
+        ];
+      default:
+        return [];
+    }
+  }
+}
+
 class Cocktail {
   String id;
   String imageUrl;
@@ -25,6 +60,7 @@ class Cocktail {
   Set<String> ingredientsIds = new Set<String>();
   List<String> prepSteps;
   String origin;
+  DefaultPrepStep defaultPrepStep;
   // String baseSpirit;
   // List<dynamic> packs;
   // List<dynamic> stars;
@@ -42,6 +78,8 @@ class Cocktail {
     int alcoholContent,
     Map ingredients,
   }){
+
+
     if(prepSteps != null){
       this.prepSteps = prepSteps.map((s) => s as String).toList();
     }
@@ -79,12 +117,11 @@ class Cocktail {
     this.name = snapshot['name'];
     this.imageUrl = snapshot.containsKey('imageUrl') ? snapshot['imageUrl'] : null;
     this.about = snapshot.containsKey("about") ? snapshot['about'] : null;
-    this.prepSteps = snapshot.containsKey("prepSteps") ? snapshot['prepSteps'].cast<String>() : null;
     this.flavor = snapshot.containsKey("flavor") ? snapshot['flavor'] : null;
     this.alcoholContent = snapshot.containsKey("alcoholContent") ? snapshot['alcoholContent'] : 0;
     this.origin = snapshot.containsKey('origin') ? snapshot['origin'] : null;
+    
     final snapshotIngredients = snapshot.containsKey("ingredients") ? snapshot['ingredients'] : null;
-  
     if(snapshotIngredients != null){
       snapshotIngredients.forEach((id, amount) {
         this.ingredientsIds.add(id);
@@ -100,8 +137,19 @@ class Cocktail {
         }
       });
     }
-  }
 
+    if(snapshot.containsKey("prepSteps")){
+      this.prepSteps = snapshot['prepSteps'].cast<String>();
+    } else {
+      if(snapshot.containsKey("defaultPrepStep")){
+        this.defaultPrepStep = DefaultPrepStep.values.firstWhere((e) => describeEnum(e) == snapshot['defaultPrepStep']);
+        this.prepSteps = this.defaultPrepStep.value;
+      } else {
+        this.prepSteps = [];
+      }
+    }
+
+  }
 }
 
 class CommunityCocktail extends Cocktail{

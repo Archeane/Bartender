@@ -3,6 +3,7 @@ import 'package:bartender/providers/auth.dart';
 import 'package:bartender/screens/ingredient_detail_screen.dart';
 import 'package:bartender/screens/shopping_list_add_ingredient.dart';
 import 'package:bartender/widgets/auth/auth_form_wrapper.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
@@ -48,9 +49,13 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                 final ing = getIngredientById(auth.shoppingList[i]);
                 return GestureDetector(child: 
                 ListTile(
-                  // leading: shoppingList[i].imageUrl == null 
-                  //   ? null
-                  //   : Image.network(shoppingList[i].imageUrl, fit: BoxFit.cover, filterQuality: FilterQuality.none),
+                  // dense:true,
+                  leading: ing.imageUrl == null 
+                    ? null
+                    : CircleAvatar(
+                      backgroundImage: CachedNetworkImageProvider(ing.imageUrl),
+                      backgroundColor: Colors.white,
+                    ),
                   title: Text(ing.name),
                   trailing: showSettings ?
                     GestureDetector(

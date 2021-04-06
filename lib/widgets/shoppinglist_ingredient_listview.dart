@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -87,7 +88,10 @@ class _ShoppingListIngredientListViewState extends State<ShoppingListIngredientL
                     ListTile(
                       leading: _filteredList[i].imageUrl == null 
                         ? null
-                        : Image.network(_filteredList[i].imageUrl, fit: BoxFit.cover, filterQuality: FilterQuality.none),
+                        : CircleAvatar(
+                          backgroundImage: CachedNetworkImageProvider(_filteredList[i].imageUrl),
+                          backgroundColor: Colors.white,
+                        ),
                       title: Text(_filteredList[i].name),
                       trailing: _inShoppingList[i]
                         ? GestureDetector(

@@ -97,6 +97,7 @@ class BartenderApp extends StatelessWidget {
             return Center(child: CircularProgressIndicator());
           }
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           title: 'Bartender',
           theme: ThemeData(
             primarySwatch: kPrimaryColor,
