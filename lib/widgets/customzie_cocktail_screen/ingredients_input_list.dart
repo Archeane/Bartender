@@ -9,7 +9,7 @@ class IngredientsInputList extends StatelessWidget {
   final List<Ingredient> _ingredientsList;
   final Function _addIngredient;
   final Function _deleteIngredient;
-  final List<String> units = ['oz', 'part', 'dash', 'wedges', 'tsp', 'cube'];
+  final List<String> units = ['oz', 'part', 'dash', 'tsp', 'cube', 'whole', 'wedge'];
   
   IngredientsInputList(this._ingredientsList, this._deleteIngredient, this._addIngredient);
 
@@ -60,7 +60,7 @@ class IngredientsInputList extends StatelessWidget {
                           },
                         ),
                       )),
-                  SizedBox(width: 10),
+                  SizedBox(width: 5),
                   Expanded(
                       flex: 1,
                       child: Container(
@@ -83,14 +83,14 @@ class IngredientsInputList extends StatelessWidget {
                           },
                         ),
                       )),
-                  SizedBox(width: 10),
+                  SizedBox(width: 5),
                   Expanded(
                       flex: 1,
                       child: Center(
                         child: CupertinoPicker(
                           diameterRatio: 0.1,
                           offAxisFraction: 0,
-                          itemExtent: 36.0,
+                          itemExtent: 40.0,
                           onSelectedItemChanged: (value) {
                             _ingredientsList[index].unit = units[value];
                           },

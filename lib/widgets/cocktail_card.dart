@@ -1,3 +1,4 @@
+import 'package:bartender/firebase_util.dart';
 import 'package:bartender/screens/community_cocktail_detail_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -45,24 +46,40 @@ class CocktailCard extends StatelessWidget {
                     alignment: Alignment(0.0, -0.75),
                   )
                 ),
-                  child: Container(
-                    padding: const EdgeInsets.all(5),
-                    child: Align(
-                      child: Column(
-                        children: [
-                          Text(data.name, style: TextStyle(fontWeight: FontWeight.bold)),
-                          if(data.alcoholContent != null)
-                            Text(data.alcoholContent.toString()+"%", style: textTheme.overline),
-                        ],
-                      ),
-                      alignment: Alignment(0, -1),
+                child: Container(
+                  padding: const EdgeInsets.all(5),
+                  child: Align(
+                    child: Column(
+                      children: [
+                        Text(data.name, style: TextStyle(fontWeight: FontWeight.bold)),
+                        if(data.alcoholContent != null)
+                          Text(data.alcoholContent.toString()+"%", style: textTheme.overline),
+                      ],
                     ),
+                    alignment: Alignment(0, -1),
                   ),
-                  // padding: const EdgeInsets.only(top: 20),
                 ),
+                // padding: const EdgeInsets.only(top: 20),
               ),
             ),
-            // header: Center(child: Text(data.name))
+            footer: 
+            data is CommunityCocktail
+            ? Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(5), bottomRight: Radius.circular(5)),
+                  color: Colors.white,
+                  backgroundBlendMode: BlendMode.colorDodge
+                ),
+                height: 25,
+                child: Center(child:
+                    Text(
+                      "made by         ${(data as CommunityCocktail).authorName}", 
+                      style: TextStyle(color: Colors.black),
+                    ),
+                ),
+              )
+            : null,
+          )
         ),
     );
   }

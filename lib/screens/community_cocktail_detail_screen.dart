@@ -76,6 +76,7 @@ class _CommunityCocktailDetailScreenState
               Container(
                   child: Text(
                       "Created by ${cocktailData.authorName}")),
+              SizedBox(height: 5,),
               IngredientList(cocktailData.ingredients),
               if (cocktailData.prepSteps != null)
                 Container(
@@ -99,11 +100,13 @@ class _CommunityCocktailDetailScreenState
                         child: Text(cocktailData.notes)),
                   ],
                 ),
+              SizedBox(height: 5,),
               if (showSettings)
                 RaisedButton(
                     onPressed: () => removeReceipe(context, auth),
                     child: const Text("Remove Receipt"),
-                    color: Colors.redAccent)
+                    color: Colors.redAccent),
+              SizedBox(height: 10,),
             ],
           ),
         ),

@@ -86,12 +86,12 @@ class _ShoppingListIngredientListViewState extends State<ShoppingListIngredientL
                   itemCount: _filteredList.length,
                   itemBuilder: (ctx, i) => GestureDetector(child: 
                     ListTile(
-                      leading: _filteredList[i].imageUrl == null 
-                        ? null
-                        : CircleAvatar(
-                          backgroundImage: CachedNetworkImageProvider(_filteredList[i].imageUrl),
-                          backgroundColor: Colors.white,
-                        ),
+                      leading: CircleAvatar(
+                        backgroundColor: Colors.white,
+                        backgroundImage: _filteredList[i].imageUrl == null 
+                          ? AssetImage('images/${_filteredList[i].type.toString().split('.').last}.jpg')
+                          : CachedNetworkImageProvider(_filteredList[i].imageUrl),
+                      ),
                       title: Text(_filteredList[i].name),
                       trailing: _inShoppingList[i]
                         ? GestureDetector(

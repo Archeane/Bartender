@@ -18,6 +18,7 @@ bool isInit = false;
 CollectionReference ingredientsCollection = FirebaseFirestore.instance.collection('ingredients');
 CollectionReference cocktailsCollection = FirebaseFirestore.instance.collection('cocktails');
 CollectionReference communityCollection = FirebaseFirestore.instance.collection('community');
+CollectionReference userCollection = FirebaseFirestore.instance.collection('community');
 
 List<Ingredient> allIngredients;
 List<Cocktail> allCocktails;
@@ -33,13 +34,19 @@ Future<void> init() async {
     // allIngredientsByType['liqueur'] = allIngredients.where((ing) => ing.type != null && ing.type.toLowerCase() == "liqueur");
     
     print("loaded allingredients and all cocktails in init()");
-    print(allIngredients);
-    print(allCocktails);
     isInit = true;
     return;
   }
   print("is init if false in firebase_util");
   return;
+}
+
+Future<Map<String, dynamic>> getUserById(String id) async {
+  DocumentSnapshot snapshot = await userCollection.doc(id).get();
+  if(snapshot.exists){
+    return snapshot.data();
+  }
+  return null;
 }
 
 Ingredient getIngredientById(String id) {
