@@ -20,7 +20,7 @@ class CocktailGridView extends StatefulWidget {
 }
 
 class _CocktailGridViewState extends State<CocktailGridView> {
-  List<Cocktail> _cocktailsList;  // immutable const
+  List<Cocktail> _cocktailsList; 
   List<Cocktail> _filteredList;
 
   bool loading = false;
@@ -59,7 +59,6 @@ class _CocktailGridViewState extends State<CocktailGridView> {
 
   void _filterCocktails(List<String> strength){
     final filteredCocktails = _cocktailsList.where((cocktail) => strength.contains(cocktail.strength)).toList();
-    // final filtered = _filteredList.where((cocktail) => filteredCocktails.contains(cocktail.name));
 
     setState(() => _filteredList = filteredCocktails);
   }

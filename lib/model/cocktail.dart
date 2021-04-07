@@ -2,13 +2,6 @@ import 'package:bartender/model/ingredient.dart';
 import 'package:bartender/firebase_util.dart';
 import 'package:flutter/foundation.dart';
 
-
-enum Flavor {
-  Sweet,
-  Sour,
-  Spicy,
-}
-
 enum Strength {
   Light,
   Medium,
@@ -55,24 +48,17 @@ class Cocktail {
   String name;
   String about;
   int alcoholContent;
-  String flavor;
   List<Ingredient> ingredients = <Ingredient>[];
   Set<String> ingredientsIds = new Set<String>();
   List<String> prepSteps;
   String origin;
   DefaultPrepStep defaultPrepStep;
-  // String baseSpirit;
-  // List<dynamic> packs;
-  // List<dynamic> stars;
-  // List<dynamic> equipments;
-  // List<Cocktail> related;
 
   Cocktail({
     this.id,
     this.name,
     this.imageUrl,
     this.about,
-    this.flavor,
     this.origin,
     List<dynamic> prepSteps,
     int alcoholContent,
@@ -85,9 +71,8 @@ class Cocktail {
     }
     if(alcoholContent != null) 
       this.alcoholContent = alcoholContent;
-    // this.flavor = Flavor.values.firstWhere((e) => e.toString() == 'Flavor.' + flavor);
     if(ingredients != null){
-      List<Ingredient> ingredientsBuffer = new List<Ingredient>();
+      List<Ingredient> ingredientsBuffer = <Ingredient>[];
       for(var key in ingredients.keys){
         ingredientsBuffer.add(new Ingredient(
           id: key,
@@ -117,7 +102,6 @@ class Cocktail {
     this.name = snapshot['name'];
     this.imageUrl = snapshot.containsKey('imageUrl') ? snapshot['imageUrl'] : null;
     this.about = snapshot.containsKey("about") ? snapshot['about'] : null;
-    this.flavor = snapshot.containsKey("flavor") ? snapshot['flavor'] : null;
     this.alcoholContent = snapshot.containsKey("alcoholContent") ? snapshot['alcoholContent'] : 0;
     this.origin = snapshot.containsKey('origin') ? snapshot['origin'] : null;
     
@@ -164,7 +148,6 @@ class CommunityCocktail extends Cocktail{
   List<String> prepSteps;
   String imageUrl;
   DateTime createdAt;
-  // int strength;
 
   CommunityCocktail({
     this.id,
@@ -200,7 +183,6 @@ class CommunityCocktail extends Cocktail{
         this.ingredients.add(newIng);
       });
     }
-    // ingredients: snapshot.containsKey("ingredients") ? snapshot['ingredients'].cast<Ingredient>() : null,
   }
 
   Map<String, dynamic> toJson() {

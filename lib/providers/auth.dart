@@ -44,10 +44,7 @@ class Auth with ChangeNotifier{
         _shoppingList = userData['shopping'].cast<String>();
         _favorites = userData['favorites'].cast<String>();
         List<String> ingredientsData = userData['bar']['ingredients'].cast<String>();
-        // List<String> cocktailsData = userData['bar']['cocktails'].cast<String>();
         _mybarIngredients = ingredientsData.toSet();
-        // _mybarCocktails = cocktailsData.toSet();
-        // print("resetted userDoc in authInit");
         notifyListeners();
       }
     } 
@@ -74,12 +71,10 @@ class Auth with ChangeNotifier{
         _shoppingList = userData['shopping'].cast<String>();
         _favorites = userData['favorites'].cast<String>();
         List<String> ingredientsData = userData['bar']['ingredients'].cast<String>();
-        // final cocktailsData = userData['bar']['cocktails'].cast<String>();
         _mybarIngredients = ingredientsData.toSet();
         profileImage = userData['imageUrl'] == '' 
           ? AssetImage('images/bartender-avatar.png') 
           : NetworkImage(userData['imageUrl']);
-        // _mybarCocktails = cocktailsData.toSet();
       }
       notifyListeners();
     } catch (err) {
@@ -131,27 +126,11 @@ class Auth with ChangeNotifier{
 
   Future<DocumentReference> setEmptyUser(String id, String email, String username, String location, String url) async {
     DocumentReference userDoc = collection.doc(id);
-    
-    // _collections = [
-    //   {
-    //     "name": "custom",
-    //     "icon": 59430
-    //   }, 
-    //   {
-    //     "name": "shopping",
-    //     "icon": 58389
-    //   },
-    //   {
-    //     "name": "favorites",
-    //     "icon": 62607
-    //   },
-    // ];
     await userDoc.set({
       'username': username,
       'email': email,
       'imageUrl': url == null ? "" : url,
       'location': location,
-      // 'collections': _collections,
       'shopping': [],
       'favorites': [],
       'custom': [],
@@ -196,8 +175,6 @@ class Auth with ChangeNotifier{
   }
 
   Future<void> updateShoppingList(List<String> newList) async {
-    // List<String> concatList = newList + _shoppingList;
-    // List<String> distinctList = [...{..._shoppingList}];
     _shoppingList = [...{...newList}];
     notifyListeners();
     await collection.doc(currentUser.uid).update({'shopping': _shoppingList});
@@ -258,6 +235,7 @@ class Auth with ChangeNotifier{
     notifyListeners();
     return;
   }
+  
   Future<void> removeIngredientFromMyBar(String ingId) async{
     _mybarIngredients.remove(ingId);
     await collection.doc(currentUser.uid).update({'bar.ingredients': FieldValue.arrayRemove([ingId])});

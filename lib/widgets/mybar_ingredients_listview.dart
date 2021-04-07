@@ -12,9 +12,6 @@ import 'package:provider/provider.dart';
 
 class MyBarIngredientsListView extends StatefulWidget {
   final List<Ingredient> ingredientList;
-  // final void Function(String) addIngredientFunc;
-  // final void Function(String) removeIngredientFunc;
-
   MyBarIngredientsListView(this.ingredientList);
 
   @override
@@ -58,14 +55,10 @@ class _MyBarIngredientsListViewState extends State<MyBarIngredientsListView> {
   }
 
   void addIngredient(String id, int index, Auth authProvider) async {
-    //change state
     setState((){
        _cocktailsLoading = true;
     });
-
-    // call calculate cocktails
-    // await Future.delayed(Duration(seconds: 1), () => print('done'));
-    // List<String> cocktailIds = ["1CBFexv7aMXxuTh79Joa", "7V2rGzoqQlaX1HU2noKY", "AEpPcl32Hp4m1yEnEB5a", "vyTwCSGtppp4Q4es9JCV"];
+    
     await authProvider.addIngredientToMyBar(id);
     
     setState((){

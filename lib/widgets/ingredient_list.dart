@@ -54,55 +54,5 @@ class _IngredientListState extends State<IngredientList> {
             )),
       ),
     );
-    /* return Container(
-      padding: const EdgeInsets.all(10),
-      child: ListView.separated(
-        separatorBuilder: (context, index) {
-          return Divider();
-        },
-        itemCount: ingreidentsList.length,
-        itemBuilder: (ctx, idx) {
-          return Card(
-            elevation: 2,
-            // child: IngredientList(cocktailData.ingredients)
-            child: Column(children: ingreidentsList.map((ing) => 
-              Column(
-                children: [
-                  if(ing.id != ingreidentsList[0].id)
-                    Divider(height: 0),
-                  Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: GestureDetector(
-                      onTap: (){
-                        Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_) => IngredientDetailScreen(ing.id)),
-                        );
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(ing.name),
-                          Text("${Fraction.fromDouble(ing.amount).toString()} ${ing.unit}"),
-                        ],
-                      ),
-                    ),
-                  ),
-                ]
-              )).toList(),
-            )
-          );
-          
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   children: [
-          //     Text(ingreidentsList[idx].name),
-          //     Text("${Fraction.fromDouble(ingreidentsList[idx].amount).toString()} ${ingreidentsList[idx].unit}"),
-          //   ],
-          // );
-        },           
-      ),
-    );
-      // }
-    // );*/
   }
 }

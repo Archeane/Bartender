@@ -20,22 +20,7 @@ class _MyBarScreenState extends State<MyBarScreen> {
       appBar: AppBar(title: const Text("My Bar Ingredients"),),
       body: authProvider.isLoggedIn
         ? MyBarIngredientsListView(allIngredients)
-        // FutureBuilder(
-        //   future: _fetchIngredients(authProvider),
-        //   builder: (context, snapshot) {
-        //     if(snapshot.connectionState != ConnectionState.done) {
-        //       return Center(child: CircularProgressIndicator());
-        //     }
-        //     if(snapshot.hasError) {
-        //       print("error in mybar_screen _fetchIngredients");
-        //       print(snapshot.error);
-        //       return Center(child: Text("An error has occured, please try to relogin!"));
-        //     }
-        //     final data = snapshot.data;
-        //     return MyBarIngredientsListView(data, authProvider.addIngredientToMyBar, authProvider.removeIngredientFromMyBar);
-        //   }
-        // )
-      : AuthFormWrapper()//_setIsLoggedIn)
+        : AuthFormWrapper()
     );
   }
 }

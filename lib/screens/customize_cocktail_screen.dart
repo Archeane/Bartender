@@ -92,23 +92,6 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
         ),
       );
       return;
-      // await showDialog(
-      //   context: context,
-      //   builder: (ctx) => AlertDialog(
-      //     title: Text('Form Invalid'),
-      //     content: _ingredientsList.length == 0 
-      //       ? const Text('Please add at least one ingredient')
-      //       : const Text("Please add at least one prepreation step"),
-      //     actions: <Widget>[
-      //       TextButton(
-      //         child: Text('Okay', style: TextStyle(color: Colors.black87)),
-      //         onPressed: () {
-      //           Navigator.of(ctx).pop();
-      //         },
-      //       )
-      //     ],
-      //   ),
-      // );
     }
     _customCocktail.ingredients = _ingredientsList;
     _customCocktail.prepSteps = _prepStepsList;
@@ -140,9 +123,7 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
           duration: Duration(milliseconds: 2000),
         ),
       );
-
-    //redirect to custom cocktail page
-
+      
     Navigator.of(context).pushNamed(
       CommunityCocktailDetailScreen.routeName,
       arguments: _customCocktail,

@@ -55,12 +55,6 @@ class IngredientsInputList extends StatelessWidget {
   
   IngredientsInputList(this._ingredientsList, this._deleteIngredient, this._addIngredient);
 
-  // populate dropdown based on type of ingredient
-  // return a list of ingredients only associated with the type of associatedIngredient.
-  // List<String> _populateDropdown(Ingredient assoicatedIngredient){
-  //   if(assoicatedIngredient.type =)
-  // }
-
   @override
   Widget build(BuildContext context) {
     final textThemes = Theme.of(context).textTheme;

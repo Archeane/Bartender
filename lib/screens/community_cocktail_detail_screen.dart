@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 
 class CommunityCocktailDetailScreen extends StatefulWidget {
   static const routeName = '/community-cocktails';
-  // final CommunityCocktail cocktailData;
+
   final String cocktailId;
   final CommunityCocktail cocktailData;
 
@@ -61,10 +61,8 @@ class _CommunityCocktailDetailScreenState
               onPressed: () => setState(() => showSettings = true),
             ),
         ],
-      ), // actions: [FavoriteCocktailButton(cocktailData.id)],),
+      ), 
       body: SingleChildScrollView(
-        // make center take up as much height as needed by children
-        // child: Center(
         child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -134,6 +132,6 @@ class _CommunityCocktailDetailScreenState
           return Center(child: CircularProgressIndicator());
         }
         return communityCocktailScreen(snapshot.data, auth, textThemes, true);
-      });
+    });
   }
 }

@@ -12,7 +12,6 @@ class CocktailDetailScreen extends StatelessWidget {
 
   CocktailDetailScreen(this.cocktailData);
 
-
   @override
   Widget build(BuildContext context) {
     final textThemes = Theme.of(context).textTheme;
@@ -35,7 +34,7 @@ class CocktailDetailScreen extends StatelessWidget {
         ],
       ),
       body: 
-      SingleChildScrollView( // make center take up as much height as needed by children
+      SingleChildScrollView(
         child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -67,7 +66,6 @@ class CocktailDetailScreen extends StatelessWidget {
                   const SizedBox(height: 5,),
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 20),
-                    // padding: const EdgeInsets.all(5), 
                     child: Text(cocktailData.about)
                   ), 
                   const SizedBox(height: 20,),

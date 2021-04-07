@@ -46,9 +46,6 @@ class _FilterFormState extends State<FilterForm> {
 
   @override
   Widget build(BuildContext context) {
-    // final textThemes = Theme.of(context).textTheme;
-    // final allSpiritIngredients = allIngredients.where((ing) => ing.type != null && ing.type.toLowerCase() == "spirit");
-    // print(allSpiritIngredients.length);
     return SingleChildScrollView(
       padding: EdgeInsets.only(
         top: 10,

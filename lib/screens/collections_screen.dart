@@ -35,30 +35,3 @@ class FavoritesScreen extends StatelessWidget {
     ));
   }
 }
-
-class CustomCollectionScreen extends StatelessWidget {
-
-  const CustomCollectionScreen();
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<Auth>(
-      builder: (ctx, auth, _) => Scaffold(
-        appBar: AppBar(title: const Text("Custom Receipes")),
-        body: FutureBuilder(
-          future: findCommunityCocktailByIds(auth.custom),
-          builder: (context, snapshot) {
-            if(snapshot.connectionState != ConnectionState.done) {
-              return Center(child: CircularProgressIndicator());
-            }
-            if(snapshot.hasError) {
-              print("error in collection screen findCommunityCocktailByIds");
-              print(snapshot.error.toString());
-              return Center(child: Text("An error has occured, please try again later!"));
-            }
-            return CocktailGridView(cocktailsList: snapshot.data, showSearchBar: false,);
-          }
-        )
-    ));
-  }
-}

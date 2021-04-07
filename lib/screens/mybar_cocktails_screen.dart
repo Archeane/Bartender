@@ -28,11 +28,7 @@ class _MyBarCocktailScreenState extends State<MyBarCocktailScreen> {
       int index = allCocktails.indexWhere((cocktail) => cocktail.id == id);
       if(index >= 0){
         availbleCocktails.add(allCocktails[index]);
-      } else {
-        print("!!!!!!!");
-        print(id);
-        print(index);
-      }
+      } 
     }
     Map<Ingredient, List<String>> result = {};
     for(String key in authProvider.missing1Ing.keys){
@@ -48,12 +44,6 @@ class _MyBarCocktailScreenState extends State<MyBarCocktailScreen> {
 
     setState(() => missing1Ing = sortedMap);
     return availbleCocktails;
-  }
-
-  String explodeDrinksList(List<String> cocktailNames){
-    String x = "";
-    cocktailNames.forEach((name) => x += name += ", ");
-    return x.length > 50 ? x.substring(0, 50) + "..." : x;
   }
 
   @override
@@ -94,16 +84,6 @@ class _MyBarCocktailScreenState extends State<MyBarCocktailScreen> {
                 ),
                 height: height - 400,
               )
-              // Expanded(
-              //   child: ListView.builder(
-              //   itemCount: oneIngredientData.length,
-              //   itemBuilder: (BuildContext context, int index) {
-              //     String key = oneIngredientData.keys.elementAt(index);
-              //     return MyBarCocktailGroup(oneIngredientData[key]);
-              //   }),
-              // ),
-              // for(int i = 0; i < oneIngredientValues.length; i++)
-                // MyBarCocktailGroup(cocktails: oneIngredientValues[i], ingredient: oneIngredientKeys[i])
             ],
           )
       )

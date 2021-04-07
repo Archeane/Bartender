@@ -25,7 +25,6 @@ class Ingredient {
   String imageUrl;
   String about;
   String origin;
-  bool _inMyShoppingList = false; 
 
   Ingredient({
     @required this.id,
@@ -69,9 +68,6 @@ class Ingredient {
     data['imageUrl'] = imageUrl;
     return data;
   }
-
-  get inMyShoppingList => _inMyShoppingList;
-  set inMyShoppingList(bool val) => _inMyShoppingList = val;
 
   String get strength {
     if(this.alcoholContent != null){

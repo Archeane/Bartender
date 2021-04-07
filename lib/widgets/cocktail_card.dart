@@ -30,17 +30,10 @@ class CocktailCard extends StatelessWidget {
               elevation: 3,
               child: Container(
                 decoration: BoxDecoration(
-                  // border: Border.all(width: 1),
                   image: DecorationImage(
                     image: data.imageUrl == null
                       ? AssetImage('images/default_cocktail.png')
                       : CachedNetworkImageProvider(data.imageUrl),
-                      // : CachedNetworkImage(
-                      //     imageUrl: data.imageUrl,
-                      //     progressIndicatorBuilder: (context, url, downloadProgress) => 
-                      //           CircularProgressIndicator(value: downloadProgress.progress),
-                      //     errorWidget: (context, url, error) => Icon(Icons.error),
-                      //   ),
                     fit: BoxFit.fitWidth, 
                     alignment: Alignment(0.0, -0.75),
                   )
@@ -61,7 +54,6 @@ class CocktailCard extends StatelessWidget {
                     alignment: Alignment(0, -1),
                   ),
                 ),
-                // padding: const EdgeInsets.only(top: 20),
               ),
             ),
             footer: 
@@ -74,7 +66,7 @@ class CocktailCard extends StatelessWidget {
                 height: 25,
                 child: Center(child:
                     Text(
-                      "made by       ${(data as CommunityCocktail).authorName}", 
+                      "made by ${(data as CommunityCocktail).authorName}", 
                       style: TextStyle(color: Colors.black),
                     ),
                 ),

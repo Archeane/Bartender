@@ -18,11 +18,6 @@ class MyBarCocktailGroup extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(5),
       child: Column(children: [
-        // if(ingredient != null)
-        //   Container(child: Align(
-        //     alignment: Alignment.centerLeft,
-        //     child: Text("$ingredient, ${cocktails.length} cocktails", style: textThemes.bodyText1),
-        //   ),),
         CarouselSlider(
           options: CarouselOptions(
             viewportFraction: 0.3, 

@@ -1,5 +1,4 @@
 import 'package:bartender/firebase_util.dart';
-import 'package:bartender/model/ingredient.dart';
 import 'package:bartender/providers/auth.dart';
 import 'package:bartender/widgets/shoppinglist_ingredient_listview.dart';
 import 'package:flutter/material.dart';

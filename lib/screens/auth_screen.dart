@@ -36,23 +36,6 @@ class AuthScreen extends StatelessWidget {
           )
         ],
       ),
-      /*CarouselSlider(
-          options: CarouselOptions(height: 240.0, viewportFraction: 0.5, enlargeCenterPage: true),
-          items: ["first", "second", "third", "fourth"].map((i) {
-            return Builder(
-              builder: (BuildContext context) {
-                return Container(
-                  width: 160,
-                  margin: EdgeInsets.symmetric(horizontal: 5.0),
-                  decoration: BoxDecoration(
-                    color: Colors.amber
-                  ),
-                  child: Text('text $i', style: TextStyle(fontSize: 16.0),)
-                );
-              },
-            );
-          }).toList(),
-        ),*/
     ]);
   }
 
@@ -78,8 +61,6 @@ class AuthScreen extends StatelessWidget {
                               style: textThemes.headline6)),
               ),
               Expanded(
-                // height: 500,
-                // child: SingleChildScrollView(
                   child: FutureBuilder(
                     future: findCommunityCocktailByIds(provider.custom),
                     builder: (context, snapshot) {
@@ -98,7 +79,6 @@ class AuthScreen extends StatelessWidget {
                     }
                   ),
                 ),
-              // ),
               TextButton(
                 child: const Text("Logout",
                     style: TextStyle(color: Colors.red)),

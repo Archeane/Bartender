@@ -19,7 +19,6 @@ class CocktailDetailHeader extends StatelessWidget {
             Image.network(cocktailData.imageUrl,
               width: width / 3, height: height * 0.28, fit: BoxFit.cover),
           SizedBox(height: 10),
-          // Text(cocktailData.name, style: textThemes.headline3),
           if(cocktailData.strength != null)
             Text("${cocktailData.strength.toLowerCase()}, ${cocktailData.alcoholContent.toString()}%",
               style: textThemes.subtitle2),
