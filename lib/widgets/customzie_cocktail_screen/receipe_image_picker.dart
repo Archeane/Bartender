@@ -22,6 +22,8 @@ class _ReceipeImagePickerState extends State<ReceipeImagePicker> {
       SizedBox(width: 10,),
       Expanded(
           child: TextFormField(
+              cursorColor: Colors.black,
+              autocorrect: true,
               // initialValue: _customCocktail.name,
               decoration: InputDecoration(
                   contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),

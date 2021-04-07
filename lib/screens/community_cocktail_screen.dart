@@ -44,6 +44,7 @@ class _CommunityCocktailScreenState extends State<CommunityCocktailScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Container(
         width: 200.0,
+        margin: const EdgeInsets.only(bottom: 10),
         child: FittedBox(
           child: FloatingActionButton.extended(
             heroTag: "createReceipe",

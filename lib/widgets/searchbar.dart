@@ -127,7 +127,7 @@ class _SearchBarState extends State<SearchBar> {
                 padding: searchBarStyle.padding,
                 child: Theme(
                   child: TextField(
-                    autofocus: true,
+                    autofocus: false,
                     controller: _searchQueryController,
                     onChanged: _onTextChanged,
                     style: const TextStyle(color: Colors.black),

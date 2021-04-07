@@ -39,7 +39,7 @@ class _CommunityCocktailDetailScreenState
       ),
     );
 
-    Navigator.of(ctx).pop();
+    Navigator.of(context).pushNamed("/");
   }
 
   Widget communityCocktailScreen(CommunityCocktail cocktailData, Auth auth, TextTheme textThemes, bool showHome){
@@ -76,7 +76,7 @@ class _CommunityCocktailDetailScreenState
               Container(
                   child: Text(
                       "Created by ${cocktailData.authorName}")),
-              SizedBox(height: 5,),
+              SizedBox(height: 10,),
               IngredientList(cocktailData.ingredients),
               if (cocktailData.prepSteps != null)
                 Container(
@@ -89,6 +89,7 @@ class _CommunityCocktailDetailScreenState
                   cocktailData.notes.length > 3)
                 Column(
                   children: [
+                    SizedBox(height: 10,),
                     Container(
                         margin:
                             const EdgeInsets.symmetric(horizontal: 20),
@@ -100,11 +101,11 @@ class _CommunityCocktailDetailScreenState
                         child: Text(cocktailData.notes)),
                   ],
                 ),
-              SizedBox(height: 5,),
+              SizedBox(height: 10,),
               if (showSettings)
                 RaisedButton(
                     onPressed: () => removeReceipe(context, auth),
-                    child: const Text("Remove Receipt"),
+                    child: const Text("Remove Receipe"),
                     color: Colors.redAccent),
               SizedBox(height: 10,),
             ],

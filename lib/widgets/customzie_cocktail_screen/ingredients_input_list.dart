@@ -3,6 +3,48 @@ import 'package:bartender/model/ingredient.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:flutter/services.dart';
+import 'dart:math';
+
+class DecimalTextInputFormatter extends TextInputFormatter {
+  DecimalTextInputFormatter({this.decimalRange})
+      : assert(decimalRange == null || decimalRange > 0);
+
+  final int decimalRange;
+
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue, // unused.
+    TextEditingValue newValue,
+  ) {
+    TextSelection newSelection = newValue.selection;
+    String truncated = newValue.text;
+
+    if (decimalRange != null) {
+      String value = newValue.text;
+
+      if (value.contains(".") &&
+          value.substring(value.indexOf(".") + 1).length > decimalRange) {
+        truncated = oldValue.text;
+        newSelection = oldValue.selection;
+      } else if (value == ".") {
+        truncated = "0.";
+
+        newSelection = newValue.selection.copyWith(
+          baseOffset: min(truncated.length, truncated.length + 1),
+          extentOffset: min(truncated.length, truncated.length + 1),
+        );
+      }
+
+      return TextEditingValue(
+        text: truncated,
+        selection: newSelection,
+        composing: TextRange.empty,
+      );
+    }
+    return newValue;
+  }
+}
 
 class IngredientsInputList extends StatelessWidget {
   final List<String> dropdownList = allIngredients.map((ing) => ing.name).toList();
@@ -68,8 +110,10 @@ class IngredientsInputList extends StatelessWidget {
                         alignment: Alignment.center,
                         child: TextFormField(
                           textAlign: TextAlign.center,
+                          cursorColor: Colors.black,
                           decoration: InputDecoration(contentPadding: EdgeInsets.zero),
-                          keyboardType: TextInputType.number,
+                          inputFormatters: [DecimalTextInputFormatter(decimalRange: 2)],
+                          keyboardType: TextInputType.numberWithOptions(decimal: true),
                           initialValue:
                               _ingredientsList[index].amount.toString(), //ingredients[key]['amount'],
                           validator: (value){
@@ -126,3 +170,4 @@ class IngredientsInputList extends StatelessWidget {
     );
   }
 }
+

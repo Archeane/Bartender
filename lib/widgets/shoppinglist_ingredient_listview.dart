@@ -68,6 +68,7 @@ class _ShoppingListIngredientListViewState extends State<ShoppingListIngredientL
   
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
     return Column(
       children: [
         SearchBar(
@@ -79,34 +80,37 @@ class _ShoppingListIngredientListViewState extends State<ShoppingListIngredientL
         ),
         loading
             ? Center(child: CircularProgressIndicator())
-            : Container(
-              height: 520,
-                child: ListView.builder(
-                  padding: const EdgeInsets.all(10.0),
-                  itemCount: _filteredList.length,
-                  itemBuilder: (ctx, i) => GestureDetector(child: 
-                    ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        backgroundImage: _filteredList[i].imageUrl == null 
-                          ? AssetImage('images/${_filteredList[i].type.toString().split('.').last}.jpg')
-                          : CachedNetworkImageProvider(_filteredList[i].imageUrl),
-                      ),
-                      title: Text(_filteredList[i].name),
-                      trailing: _inShoppingList[i]
-                        ? GestureDetector(
-                          child: Icon(Icons.check, color: Colors.greenAccent),
-                          onTap: () => removeIngredient(_filteredList[i].id, i),
-                        )
-                        : GestureDetector(
-                          child: Icon(CupertinoIcons.add),
-                          onTap: () => addIngredient(_filteredList[i].id, i),
+            : GestureDetector(
+              onTap: () => FocusScope.of(context).unfocus(),
+              child: Container(
+                height: screenHeight - 200,
+                  child: ListView.builder(
+                    padding: const EdgeInsets.all(10.0),
+                    itemCount: _filteredList.length,
+                    itemBuilder: (ctx, i) => GestureDetector(child: 
+                      ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: Colors.white,
+                          backgroundImage: _filteredList[i].imageUrl == null 
+                            ? AssetImage('images/${_filteredList[i].type.toString().split('.').last}.jpg')
+                            : CachedNetworkImageProvider(_filteredList[i].imageUrl),
                         ),
+                        title: Text(_filteredList[i].name),
+                        trailing: _inShoppingList[i]
+                          ? GestureDetector(
+                            child: Icon(Icons.check, color: Colors.greenAccent),
+                            onTap: () => removeIngredient(_filteredList[i].id, i),
+                          )
+                          : GestureDetector(
+                            child: Icon(CupertinoIcons.add),
+                            onTap: () => addIngredient(_filteredList[i].id, i),
+                          ),
+                      ),
+                      onTap: () {},
                     ),
-                    onTap: () {},
                   ),
                 ),
-              )
+            )
       ],
     );
   }

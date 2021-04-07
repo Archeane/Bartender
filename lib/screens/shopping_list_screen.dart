@@ -50,12 +50,12 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                 return GestureDetector(child: 
                 ListTile(
                   // dense:true,
-                  leading: ing.imageUrl == null 
-                    ? null
-                    : CircleAvatar(
-                      backgroundImage: CachedNetworkImageProvider(ing.imageUrl),
-                      backgroundColor: Colors.white,
-                    ),
+                  leading: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    backgroundImage: ing.imageUrl == null 
+                      ? AssetImage('images/${ing.type.toString().split('.').last}.jpg')
+                      : CachedNetworkImageProvider(ing.imageUrl),
+                  ),
                   title: Text(ing.name),
                   trailing: showSettings ?
                     GestureDetector(

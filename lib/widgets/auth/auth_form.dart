@@ -85,6 +85,7 @@ class _AuthFormState extends State<AuthForm> {
                   autocorrect: false,
                   textCapitalization: TextCapitalization.none,
                   enableSuggestions: false,
+                  cursorColor: Colors.black,
                   validator: (value) {
                     if (value.isEmpty || !value.contains('@')) {
                       return 'Please enter a valid email address.';
@@ -105,6 +106,7 @@ class _AuthFormState extends State<AuthForm> {
                     autocorrect: true,
                     textCapitalization: TextCapitalization.words,
                     enableSuggestions: false,
+                    cursorColor: Colors.black,
                     validator: (value) {
                       if (value.isEmpty || value.length < 4) {
                         return 'Please enter at least 4 characters';
@@ -127,6 +129,7 @@ class _AuthFormState extends State<AuthForm> {
                   decoration: InputDecoration(labelText: 'Password'),
                   controller: _passwordController,
                   obscureText: true,
+                  cursorColor: Colors.black,
                   onSaved: (value) {
                     _userPassword = value;
                   },
@@ -142,6 +145,7 @@ class _AuthFormState extends State<AuthForm> {
                     },
                     decoration: InputDecoration(labelText: 'Confirm Password'),
                     obscureText: true,
+                    cursorColor: Colors.black,
                     onSaved: (value) {
                       _userPassword = value;
                     },
@@ -149,6 +153,7 @@ class _AuthFormState extends State<AuthForm> {
                 if(!_isLogin)
                   TextFormField(
                     autocorrect: true,
+                    cursorColor: Colors.black,
                     key: ValueKey('location'),
                     decoration: InputDecoration(labelText: 'City (optional)'),
                     onSaved: (value) {

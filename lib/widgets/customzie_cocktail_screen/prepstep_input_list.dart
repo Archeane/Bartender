@@ -31,6 +31,7 @@ class PrepstepInputList extends StatelessWidget {
                   Expanded(
                     child: TextFormField(
                       initialValue: _prepStepsList[index],
+                      cursorColor: Colors.black,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                         hintText: "Add a step...",

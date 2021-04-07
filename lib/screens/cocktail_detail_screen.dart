@@ -49,29 +49,28 @@ class CocktailDetailScreen extends StatelessWidget {
               SizedBox(height: 10,),
               IngredientList(cocktailData.ingredients),
               if(cocktailData.prepSteps != null)
-                Container(
-                  padding: const EdgeInsets.all(5), 
-                  child: Text("Prepreation", style: textThemes.headline4)
+                Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(5), 
+                      child: Text("Prepreation", style: textThemes.headline4)
+                    ),
+                    CocktailDetailPrepSteps(cocktailData.prepSteps),
+                    const SizedBox(height: 10,),
+                  ],
                 ), 
-              if(cocktailData.prepSteps != null)
-                CocktailDetailPrepSteps(cocktailData.prepSteps),
-
-              // Container(
-              //   padding: const EdgeInsets.only(top: 10),
-              //   child: Text("Origin", style: textThemes.headline4),
-              // ), 
               if(cocktailData.about != null)
                 Column(children: [
-                  const SizedBox(height: 5,),
                   Container(
                     child: Text("About", style: textThemes.headline4)
                   ),
+                  const SizedBox(height: 5,),
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 20),
                     // padding: const EdgeInsets.all(5), 
                     child: Text(cocktailData.about)
                   ), 
-                  const SizedBox(height: 5,),
+                  const SizedBox(height: 20,),
                 ],),
             ],
           ),

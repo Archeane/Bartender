@@ -116,6 +116,7 @@ Future<List<CommunityCocktail>> fetchAllCommunityCocktail() async {
   for(QueryDocumentSnapshot doc in snapshot.docs){
     data.add(CommunityCocktail.fromFirebaseSnapshot(doc.id, doc.data()));
   }
+  data.sort((a, b) => b.createdAt.compareTo(a.createdAt));
   return data;
 }
 

@@ -163,6 +163,7 @@ class CommunityCocktail extends Cocktail{
   List<Ingredient> ingredients = <Ingredient>[];
   List<String> prepSteps;
   String imageUrl;
+  DateTime createdAt;
   // int strength;
 
   CommunityCocktail({
@@ -185,6 +186,7 @@ class CommunityCocktail extends Cocktail{
     this.authorName = snapshot.containsKey("authorName") ? snapshot['authorName'] : null;
     this.authorId = snapshot.containsKey("authorId") ? snapshot['authorId'] : null;
     this.isPublic = snapshot.containsKey("public") ? snapshot['public'] : false;
+    this.createdAt = snapshot.containsKey("createdAt") ? DateTime.parse(snapshot['createdAt']) : DateTime.utc(2021, 4, 1);
     if(snapshot.containsKey("ingredients")){
       final snapshotIngredients = snapshot['ingredients'];
       snapshotIngredients.forEach((ing) {
@@ -210,6 +212,7 @@ class CommunityCocktail extends Cocktail{
     data['imageUrl'] = imageUrl;
     data['authorName'] = authorName;
     data['authorId'] = authorId;
+    data['createdAt'] = createdAt.toIso8601String();
     if(prepSteps != null){
       data['prepSteps'] = List<String>.generate(prepSteps.length, (i) => prepSteps[i]);
     }

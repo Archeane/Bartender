@@ -77,6 +77,7 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
     if (!_form.currentState.validate()) {
       return;
     }
+    FocusScope.of(context).unfocus();
     setState(() => _isLoading = true);
     _form.currentState.save();
 
@@ -124,6 +125,7 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
     }
     _customCocktail.authorName = authProvider.username;
     _customCocktail.authorId = authProvider.id;
+    _customCocktail.createdAt = DateTime.now();
     
     Map<String, dynamic> jsonData = _customCocktail.toJson();
     String docId = await saveCommunityCocktail(jsonData);
@@ -164,68 +166,78 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
         body: auth.isLoggedIn 
         ? _isLoading 
         ? Center(child: CircularProgressIndicator.adaptive(),)
-        : SingleChildScrollView(
-          child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-              child: Form(
-                key: _form,
-                child: Column(
-                  children: [
-                    Container(
-                      child: ReceipeImagePicker(_pickedImage, _saveRecipeName),
-                    ),
-                    Row(children: [
-                      Expanded(
-                          child: Text(
-                              "Allow my reciepe to be shown to the community")),
-                      Platform.isIOS 
-                      ? CupertinoSwitch(
-                        value: _isPublic,
-                        onChanged: (val) {
-                          _customCocktail.isPublic = val;
-                          setState(() => _isPublic = val);
-                        },
-                      )
-                      : Switch(
-                        activeTrackColor: Colors.greenAccent,
-                        value: _isPublic,
-                         onChanged: (val) {
-                          _customCocktail.isPublic = val;
-                          setState(() => _isPublic = val);
-                        },
-                      )
-                    ]),
-                    
-                    Container(
-                      child: IngredientsInputList(
-                          _ingredientsList, _deleteIngredient, _addIngredient),
-                    ),
-                    Container(
-                        child: PrepstepInputList(
-                            _prepStepsList, _deletePrepStep, _addPrepStep)),
-                    Container(
-                      child: Text("Notes", style: textThemes.headline6),
-                      padding: const EdgeInsets.all(10),
-                    ),
-                    Container(
-                      height: 100,
-                      child: TextFormField(
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black54),
-                                  borderRadius: BorderRadius.circular(5)),
-                              hintText: "Add Notes..."),
-                          style: TextStyle(fontSize: 16),
-                          keyboardType: TextInputType.multiline,
-                          minLines: 3,
-                          maxLines: null,
-                          onSaved: (val) {
-                            _customCocktail.notes = val;
-                          }),
-                    ),
-                  ],
-                ),
-              )),
+        : GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: SingleChildScrollView(
+            child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                child: Form(
+                  key: _form,
+                  child: Column(
+                    children: [
+                      Container(
+                        child: ReceipeImagePicker(_pickedImage, _saveRecipeName),
+                      ),
+                      Row(children: [
+                        Expanded(
+                            child: Text(
+                                "Allow my reciepe to be shown to the community")),
+                        Platform.isIOS 
+                        ? CupertinoSwitch(
+                          value: _isPublic,
+                          onChanged: (val) {
+                            _customCocktail.isPublic = val;
+                            setState(() => _isPublic = val);
+                          },
+                        )
+                        : Switch(
+                          activeTrackColor: Colors.greenAccent,
+                          value: _isPublic,
+                           onChanged: (val) {
+                            _customCocktail.isPublic = val;
+                            setState(() => _isPublic = val);
+                          },
+                        )
+                      ]),
+                      
+                      Container(
+                        child: IngredientsInputList(
+                            _ingredientsList, _deleteIngredient, _addIngredient),
+                      ),
+                      const SizedBox(height: 5,),
+                      Container(
+                          child: PrepstepInputList(
+                              _prepStepsList, _deletePrepStep, _addPrepStep)),
+                      const SizedBox(height: 5,),
+                      Container(
+                        child: Text("Notes", style: textThemes.headline6),
+                        padding: const EdgeInsets.all(10),
+                      ),
+                      Container(
+                        height: 100,
+                        child: TextFormField(
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.black54),
+                                    borderRadius: BorderRadius.circular(5)),
+                                hintText: "Add Notes..."),
+                            style: TextStyle(fontSize: 16),
+                            keyboardType: TextInputType.multiline,
+                            minLines: 4,
+                            cursorColor: Colors.black,
+                            autocorrect: true,
+                            maxLines: null,
+                            onSaved: (val) {
+                              _customCocktail.notes = val;
+                            }),
+                      ),
+                      const SizedBox(height: 10,),
+                    ],
+                  ),
+                )),
+          ),
         )
         : AuthFormWrapper()
       );

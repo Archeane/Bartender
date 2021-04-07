@@ -44,7 +44,7 @@ class _ShoppingListAddIngredientScreenState extends State<ShoppingListAddIngredi
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        // title: const Text("Add to Shopping List"),
+        title: const Text("Add to Shopping List"),
         actions: [
           TextButton(
             child: const Text("Done", style: TextStyle(color: Colors.black87)),

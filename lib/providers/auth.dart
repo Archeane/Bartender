@@ -233,6 +233,7 @@ class Auth with ChangeNotifier{
       _custom.removeAt(index);
       notifyListeners();
       await collection.doc(currentUser.uid).update({'custom': FieldValue.arrayRemove([communityCocktailId])});
+      await communityCollection.doc(communityCocktailId).delete();
     }
   }
 
