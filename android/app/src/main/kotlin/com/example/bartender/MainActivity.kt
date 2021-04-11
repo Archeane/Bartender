@@ -1,4 +1,4 @@
-package com.example.bartender
+package com.jenny.bartender
 
 import io.flutter.embedding.android.FlutterActivity
 
