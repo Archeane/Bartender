@@ -1,6 +1,6 @@
-# bartender
+# Home Bartender - Drink Recipes
 
-A new Flutter project.
+Cocktails Guide | Drinks based on Ingredients | Home Bar | Mixologist Community
 
 ## Getting Started
 

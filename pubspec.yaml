@@ -1,5 +1,5 @@
-name: bartender
-description: A new Flutter project.
+name: Home Bartender - Drink Recipes
+description: Cocktails Guide | Drinks based on Ingredients | Home Bar | Mixologist Community
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1

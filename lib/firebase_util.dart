@@ -73,7 +73,7 @@ Future<Ingredient> fetchIngredientById(String id) async {
 }
 
 Future<List<Ingredient>> fetchAllIngredients() async {
-  List<Ingredient> ingredients = new List<Ingredient>();
+  List<Ingredient> ingredients = <Ingredient>[];
   QuerySnapshot snapshot = await ingredientsCollection.get();
   for(var doc in snapshot.docs){
       ingredients.add(Ingredient.fromFirebaseSnapshot(doc.id, doc.data()));
