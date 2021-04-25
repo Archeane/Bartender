@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'package:bartender/firebase_util.dart';
-import 'package:bartender/model/cocktail.dart';
+import 'package:home_bartender/firebase_util.dart';
+import 'package:home_bartender/model/cocktail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';

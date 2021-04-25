@@ -1,14 +1,14 @@
-import 'package:bartender/firebase_util.dart';
-import 'package:bartender/providers/auth.dart';
-import 'package:bartender/screens/community_cocktail_screen.dart';
+import 'package:home_bartender/firebase_util.dart';
+import 'package:home_bartender/providers/auth.dart';
+import 'package:home_bartender/screens/community_cocktail_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:bartender/widgets/cocktail_gridview.dart';
+import 'package:home_bartender/widgets/cocktail_gridview.dart';
 
-import 'package:bartender/screens/auth_screen.dart';
-import 'package:bartender/screens/collections_screen.dart';
-import 'package:bartender/screens/shopping_list_screen.dart';
-import 'package:bartender/widgets/auth/auth_form_wrapper.dart';
-import 'package:bartender/screens/mybar_screen.dart';
+import 'package:home_bartender/screens/auth_screen.dart';
+import 'package:home_bartender/screens/collections_screen.dart';
+import 'package:home_bartender/screens/shopping_list_screen.dart';
+import 'package:home_bartender/widgets/auth/auth_form_wrapper.dart';
+import 'package:home_bartender/screens/mybar_screen.dart';
 import 'package:provider/provider.dart';
 
 class DiscoverScreen extends StatefulWidget {

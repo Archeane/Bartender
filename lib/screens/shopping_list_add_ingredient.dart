@@ -1,6 +1,6 @@
-import 'package:bartender/firebase_util.dart';
-import 'package:bartender/providers/auth.dart';
-import 'package:bartender/widgets/shoppinglist_ingredient_listview.dart';
+import 'package:home_bartender/firebase_util.dart';
+import 'package:home_bartender/providers/auth.dart';
+import 'package:home_bartender/widgets/shoppinglist_ingredient_listview.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

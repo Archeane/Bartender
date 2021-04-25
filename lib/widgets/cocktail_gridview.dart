@@ -1,9 +1,9 @@
-import 'package:bartender/widgets/cocktail_card.dart';
-import 'package:bartender/widgets/searchbar.dart';
+import 'package:home_bartender/widgets/cocktail_card.dart';
+import 'package:home_bartender/widgets/searchbar.dart';
 
 import 'package:flutter/material.dart';
 
-import 'package:bartender/model/cocktail.dart';
+import 'package:home_bartender/model/cocktail.dart';
 
 
 class CocktailGridView extends StatefulWidget {
@@ -65,6 +65,8 @@ class _CocktailGridViewState extends State<CocktailGridView> {
   
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Column(
       children: [
         if(widget.showSearchBar)
@@ -85,7 +87,7 @@ class _CocktailGridViewState extends State<CocktailGridView> {
                     child: CocktailCard(_filteredList[i])
                   ),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
+                    crossAxisCount: screenWidth > 1000 ? 4 : 2,
                     // childAspectRatio: 4 / 3,
                     crossAxisSpacing: 5,
                     mainAxisSpacing: 5,

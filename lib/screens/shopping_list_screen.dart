@@ -1,8 +1,8 @@
-import 'package:bartender/firebase_util.dart';
-import 'package:bartender/providers/auth.dart';
-import 'package:bartender/screens/ingredient_detail_screen.dart';
-import 'package:bartender/screens/shopping_list_add_ingredient.dart';
-import 'package:bartender/widgets/auth/auth_form_wrapper.dart';
+import 'package:home_bartender/firebase_util.dart';
+import 'package:home_bartender/providers/auth.dart';
+import 'package:home_bartender/screens/ingredient_detail_screen.dart';
+import 'package:home_bartender/screens/shopping_list_add_ingredient.dart';
+import 'package:home_bartender/widgets/auth/auth_form_wrapper.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';

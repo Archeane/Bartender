@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:bartender/widgets/filter_form.dart';
+import 'package:home_bartender/widgets/filter_form.dart';
 
 class SearchBarStyle {
   final Color backgroundColor;

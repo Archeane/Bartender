@@ -1,9 +1,9 @@
-import 'package:bartender/firebase_util.dart';
-import 'package:bartender/model/cocktail.dart';
-import 'package:bartender/screens/customize_cocktail_screen.dart';
+import 'package:home_bartender/firebase_util.dart';
+import 'package:home_bartender/model/cocktail.dart';
+import 'package:home_bartender/screens/customize_cocktail_screen.dart';
 
 import 'package:flutter/material.dart';
-import 'package:bartender/widgets/cocktail_gridview.dart';
+import 'package:home_bartender/widgets/cocktail_gridview.dart';
 
 class CommunityCocktailScreen extends StatefulWidget {
   CommunityCocktailScreen({Key key}) : super(key: key);

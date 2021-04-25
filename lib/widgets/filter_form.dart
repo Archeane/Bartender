@@ -1,6 +1,6 @@
-import 'package:bartender/model/cocktail.dart';
-import 'package:bartender/model/ingredient.dart';
-import 'package:bartender/widgets/checkbox_group.dart';
+import 'package:home_bartender/model/cocktail.dart';
+import 'package:home_bartender/model/ingredient.dart';
+import 'package:home_bartender/widgets/checkbox_group.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_buttons/grouped_buttons.dart';
 

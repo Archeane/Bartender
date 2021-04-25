@@ -1,5 +1,5 @@
-import 'package:bartender/model/ingredient.dart';
-import 'package:bartender/firebase_util.dart';
+import 'package:home_bartender/model/ingredient.dart';
+import 'package:home_bartender/firebase_util.dart';
 import 'package:flutter/foundation.dart';
 
 enum Strength {

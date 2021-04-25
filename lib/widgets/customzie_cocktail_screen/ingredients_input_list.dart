@@ -1,5 +1,5 @@
-import 'package:bartender/firebase_util.dart';
-import 'package:bartender/model/ingredient.dart';
+import 'package:home_bartender/firebase_util.dart';
+import 'package:home_bartender/model/ingredient.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:dropdown_search/dropdown_search.dart';

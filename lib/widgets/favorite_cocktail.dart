@@ -1,4 +1,4 @@
-import 'package:bartender/providers/auth.dart';
+import 'package:home_bartender/providers/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

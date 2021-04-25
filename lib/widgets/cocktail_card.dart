@@ -1,8 +1,8 @@
-import 'package:bartender/screens/community_cocktail_detail_screen.dart';
+import 'package:home_bartender/screens/community_cocktail_detail_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:bartender/model/cocktail.dart';
-import 'package:bartender/screens/cocktail_detail_screen.dart';
+import 'package:home_bartender/model/cocktail.dart';
+import 'package:home_bartender/screens/cocktail_detail_screen.dart';
 
 class CocktailCard extends StatelessWidget {
   final Cocktail data;

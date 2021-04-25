@@ -1,7 +1,7 @@
-import 'package:bartender/firebase_util.dart';
-import 'package:bartender/providers/auth.dart';
-import 'package:bartender/screens/community_cocktail_detail_screen.dart';
-import 'package:bartender/screens/discover_screen.dart';
+import 'package:home_bartender/firebase_util.dart';
+import 'package:home_bartender/providers/auth.dart';
+import 'package:home_bartender/screens/community_cocktail_detail_screen.dart';
+import 'package:home_bartender/screens/discover_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';

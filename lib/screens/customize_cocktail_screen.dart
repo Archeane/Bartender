@@ -1,17 +1,17 @@
 import 'dart:io';
-import 'package:bartender/firebase_util.dart';
-import 'package:bartender/providers/auth.dart';
-import 'package:bartender/screens/community_cocktail_detail_screen.dart';
-import 'package:bartender/widgets/auth/auth_form_wrapper.dart';
+import 'package:home_bartender/firebase_util.dart';
+import 'package:home_bartender/providers/auth.dart';
+import 'package:home_bartender/screens/community_cocktail_detail_screen.dart';
+import 'package:home_bartender/widgets/auth/auth_form_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'package:bartender/model/cocktail.dart';
+import 'package:home_bartender/model/cocktail.dart';
 
-import 'package:bartender/model/ingredient.dart';
-import 'package:bartender/widgets/customzie_cocktail_screen/ingredients_input_list.dart';
-import 'package:bartender/widgets/customzie_cocktail_screen/receipe_image_picker.dart';
-import 'package:bartender/widgets/customzie_cocktail_screen/prepstep_input_list.dart';
+import 'package:home_bartender/model/ingredient.dart';
+import 'package:home_bartender/widgets/customzie_cocktail_screen/ingredients_input_list.dart';
+import 'package:home_bartender/widgets/customzie_cocktail_screen/receipe_image_picker.dart';
+import 'package:home_bartender/widgets/customzie_cocktail_screen/prepstep_input_list.dart';
 import 'package:provider/provider.dart';
 
 class CustomizeCocktailScreen extends StatefulWidget {

@@ -1,13 +1,13 @@
 import 'dart:async';
 
-import 'package:bartender/providers/auth.dart';
-import 'package:bartender/screens/mybar_cocktails_screen.dart';
+import 'package:home_bartender/providers/auth.dart';
+import 'package:home_bartender/screens/mybar_cocktails_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:bartender/widgets/searchbar.dart';
-import 'package:bartender/model/ingredient.dart';
+import 'package:home_bartender/widgets/searchbar.dart';
+import 'package:home_bartender/model/ingredient.dart';
 import 'package:provider/provider.dart';
 
 class MyBarIngredientsListView extends StatefulWidget {

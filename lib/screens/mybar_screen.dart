@@ -1,8 +1,8 @@
-import 'package:bartender/providers/auth.dart';
-import 'package:bartender/widgets/auth/auth_form_wrapper.dart';
-import 'package:bartender/widgets/mybar_ingredients_listview.dart';
+import 'package:home_bartender/providers/auth.dart';
+import 'package:home_bartender/widgets/auth/auth_form_wrapper.dart';
+import 'package:home_bartender/widgets/mybar_ingredients_listview.dart';
 import 'package:flutter/material.dart';
-import 'package:bartender/firebase_util.dart';
+import 'package:home_bartender/firebase_util.dart';
 import 'package:provider/provider.dart';
 
 class MyBarScreen extends StatefulWidget {

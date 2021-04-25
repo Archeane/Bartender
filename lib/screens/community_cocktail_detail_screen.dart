@@ -1,13 +1,13 @@
-import 'package:bartender/firebase_util.dart';
-import 'package:bartender/providers/auth.dart';
-import 'package:bartender/widgets/favorite_cocktail.dart';
+import 'package:home_bartender/firebase_util.dart';
+import 'package:home_bartender/providers/auth.dart';
+import 'package:home_bartender/widgets/favorite_cocktail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:bartender/model/cocktail.dart';
-import 'package:bartender/widgets/ingredient_list.dart';
-import 'package:bartender/widgets/cocktail_detail/cocktail_detail_header.dart';
-import 'package:bartender/widgets/cocktail_detail/cocktail_detail_prep_steps.dart';
+import 'package:home_bartender/model/cocktail.dart';
+import 'package:home_bartender/widgets/ingredient_list.dart';
+import 'package:home_bartender/widgets/cocktail_detail/cocktail_detail_header.dart';
+import 'package:home_bartender/widgets/cocktail_detail/cocktail_detail_prep_steps.dart';
 import 'package:provider/provider.dart';
 
 class CommunityCocktailDetailScreen extends StatefulWidget {

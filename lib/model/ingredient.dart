@@ -1,4 +1,4 @@
-import 'package:bartender/model/cocktail.dart';
+import 'package:home_bartender/model/cocktail.dart';
 import 'package:flutter/foundation.dart';
 
 enum IngredientType {

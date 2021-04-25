@@ -1,9 +1,9 @@
 import 'dart:collection';
 
-import 'package:bartender/model/cocktail.dart';
-import 'package:bartender/model/ingredient.dart';
-import 'package:bartender/providers/auth.dart';
-import 'package:bartender/widgets/mybar_cocktail_group.dart';
+import 'package:home_bartender/model/cocktail.dart';
+import 'package:home_bartender/model/ingredient.dart';
+import 'package:home_bartender/providers/auth.dart';
+import 'package:home_bartender/widgets/mybar_cocktail_group.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -51,6 +51,7 @@ class _MyBarCocktailScreenState extends State<MyBarCocktailScreen> {
     Auth authProvider = Provider.of<Auth>(context);
     final cocktails = _getCocktails(authProvider);
     double height = MediaQuery.of(context).size.height;
+    print(height);
     final textThemes = Theme.of(context).textTheme;
 
     return Scaffold(
@@ -58,7 +59,7 @@ class _MyBarCocktailScreenState extends State<MyBarCocktailScreen> {
       body: SingleChildScrollView(
             child: Column(children: [
               Container(
-                height: 240,
+                height: height * 1/3,
                 child: MyBarCocktailGroup(cocktails: cocktails, enlargeCenter: true)
               ),
               Divider(height: 20,),
@@ -82,7 +83,7 @@ class _MyBarCocktailScreenState extends State<MyBarCocktailScreen> {
                     );
                   }
                 ),
-                height: height - 400,
+                height: height *2/3,
               )
             ],
           )

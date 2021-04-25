@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:bartender/widgets/image_picker_wrapper.dart';
+import 'package:home_bartender/widgets/image_picker_wrapper.dart';
 import 'package:flutter/material.dart';
 
 class ReceipeImagePicker extends StatefulWidget {
