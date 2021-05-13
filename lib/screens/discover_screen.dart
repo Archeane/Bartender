@@ -1,15 +1,16 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:home_bartender/firebase_util.dart';
 import 'package:home_bartender/providers/auth.dart';
 import 'package:home_bartender/screens/community_cocktail_screen.dart';
-import 'package:flutter/material.dart';
 import 'package:home_bartender/widgets/cocktail_gridview.dart';
-
 import 'package:home_bartender/screens/auth_screen.dart';
 import 'package:home_bartender/screens/collections_screen.dart';
 import 'package:home_bartender/screens/shopping_list_screen.dart';
 import 'package:home_bartender/widgets/auth/auth_form_wrapper.dart';
 import 'package:home_bartender/screens/mybar_screen.dart';
-import 'package:provider/provider.dart';
+
 
 class DiscoverScreen extends StatefulWidget {
   DiscoverScreen();
@@ -18,12 +19,71 @@ class DiscoverScreen extends StatefulWidget {
   _DiscoverScreenState createState() => _DiscoverScreenState();
 }
 
+class WelcomeDialog extends StatefulWidget {
+  WelcomeDialog({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  _WelcomeDialogState createState() => _WelcomeDialogState();
+}
+
+class _WelcomeDialogState extends State<WelcomeDialog> {
+  int welcomeStep = 0;
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+        onTap: () {
+          print("tapped");
+          setState(() {
+            welcomeStep += 1;
+          });
+          if(welcomeStep == 2){
+            Navigator.pop(context);
+          }
+      },
+      child: Center(
+         child: Text(welcomeStep.toString()),
+      )
+    );
+  }
+}
+
 class _DiscoverScreenState extends State<DiscoverScreen> {
   bool showAddIngredient = false;
+  int welcomeScreenCount = 0;
+  
+  void showOverlay(BuildContext context, String screenIdentifier) async {
+    final size = MediaQuery.of(context).size;
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.transparent,
+          contentPadding: EdgeInsets.zero,
+          insetPadding: EdgeInsets.zero,
+          content: Container(
+            height: size.height,
+            width: size.width,
+            child: WelcomeDialog()
+          ),
+        );
+      }
+    );
+  }
+
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => showOverlay(context, "welcome1"));
+  }
   
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<Auth>(context);
+  
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(

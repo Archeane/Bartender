@@ -66,7 +66,7 @@ class _CocktailGridViewState extends State<CocktailGridView> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-
+    print(screenWidth);
     return Column(
       children: [
         if(widget.showSearchBar)
@@ -87,7 +87,7 @@ class _CocktailGridViewState extends State<CocktailGridView> {
                     child: CocktailCard(_filteredList[i])
                   ),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: screenWidth > 1000 ? 4 : 2,
+                    crossAxisCount: screenWidth > 760 ? 3 + (screenWidth - 760) ~/ 300: 2,
                     // childAspectRatio: 4 / 3,
                     crossAxisSpacing: 5,
                     mainAxisSpacing: 5,

@@ -97,56 +97,57 @@ class BartenderApp extends StatelessWidget {
             return Center(child: CircularProgressIndicator());
           }
         return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Bartender',
-          theme: ThemeData(
-            primarySwatch: kPrimaryColor,
-            primaryColor: kPrimaryColor,
-            backgroundColor: kPrimaryColor,
-            scaffoldBackgroundColor: kPrimaryColor,
+            debugShowCheckedModeBanner: false,
+            title: 'Bartender',
+            theme: ThemeData(
+              primarySwatch: kPrimaryColor,
+              primaryColor: kPrimaryColor,
+              backgroundColor: kPrimaryColor,
+              scaffoldBackgroundColor: kPrimaryColor,
 
-            fontFamily: 'Open Sans',
-            textTheme: TextTheme(
-              headline3: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.black),
-              headline4: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
-              headline5: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
-              headline6: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
-              subtitle1: TextStyle(fontSize: 16, color: Colors.black54),
-              subtitle2: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black54),
-              bodyText1: TextStyle(fontSize: 8, color: Colors.black54, fontWeight: FontWeight.w100),
-              overline: TextStyle(fontSize: 12, color: Colors.black45),
-            ),
+              fontFamily: 'Open Sans',
+              textTheme: TextTheme(
+                headline3: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.black),
+                headline4: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
+                headline5: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+                headline6: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+                subtitle1: TextStyle(fontSize: 16, color: Colors.black54),
+                subtitle2: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black54),
+                bodyText1: TextStyle(fontSize: 8, color: Colors.black54, fontWeight: FontWeight.w100),
+                overline: TextStyle(fontSize: 12, color: Colors.black45),
+              ),
 
-            appBarTheme: AppBarTheme(
-              textTheme: ThemeData.light().textTheme.copyWith(
-                headline6: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 20,
-                  fontWeight: FontWeight.normal,
+              appBarTheme: AppBarTheme(
+                textTheme: ThemeData.light().textTheme.copyWith(
+                  headline6: TextStyle(
+                    color: Colors.black87,
+                    fontSize: 20,
+                    fontWeight: FontWeight.normal,
+                  ),
+                  bodyText1: TextStyle(
+                    color: Colors.black87,
+                    fontSize: 8,
+                    fontWeight: FontWeight.normal
+                  )
                 ),
-                bodyText1: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 8,
-                  fontWeight: FontWeight.normal
-                )
+                elevation: 0,
               ),
-              elevation: 0,
-            ),
-            buttonTheme: ButtonThemeData(
-              buttonColor: kPrimaryColor[100],
-              textTheme: ButtonTextTheme.primary,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
+              buttonTheme: ButtonThemeData(
+                buttonColor: kPrimaryColor[100],
+                textTheme: ButtonTextTheme.primary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
               ),
             ),
-          ),
-          initialRoute: '/',
-          routes: {
-            '/': (ctx) => DiscoverScreen(),
-            CommunityCocktailDetailScreen.routeName: (ctx) =>
-                CommunityCocktailDetailScreen(),
-          },
-        );}
+            initialRoute: '/',
+            routes: {
+              '/': (ctx) => DiscoverScreen(),
+              CommunityCocktailDetailScreen.routeName: (ctx) =>
+                  CommunityCocktailDetailScreen(),
+            },
+          );
+      }
     ));
   }
 }

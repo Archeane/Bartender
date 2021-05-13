@@ -25,11 +25,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Allow access to camera to capture photos of cocktails you've made</string>
+	<string>Allow access to camera to capture photos of cocktails you've made or capture a profile picture for your account</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Allow access to microphone</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Allow access to photo library to upload a profile picture for your account</string>
+	<string>Allow access to photo library to upload a profile picture for your account or add a picture of your cocktail</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
