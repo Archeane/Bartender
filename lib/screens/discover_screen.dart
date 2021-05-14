@@ -30,22 +30,41 @@ class WelcomeDialog extends StatefulWidget {
 
 class _WelcomeDialogState extends State<WelcomeDialog> {
   int welcomeStep = 0;
+
+  Widget welcomeStepWidget(int welcomeStep) {
+    switch (welcomeStep) {
+      case 0:
+        return Align(
+          alignment: Alignment(0, 0.7),
+          child: Image(image: AssetImage('images/welcome-1.png'),),
+        );
+      case 1:
+        return Align(
+          alignment: Alignment(-0.2, -0.8),
+          child: Image(image: AssetImage('images/welcome-2.png'),),
+        );
+      case 2:
+        return Align(
+          alignment: Alignment(0.18, -0.8),
+          child: Image(image: AssetImage('images/welcome-3.png'),),
+        );
+        break;
+      default:
+        return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
         onTap: () {
-          print("tapped");
-          setState(() {
-            welcomeStep += 1;
-          });
-          if(welcomeStep == 2){
+          setState(() => welcomeStep += 1);
+          if(welcomeStep == 3){
             Navigator.pop(context);
           }
       },
-      child: Center(
-         child: Text(welcomeStep.toString()),
-      )
+      child: welcomeStepWidget(welcomeStep),
     );
   }
 }
