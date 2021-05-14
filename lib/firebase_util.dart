@@ -8,7 +8,6 @@ import 'package:tuple/tuple.dart';
 
 import './model/ingredient.dart';
 
-
 class InvalidArgumentException implements Exception {
   String error;
   InvalidArgumentException(this.error);
@@ -23,8 +22,6 @@ CollectionReference userCollection = FirebaseFirestore.instance.collection('comm
 List<Ingredient> allIngredients;
 List<Cocktail> allCocktails;
 
-// Map<String, List<Ingredient>> allIngredientsByType = new Map<String, List<Ingredient>>();
-
 Future<void> init() async {
   if(!isInit){
     allIngredients = await fetchAllIngredients();
@@ -33,11 +30,9 @@ Future<void> init() async {
     // allIngredientsByType['spirit'] = allIngredients.where((ing) => ing.type != null && ing.type.toLowerCase() == "spirit");
     // allIngredientsByType['liqueur'] = allIngredients.where((ing) => ing.type != null && ing.type.toLowerCase() == "liqueur");
     
-    print("loaded allingredients and all cocktails in init()");
     isInit = true;
     return;
   }
-  print("is init if false in firebase_util");
   return;
 }
 
