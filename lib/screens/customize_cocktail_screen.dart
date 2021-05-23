@@ -87,7 +87,7 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
         SnackBar(
           content: Text(_ingredientsList.length == 0  
             ? "Please add at least one ingredient"
-            : "Please add at least one prepartion step"),
+            : "Please add at least one preparation step"),
           backgroundColor: Theme.of(ctx).errorColor,
         ),
       );
@@ -118,7 +118,7 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
 
     ScaffoldMessenger.of(ctx).showSnackBar(
         SnackBar(
-          content: Text("Custom Receipe added!"),
+          content: Text("Custom Recipe added!"),
           backgroundColor: Colors.greenAccent,
           duration: Duration(milliseconds: 2000),
         ),
@@ -159,7 +159,7 @@ class _CustomizeCocktailScreenState extends State<CustomizeCocktailScreen> {
                   child: Column(
                     children: [
                       Container(
-                        child: ReceipeImagePicker(_pickedImage, _saveRecipeName),
+                        child: RecipeImagePicker(_pickedImage, _saveRecipeName),
                       ),
                       Row(children: [
                         Expanded(

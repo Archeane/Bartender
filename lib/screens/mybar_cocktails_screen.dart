@@ -51,6 +51,7 @@ class _MyBarCocktailScreenState extends State<MyBarCocktailScreen> {
     Auth authProvider = Provider.of<Auth>(context);
     final cocktails = _getCocktails(authProvider);
     double height = MediaQuery.of(context).size.height;
+
     final textThemes = Theme.of(context).textTheme;
 
     return Scaffold(

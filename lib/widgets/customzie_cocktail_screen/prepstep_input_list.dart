@@ -15,7 +15,7 @@ class PrepstepInputList extends StatelessWidget {
       children: [
         Container(
           margin: const EdgeInsets.symmetric(vertical: 10),
-          child: Text("Prepreation Steps",
+          child: Text("Preparation Steps",
               style: textThemes.headline6)),
         Container(
           height: 50.0 * _prepStepsList.length,

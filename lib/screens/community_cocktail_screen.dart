@@ -47,11 +47,11 @@ class _CommunityCocktailScreenState extends State<CommunityCocktailScreen> {
         margin: const EdgeInsets.only(bottom: 10),
         child: FittedBox(
           child: FloatingActionButton.extended(
-            heroTag: "createReceipe",
+            heroTag: "createRecipe",
             elevation: 4,
               backgroundColor: Color(0xFFFAE7E4),
               icon: Icon(Icons.add),
-              label: const Text("Create a Receipe"),
+              label: const Text("Create a Recipe"),
               onPressed: () => Navigator.of(context).push(
                 MaterialPageRoute(builder: (_) {
                   return CustomizeCocktailScreen(null);

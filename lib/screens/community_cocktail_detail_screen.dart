@@ -30,11 +30,11 @@ class _CommunityCocktailDetailScreenState
     extends State<CommunityCocktailDetailScreen> {
   bool showSettings = false;
 
-  Future<void> removeReceipe(BuildContext ctx, Auth auth) async {
+  Future<void> removeRecipe(BuildContext ctx, Auth auth) async {
     await auth.removeCustom(widget.cocktailId);
     ScaffoldMessenger.of(ctx).showSnackBar(
       SnackBar(
-        content: Text("Your custom receipe has been removed"),
+        content: Text("Your custom recipe has been removed"),
         backgroundColor: Theme.of(ctx).errorColor,
       ),
     );
@@ -80,7 +80,7 @@ class _CommunityCocktailDetailScreenState
                 Container(
                     padding: const EdgeInsets.all(5),
                     child:
-                        Text("Prepreation", style: textThemes.headline4)),
+                        Text("Preparation", style: textThemes.headline4)),
               if (cocktailData.prepSteps != null)
                 CocktailDetailPrepSteps(cocktailData.prepSteps),
               if (cocktailData.notes != null &&
@@ -102,8 +102,8 @@ class _CommunityCocktailDetailScreenState
               SizedBox(height: 10,),
               if (showSettings)
                 RaisedButton(
-                    onPressed: () => removeReceipe(context, auth),
-                    child: const Text("Remove Receipe"),
+                    onPressed: () => removeRecipe(context, auth),
+                    child: const Text("Remove Recipe"),
                     color: Colors.redAccent),
               SizedBox(height: 10,),
             ],

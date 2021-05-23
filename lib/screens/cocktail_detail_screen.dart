@@ -15,9 +15,9 @@ class CocktailDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textThemes = Theme.of(context).textTheme;
-    Widget customizeReceipeButton = RaisedButton(
+    Widget customizeRecipeButton = RaisedButton(
         // padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-        child: const Text("Customize Receipe"),
+        child: const Text("Customize Recipe"),
         onPressed: () => Navigator.of(context).push(
             MaterialPageRoute(
               builder: (_){
@@ -42,7 +42,7 @@ class CocktailDetailScreen extends StatelessWidget {
               CocktailDetailHeader(cocktailData),
               Container(
                 margin: const EdgeInsets.only(bottom: 10),
-                child: customizeReceipeButton
+                child: customizeRecipeButton
               ),
               Text("Ingredients", style: textThemes.headline4),
               SizedBox(height: 10,),
@@ -52,7 +52,7 @@ class CocktailDetailScreen extends StatelessWidget {
                   children: [
                     Container(
                       padding: const EdgeInsets.all(5), 
-                      child: Text("Prepreation", style: textThemes.headline4)
+                      child: Text("Preparation", style: textThemes.headline4)
                     ),
                     CocktailDetailPrepSteps(cocktailData.prepSteps),
                     const SizedBox(height: 10,),

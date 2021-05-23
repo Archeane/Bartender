@@ -3,17 +3,17 @@ import 'dart:io';
 import 'package:home_bartender/widgets/image_picker_wrapper.dart';
 import 'package:flutter/material.dart';
 
-class ReceipeImagePicker extends StatefulWidget {
-  ReceipeImagePicker(this.imagePickFn, this._saveCocktailName);
+class RecipeImagePicker extends StatefulWidget {
+  RecipeImagePicker(this.imagePickFn, this._saveCocktailName);
 
   final void Function(File pickedImage) imagePickFn;
   final void Function(String name) _saveCocktailName;
 
   @override
-  _ReceipeImagePickerState createState() => _ReceipeImagePickerState();
+  _RecipeImagePickerState createState() => _RecipeImagePickerState();
 }
 
-class _ReceipeImagePickerState extends State<ReceipeImagePicker> {
+class _RecipeImagePickerState extends State<RecipeImagePicker> {
 
   @override
   Widget build(BuildContext context) {
