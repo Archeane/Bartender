@@ -65,6 +65,7 @@ class _MyBarCocktailScreenState extends State<MyBarCocktailScreen> {
               Divider(height: 20,),
               Text("Recommended Ingredients", style: textThemes.headline6,),
               Container(
+                
                 child: ListView.builder(
                   itemCount: missing1Ing.length,
                   itemBuilder: (context, index) {

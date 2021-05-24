@@ -6,6 +6,8 @@ import 'package:home_bartender/firebase_util.dart';
 import 'package:provider/provider.dart';
 
 class MyBarScreen extends StatefulWidget {
+  static const routeName = '/mybar';
+
   @override
   _MyBarScreenState createState() => _MyBarScreenState();
 }
@@ -17,7 +19,13 @@ class _MyBarScreenState extends State<MyBarScreen> {
     final authProvider = Provider.of<Auth>(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(title: const Text("My Bar Ingredients"),),
+      appBar: AppBar(
+        centerTitle: true,
+        leading: IconButton(icon: Icon(Icons.home), onPressed: () {
+            Navigator.of(context).pushNamed("/");
+          }),
+        title: const Text("My Bar Ingredients"),
+      ), 
       body: authProvider.isLoggedIn
         ? MyBarIngredientsListView(allIngredients)
         : AuthFormWrapper()

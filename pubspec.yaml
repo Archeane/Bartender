@@ -26,6 +26,7 @@ dependencies:
   grouped_buttons: ^1.0.4
   tuple: ^2.0.0
   cached_network_image: ^3.0.0
+  introduction_screen: ^2.1.0
   
 dev_dependencies:
   flutter_test:
@@ -34,16 +35,4 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - images/default_cocktail.png
-    - images/bartender-avatar.png
-    - images/liqueur.jpg
-    - images/beverage.jpg
-    - images/juice.jpg
-    - images/spirit.jpg
-    - images/syrup.jpg
-    - images/wine.jpg
-    - images/condiment.jpg
-    - images/dairy.jpg
-    - images/welcome-1.png
-    - images/welcome-2.png
-    - images/welcome-3.png
+    - images/

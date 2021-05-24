@@ -9,7 +9,7 @@ import 'package:home_bartender/screens/auth_screen.dart';
 import 'package:home_bartender/screens/collections_screen.dart';
 import 'package:home_bartender/screens/shopping_list_screen.dart';
 import 'package:home_bartender/widgets/auth/auth_form_wrapper.dart';
-import 'package:home_bartender/screens/mybar_screen.dart';
+import 'package:home_bartender/screens/introduction_screen.dart';
 
 
 class DiscoverScreen extends StatefulWidget {
@@ -164,7 +164,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                   label: const Text("Your Bar"),
                   onPressed: () => Navigator.of(context).push(
                     MaterialPageRoute(builder: (_) {
-                      return MyBarScreen();
+                      return OnBoardingPage();
                     }),
                   ),
                 ),
