@@ -66,7 +66,7 @@ class _CocktailGridViewState extends State<CocktailGridView> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    print(screenWidth);
+
     return Column(
       children: [
         if(widget.showSearchBar)

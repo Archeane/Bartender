@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:home_bartender/firebase_util.dart';
 import 'package:home_bartender/providers/auth.dart';
@@ -7,9 +9,10 @@ import 'package:home_bartender/screens/community_cocktail_screen.dart';
 import 'package:home_bartender/widgets/cocktail_gridview.dart';
 import 'package:home_bartender/screens/auth_screen.dart';
 import 'package:home_bartender/screens/collections_screen.dart';
-import 'package:home_bartender/screens/shopping_list_screen.dart';
 import 'package:home_bartender/widgets/auth/auth_form_wrapper.dart';
 import 'package:home_bartender/screens/introduction_screen.dart';
+import 'package:home_bartender/screens/mybar_screen.dart';
+import 'package:home_bartender/screens/shopping_list_screen.dart';
 
 
 class DiscoverScreen extends StatefulWidget {
@@ -70,8 +73,13 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
 }
 
 class _DiscoverScreenState extends State<DiscoverScreen> {
-  bool showAddIngredient = false;
-  int welcomeScreenCount = 0;
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
+  Future<void> _falseSharePref(String val) async {
+    final SharedPreferences prefs = await _prefs;
+    await prefs.setBool(val, false);
+  }
+
   
   void showOverlay(BuildContext context, String screenIdentifier) async {
     final size = MediaQuery.of(context).size;
@@ -91,12 +99,18 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
         );
       }
     );
+    await _falseSharePref("showWelcome");
   }
 
   void initState() {
     super.initState();
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => showOverlay(context, "welcome1"));
+    _prefs.then((SharedPreferences prefs) {
+      if(prefs.getBool('showWelcome') == null || prefs.getBool('showWelcome') == true){
+        WidgetsBinding.instance
+          .addPostFrameCallback((_) => showOverlay(context, "welcome1"));
+      }
+    });
+    
   }
   
   @override
@@ -123,11 +137,24 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
           ),),
           IconButton(
             icon: Icon(Icons.shopping_cart_outlined), 
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) {
-                return ShoppingListScreen();
-              }),
-          ),),
+            onPressed: () { 
+              _prefs.then((SharedPreferences prefs) async {
+                if(prefs.getBool('showShoppingWelcome') == null || prefs.getBool('showShoppingWelcome') == true){
+                  await _falseSharePref('showShoppingWelcome');
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) {
+                      return OnBoardingPage();
+                    }),
+                  );
+                } else {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) {
+                        return ShoppingListScreen();
+                      }),
+                  );
+                }
+              });
+            }),
           auth.isLoggedIn
           ? InkWell(
               onTap: () => Navigator.of(context).push(
@@ -162,13 +189,22 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                   backgroundColor: Color(0xFFEAE4F1),
                   icon: Icon(Icons.home),
                   label: const Text("Your Bar"),
-                  onPressed: () => Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) {
-                      return OnBoardingPage();
-                    }),
-                  ),
+                  onPressed: () { 
+                    _prefs.then((SharedPreferences prefs) async {
+                      if(prefs.getBool('showMybarWelcome') == null || prefs.getBool('showMybarWelcome') == true){
+                        await _falseSharePref('showMybarWelcome');
+                        Navigator.of(context).push(
+                          MaterialPageRoute(builder: (_) {
+                            return MybarWelcomeScreen();
+                          }),
+                        );
+                      } else {
+                        Navigator.of(context).pushNamed(MyBarScreen.routeName,);
+                      }
+                    });
+                  }
                 ),
-          ),
+        ),
     );
   }
 }

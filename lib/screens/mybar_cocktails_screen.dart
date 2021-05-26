@@ -22,6 +22,7 @@ class _MyBarCocktailScreenState extends State<MyBarCocktailScreen> {
   LinkedHashMap missing1Ing;
 
   List<Cocktail> _getCocktails(Auth authProvider) {
+    // available cocktails
     List<Cocktail> availbleCocktails = <Cocktail>[];
     List<String> cocktails = authProvider.mybarCocktails;
     for(String id in cocktails){
@@ -30,11 +31,19 @@ class _MyBarCocktailScreenState extends State<MyBarCocktailScreen> {
         availbleCocktails.add(allCocktails[index]);
       } 
     }
+    //recommend ingredients
     Map<Ingredient, List<String>> result = {};
     for(String key in authProvider.missing1Ing.keys){
       if(!authProvider.inShoppingList(key)){
         Ingredient ing = getIngredientById(key);
-        result[ing] = authProvider.missing1Ing[key];
+        try {
+          if(ing != null && ing.name != null && ing.name.length > 1){
+            result[ing] = authProvider.missing1Ing[key];
+          }
+        } catch (e){
+          print(e);
+          continue;
+        }
       }
     }
     var sortedKeys = result.keys.toList(growable:false)

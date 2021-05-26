@@ -27,6 +27,7 @@ dependencies:
   tuple: ^2.0.0
   cached_network_image: ^3.0.0
   introduction_screen: ^2.1.0
+  shared_preferences: ^2.0.5
   
 dev_dependencies:
   flutter_test:

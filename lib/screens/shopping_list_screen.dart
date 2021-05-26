@@ -24,6 +24,9 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
     final authProvider = Provider.of<Auth>(context);
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(icon: Icon(Icons.home), onPressed: () {
+            Navigator.of(context).pushNamed("/");
+          }),
         title: const Text("Shopping List"),
         actions: [
           IconButton(
